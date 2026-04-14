@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReviewIQ — Smart Review Gap Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0B0E14;
+  --surface: #131820;
+  --surface-hover: #1A2230;
+  --card: #161D28;
+  --card-border: #1E2A3A;
+  --accent: #3B82F6;
+  --accent-glow: rgba(59,130,246,0.15);
+  --accent-soft: rgba(59,130,246,0.08);
+  --green: #10B981;
+  --green-soft: rgba(16,185,129,0.12);
+  --amber: #F59E0B;
+  --amber-soft: rgba(245,158,11,0.12);
+  --red: #EF4444;
+  --red-soft: rgba(239,68,68,0.12);
+  --text: #E2E8F0;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+
+/* ─── Header ─── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--card-border);
+  position: sticky; top: 0; z-index: 100;
+}
+.logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+.logo-icon {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--accent), #8B5CF6);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.logo-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+
+.nav { display: flex; gap: 3px; background: var(--bg); border-radius: 11px; padding: 3px; }
+.nav-btn {
+  padding: 7px 18px; border-radius: 9px; border: none;
+  background: transparent; color: var(--text-muted);
+  cursor: pointer; font-size: 13px; font-weight: 500;
+  font-family: inherit; transition: all 0.15s;
+}
+.nav-btn:hover { background: var(--surface-hover); color: var(--text); }
+.nav-btn.active { background: var(--accent); color: #fff; }
+
+/* ─── Layout ─── */
+.container { max-width: 1200px; margin: 0 auto; padding: 20px 28px; }
+.grid { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start; }
+
+/* ─── Cards ─── */
+.card {
+  background: var(--card); border: 1px solid var(--card-border);
+  border-radius: 14px; padding: 18px; margin-bottom: 14px;
+}
+.card-title {
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px;
+}
+
+/* ─── Property List ─── */
+.prop-item {
+  padding: 12px 14px; border-radius: 10px; cursor: pointer;
+  border: 1px solid transparent; margin-bottom: 4px; transition: all 0.12s;
+}
+.prop-item:hover { background: var(--surface-hover); }
+.prop-item.selected { border-color: var(--accent); background: var(--accent-soft); }
+.prop-name { font-weight: 600; font-size: 14px; }
+.prop-rating { font-size: 13px; color: var(--text-muted); }
+.prop-meta { display: flex; gap: 8px; margin-top: 7px; align-items: center; }
+
+/* ─── Badges ─── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 16px; font-size: 11px; font-weight: 600;
+}
+.badge-green { color: var(--green); background: var(--green-soft); }
+.badge-amber { color: var(--amber); background: var(--amber-soft); }
+.badge-red { color: var(--red); background: var(--red-soft); }
+.badge-accent { color: var(--accent); background: var(--accent-soft); }
+
+/* ─── Progress ─── */
+.progress { width: 100%; height: 5px; border-radius: 3px; background: var(--bg); overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+
+/* ─── Buttons ─── */
+.btn {
+  padding: 9px 20px; border-radius: 9px; border: none;
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  font-family: inherit; display: inline-flex; align-items: center; gap: 7px;
+  transition: all 0.12s;
+}
+.btn:hover { filter: brightness(1.12); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-outline { background: transparent; border: 1px solid var(--card-border); color: var(--text); }
+.btn-ghost { background: transparent; color: var(--text-muted); }
+.btn:disabled { opacity: 0.4; cursor: default; filter: none; }
+
+/* ─── Textarea ─── */
+.textarea {
+  width: 100%; min-height: 100px; padding: 14px; border-radius: 10px;
+  border: 1px solid var(--card-border); background: var(--bg);
+  color: var(--text); font-size: 14px; line-height: 1.6;
+  resize: vertical; outline: none; font-family: inherit;
+}
+.textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+
+/* ─── Stars ─── */
+.stars { display: flex; gap: 4px; }
+.star {
+  border: none; background: none; font-size: 26px; cursor: pointer;
+  transition: all 0.12s; filter: grayscale(1); opacity: 0.3;
+}
+.star.active { filter: none; opacity: 1; }
+
+/* ─── Topic Row ─── */
+.topic-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid rgba(30,42,58,0.15);
+}
+.topic-icon { width: 22px; text-align: center; font-size: 14px; }
+.topic-label { width: 130px; font-size: 13px; font-weight: 500; }
+.topic-count { width: 44px; text-align: right; font-size: 12px; color: var(--text-muted); }
+.topic-status { width: 20px; text-align: center; font-size: 13px; }
+
+/* ─── Follow-up Card ─── */
+.followup-card {
+  background: linear-gradient(135deg, var(--accent-soft), var(--surface));
+  border: 1px solid rgba(59,130,246,0.25); border-radius: 14px;
+  padding: 22px; margin-top: 18px;
+  animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.followup-q { font-size: 16px; font-weight: 600; margin-bottom: 14px; line-height: 1.4; }
+.quick-btns { display: flex; gap: 7px; margin-bottom: 14px; flex-wrap: wrap; }
+.quick-btn {
+  padding: 7px 18px; border-radius: 18px;
+  border: 1px solid var(--card-border); background: transparent;
+  color: var(--text-muted); cursor: pointer; font-size: 13px;
+  font-weight: 500; font-family: inherit; transition: all 0.12s;
+}
+.quick-btn:hover { border-color: var(--accent); color: var(--accent); }
+.quick-btn.selected { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+
+/* ─── Voice Button ─── */
+.voice-btn {
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--card-border);
+  background: transparent; color: #fff; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+  flex-shrink: 0;
+}
+.voice-btn.active { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 14px var(--accent-glow); }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.2)} }
+.rec-dot {
+  position: absolute; top: -3px; right: -3px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--red); animation: pulse 1s infinite;
+}
+
+/* ─── Stats ─── */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+.stat-box { text-align: center; padding: 14px 10px; border-radius: 10px; background: var(--bg); }
+.stat-num { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+.stat-label { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+/* ─── Insight Card ─── */
+.insight {
+  padding: 14px; border-radius: 10px; border: 1px solid var(--card-border);
+  margin-bottom: 8px; transition: all 0.15s;
+}
+.insight.new { border-color: rgba(59,130,246,0.3); background: var(--accent-soft); }
+
+/* ─── Success state ─── */
+.success-card { text-align: center; padding: 36px; }
+.success-card .icon { font-size: 44px; margin-bottom: 10px; }
+.success-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.success-card p { color: var(--text-muted); font-size: 14px; max-width: 380px; margin: 0 auto 20px; }
+.tag-list { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── Legend ─── */
+.legend { display: flex; gap: 14px; margin-top: 14px; font-size: 11px; color: var(--text-muted); }
+
+/* ─── Responsive ─── */
+@media (max-width: 800px) {
+  .grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .header { flex-direction: column; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+// DATA — preprocessed from 6,000+ real Expedia reviews
+// ══════════════════════════════════════════════════════════════════
+const DATA = {"properties":[{"id":"3216b1b7885bffdb","name":"Hampton Inn Interstate","total_reviews":1094,"text_reviews":691,"avg_rating":4.0,"completeness":89,"topic_coverage":{"wifi":{"count":13,"latest":"2025-10-18","sentiment":"positive","status":"current"},"parking":{"count":52,"latest":"2026-02-02","sentiment":"positive","status":"current"},"breakfast":{"count":29,"latest":"2025-05-06","sentiment":"mixed","status":"stale"},"pool":{"count":9,"latest":"2025-11-26","sentiment":"positive","status":"current"},"noise":{"count":65,"latest":"2025-12-31","sentiment":"mixed","status":"current"},"location":{"count":64,"latest":"2026-02-02","sentiment":"positive","status":"current"},"cleanliness":{"count":224,"latest":"2026-02-06","sentiment":"positive","status":"current"},"staff":{"count":131,"latest":"2026-02-06","sentiment":"positive","status":"current"},"bathroom":{"count":80,"latest":"2026-02-06","sentiment":"mixed","status":"current"},"bed":{"count":122,"latest":"2026-02-06","sentiment":"mixed","status":"current"},"aircon":{"count":202,"latest":"2026-01-24","sentiment":"positive","status":"current"},"elevator":{"count":1,"latest":"2025-11-18","sentiment":"negative","status":"current"},"restaurant":{"count":26,"latest":"2025-11-26","sentiment":"positive","status":"current"},"gym":{"count":2,"latest":"2025-02-24","sentiment":"negative","status":"stale"},"checkin":{"count":52,"latest":"2026-02-06","sentiment":"positive","status":"current"},"pet_policy":{"count":46,"latest":"2026-02-02","sentiment":"positive","status":"current"},"price_value":{"count":49,"latest":"2025-12-02","sentiment":"mixed","status":"current"},"renovation":{"count":17,"latest":"2025-08-19","sentiment":"mixed","status":"current"}}},{"id":"ff26cdda236b233f","name":"Grand Hotel Roma Termini","total_reviews":1065,"text_reviews":717,"avg_rating":4.4,"completeness":89,"topic_coverage":{"wifi":{"count":1,"latest":"2023-05-02","sentiment":"negative","status":"stale"},"parking":{"count":11,"latest":"2025-06-13","sentiment":"positive","status":"current"},"breakfast":{"count":54,"latest":"2026-01-12","sentiment":"positive","status":"current"},"pool":{"count":29,"latest":"2025-10-24","sentiment":"positive","status":"current"},"noise":{"count":47,"latest":"2025-12-12","sentiment":"positive","status":"current"},"location":{"count":117,"latest":"2026-01-05","sentiment":"positive","status":"current"},"cleanliness":{"count":233,"latest":"2026-01-05","sentiment":"positive","status":"current"},"staff":{"count":264,"latest":"2026-01-05","sentiment":"positive","status":"current"},"bathroom":{"count":59,"latest":"2025-12-15","sentiment":"mixed","status":"current"},"bed":{"count":90,"latest":"2025-12-29","sentiment":"positive","status":"current"},"aircon":{"count":197,"latest":"2026-01-04","sentiment":"positive","status":"current"},"elevator":{"count":4,"latest":"2025-03-07","sentiment":"negative","status":"stale"},"restaurant":{"count":141,"latest":"2026-01-12","sentiment":"positive","status":"current"},"gym":{"count":6,"latest":"2025-10-26","sentiment":"positive","status":"current"},"checkin":{"count":34,"latest":"2025-10-07","sentiment":"positive","status":"current"},"pet_policy":{"count":101,"latest":"2026-01-05","sentiment":"positive","status":"current"},"price_value":{"count":39,"latest":"2026-01-12","sentiment":"positive","status":"current"},"renovation":{"count":8,"latest":"2025-12-07","sentiment":"positive","status":"current"}}},{"id":"db38b19b897dbece","name":"Oceanview Resort & Spa","total_reviews":1006,"text_reviews":672,"avg_rating":4.4,"completeness":89,"topic_coverage":{"wifi":{"count":8,"latest":"2025-04-10","sentiment":"mixed","status":"stale"},"parking":{"count":18,"latest":"2025-11-10","sentiment":"positive","status":"current"},"breakfast":{"count":30,"latest":"2025-11-16","sentiment":"positive","status":"current"},"pool":{"count":162,"latest":"2025-12-26","sentiment":"positive","status":"current"},"noise":{"count":36,"latest":"2025-12-26","sentiment":"positive","status":"current"},"location":{"count":86,"latest":"2026-01-22","sentiment":"positive","status":"current"},"cleanliness":{"count":134,"latest":"2025-12-26","sentiment":"positive","status":"current"},"staff":{"count":266,"latest":"2026-01-29","sentiment":"positive","status":"current"},"bathroom":{"count":32,"latest":"2025-12-26","sentiment":"mixed","status":"current"},"bed":{"count":81,"latest":"2025-12-26","sentiment":"positive","status":"current"},"aircon":{"count":201,"latest":"2026-01-29","sentiment":"positive","status":"current"},"elevator":{"count":11,"latest":"2025-05-28","sentiment":"mixed","status":"stale"},"restaurant":{"count":139,"latest":"2026-01-22","sentiment":"positive","status":"current"},"gym":{"count":23,"latest":"2025-08-01","sentiment":"positive","status":"current"},"checkin":{"count":30,"latest":"2026-01-10","sentiment":"mixed","status":"current"},"pet_policy":{"count":79,"latest":"2026-01-22","sentiment":"positive","status":"current"},"price_value":{"count":46,"latest":"2025-12-20","sentiment":"mixed","status":"current"},"renovation":{"count":29,"latest":"2025-11-01","sentiment":"positive","status":"current"}}},{"id":"823fb2499b4e37d9","name":"Hilton Garden Inn Downtown","total_reviews":772,"text_reviews":618,"avg_rating":4.4,"completeness":89,"topic_coverage":{"wifi":{"count":8,"latest":"2024-05-07","sentiment":"positive","status":"stale"},"parking":{"count":1,"latest":"2023-03-02","sentiment":"positive","status":"stale"},"breakfast":{"count":83,"latest":"2025-12-14","sentiment":"positive","status":"current"},"pool":{"count":1,"latest":"2025-08-29","sentiment":"positive","status":"current"},"noise":{"count":23,"latest":"2025-12-13","sentiment":"positive","status":"current"},"location":{"count":244,"latest":"2025-12-27","sentiment":"positive","status":"current"},"cleanliness":{"count":118,"latest":"2025-12-24","sentiment":"positive","status":"current"},"staff":{"count":168,"latest":"2025-12-27","sentiment":"positive","status":"current"},"bathroom":{"count":38,"latest":"2025-12-27","sentiment":"positive","status":"current"},"bed":{"count":66,"latest":"2025-10-13","sentiment":"positive","status":"current"},"aircon":{"count":180,"latest":"2025-12-27","sentiment":"positive","status":"current"},"elevator":{"count":2,"latest":"2025-09-18","sentiment":"mixed","status":"current"},"restaurant":{"count":71,"latest":"2025-11-12","sentiment":"positive","status":"current"},"gym":{"count":2,"latest":"2025-11-04","sentiment":"positive","status":"current"},"checkin":{"count":16,"latest":"2025-10-29","sentiment":"positive","status":"current"},"pet_policy":{"count":189,"latest":"2025-12-28","sentiment":"positive","status":"current"},"price_value":{"count":35,"latest":"2025-09-30","sentiment":"positive","status":"current"},"renovation":{"count":5,"latest":"2025-11-12","sentiment":"mixed","status":"current"}}},{"id":"7d027ef72c02eaa1","name":"Courtyard by Marriott Airport","total_reviews":765,"text_reviews":534,"avg_rating":3.5,"completeness":78,"topic_coverage":{"wifi":{"count":19,"latest":"2024-02-27","sentiment":"negative","status":"stale"},"parking":{"count":40,"latest":"2026-01-30","sentiment":"mixed","status":"current"},"breakfast":{"count":104,"latest":"2026-01-24","sentiment":"mixed","status":"current"},"pool":{"count":52,"latest":"2026-02-06","sentiment":"mixed","status":"current"},"noise":{"count":59,"latest":"2026-02-06","sentiment":"mixed","status":"current"},"location":{"count":66,"latest":"2025-12-22","sentiment":"mixed","status":"current"},"cleanliness":{"count":169,"latest":"2026-01-26","sentiment":"mixed","status":"current"},"staff":{"count":154,"latest":"2026-01-30","sentiment":"mixed","status":"current"},"bathroom":{"count":120,"latest":"2026-02-06","sentiment":"negative","status":"current"},"bed":{"count":99,"latest":"2026-01-26","sentiment":"negative","status":"current"},"aircon":{"count":180,"latest":"2026-02-06","sentiment":"mixed","status":"current"},"elevator":{"count":18,"latest":"2024-06-05","sentiment":"negative","status":"stale"},"restaurant":{"count":49,"latest":"2026-02-06","sentiment":"mixed","status":"current"},"gym":{"count":2,"latest":"2023-10-31","sentiment":"mixed","status":"stale"},"checkin":{"count":31,"latest":"2026-01-30","sentiment":"mixed","status":"current"},"pet_policy":{"count":75,"latest":"2026-01-18","sentiment":"mixed","status":"current"},"price_value":{"count":43,"latest":"2026-02-06","sentiment":"negative","status":"current"},"renovation":{"count":23,"latest":"2024-06-05","sentiment":"mixed","status":"stale"}}},{"id":"fa014137b3ea9af6","name":"Holiday Inn Express Midtown","total_reviews":728,"text_reviews":546,"avg_rating":4.4,"completeness":83,"topic_coverage":{"wifi":{"count":3,"latest":"2023-03-28","sentiment":"positive","status":"stale"},"parking":{"count":85,"latest":"2026-01-10","sentiment":"positive","status":"current"},"breakfast":{"count":179,"latest":"2026-02-05","sentiment":"positive","status":"current"},"pool":{"count":3,"latest":"2023-10-31","sentiment":"mixed","status":"stale"},"noise":{"count":55,"latest":"2026-01-15","sentiment":"positive","status":"current"},"location":{"count":285,"latest":"2026-01-15","sentiment":"positive","status":"current"},"cleanliness":{"count":150,"latest":"2026-01-26","sentiment":"positive","status":"current"},"staff":{"count":182,"latest":"2026-02-05","sentiment":"positive","status":"current"},"bathroom":{"count":16,"latest":"2025-09-29","sentiment":"mixed","status":"current"},"bed":{"count":83,"latest":"2025-12-26","sentiment":"positive","status":"current"},"aircon":{"count":178,"latest":"2025-11-12","sentiment":"positive","status":"current"},"elevator":{"count":19,"latest":"2025-09-29","sentiment":"mixed","status":"current"},"restaurant":{"count":66,"latest":"2025-11-01","sentiment":"positive","status":"current"},"gym":{"count":3,"latest":"2023-03-17","sentiment":"positive","status":"stale"},"checkin":{"count":26,"latest":"2025-12-12","sentiment":"positive","status":"current"},"pet_policy":{"count":209,"latest":"2026-01-15","sentiment":"positive","status":"current"},"price_value":{"count":34,"latest":"2025-07-22","sentiment":"positive","status":"current"},"renovation":{"count":23,"latest":"2025-08-10","sentiment":"positive","status":"current"}}},{"id":"9a0043fd4258a128","name":"Boutique Hotel Altstadt","total_reviews":152,"text_reviews":113,"avg_rating":4.1,"completeness":6,"topic_coverage":{"wifi":{"count":1,"latest":"2024-08-16","sentiment":"positive","status":"stale"},"parking":{"count":0,"latest":null,"sentiment":null,"status":"missing"},"breakfast":{"count":3,"latest":"2023-03-16","sentiment":"positive","status":"stale"},"pool":{"count":0,"latest":null,"sentiment":null,"status":"missing"},"noise":{"count":4,"latest":"2024-08-16","sentiment":"positive","status":"stale"},"location":{"count":4,"latest":"2024-07-12","sentiment":"positive","status":"stale"},"cleanliness":{"count":5,"latest":"2024-07-12","sentiment":"positive","status":"stale"},"staff":{"count":6,"latest":"2023-07-17","sentiment":"positive","status":"stale"},"bathroom":{"count":0,"latest":null,"sentiment":null,"status":"missing"},"bed":{"count":5,"latest":"2023-07-17","sentiment":"positive","status":"stale"},"aircon":{"count":27,"latest":"2025-10-03","sentiment":"positive","status":"current"},"elevator":{"count":0,"latest":null,"sentiment":null,"status":"missing"},"restaurant":{"count":10,"latest":"2023-07-30","sentiment":"positive","status":"stale"},"gym":{"count":0,"latest":null,"sentiment":null,"status":"missing"},"checkin":{"count":3,"latest":"2023-03-16","sentiment":"mixed","status":"stale"},"pet_policy":{"count":4,"latest":"2023-03-16","sentiment":"positive","status":"stale"},"price_value":{"count":1,"latest":"2024-07-12","sentiment":"positive","status":"stale"},"renovation":{"count":0,"latest":null,"sentiment":null,"status":"missing"}}}],"topics":{"wifi":{"label":"WiFi & Internet","icon":"\ud83d\udcf6","questions":["How was the WiFi speed during your stay? Fast enough for video calls or streaming?","Did the WiFi work reliably throughout the hotel, or were there dead spots?"]},"parking":{"label":"Parking","icon":"\ud83c\udd7f\ufe0f","questions":["How was the parking situation? Easy to find a spot?","Was parking included in your rate, or was there an extra fee?"]},"breakfast":{"label":"Breakfast","icon":"\ud83c\udf73","questions":["How was the breakfast? Good variety and quality?","What time did breakfast start and end? Was the space crowded?"]},"pool":{"label":"Pool & Spa","icon":"\ud83c\udfca","questions":["Was the pool area clean and well-maintained during your visit?","How crowded was the pool? Were there enough chairs and towels?"]},"noise":{"label":"Noise & Soundproofing","icon":"\ud83d\udd07","questions":["How was the noise level at night? Could you sleep well?","Could you hear noise from the hallway or neighboring rooms?"]},"location":{"label":"Location & Access","icon":"\ud83d\udccd","questions":["How convenient was the location for getting around? Close to transit?","Were there restaurants and shops within easy walking distance?"]},"cleanliness":{"label":"Cleanliness","icon":"\u2728","questions":["How clean was the room when you arrived? Everything spotless?","Was housekeeping consistent throughout your stay?"]},"staff":{"label":"Staff & Service","icon":"\ud83d\udc64","questions":["How responsive was the staff when you needed something?","Did the front desk team make check-in smooth and welcoming?"]},"bathroom":{"label":"Bathroom","icon":"\ud83d\udebf","questions":["How was the water pressure and temperature in the shower?","Was the bathroom well-stocked with toiletries and fresh towels?"]},"bed":{"label":"Bed & Comfort","icon":"\ud83d\udecf\ufe0f","questions":["How comfortable was the bed? Good mattress and pillows?","Did you sleep well during your stay?"]},"aircon":{"label":"Climate Control","icon":"\u2744\ufe0f","questions":["Did the AC/heating work well? Could you set a comfortable temperature?","Was the room temperature easy to control?"]},"elevator":{"label":"Elevator","icon":"\ud83d\uded7","questions":["How long did you typically wait for the elevator?","Were the elevators clean and working during your stay?"]},"restaurant":{"label":"Dining & Food","icon":"\ud83c\udf7d\ufe0f","questions":["How was the food quality at the hotel restaurant or bar?","Were the dining hours convenient for your schedule?"]},"gym":{"label":"Fitness Center","icon":"\ud83d\udcaa","questions":["How was the gym? Well-equipped with modern machines?","Was the fitness center clean and available when you wanted to use it?"]},"checkin":{"label":"Check-in Experience","icon":"\ud83d\udd11","questions":["How smooth was the check-in process? Long wait?","Did you experience any issues with your reservation at check-in?"]},"pet_policy":{"label":"Pet Friendliness","icon":"\ud83d\udc3e","questions":["Did you notice the hotel being pet-friendly? Any pet fees?","Was the hotel clean and well-maintained despite allowing pets?"]},"price_value":{"label":"Value for Money","icon":"\ud83d\udcb0","questions":["Did you feel the hotel was good value for the price?","Were there any unexpected charges or fees during your stay?"]},"renovation":{"label":"Room Condition","icon":"\ud83d\udd27","questions":["Did the room feel modern and well-maintained, or in need of updates?","Were the furnishings and fixtures in good condition?"]}}};
+
+const TOPICS = DATA.topics;
+const PROPERTIES = DATA.properties;
+
+// ══════════════════════════════════════════════════════════════════
+// UTILITIES
+// ══════════════════════════════════════════════════════════════════
+function formatTimeAgo(dateStr) {
+  if (!dateStr) return "never";
+  const d = new Date(dateStr), now = new Date("2026-04-13");
+  const months = Math.floor((now - d) / (30*24*60*60*1000));
+  if (months < 1) return "recently";
+  if (months === 1) return "1 month ago";
+  return months + " months ago";
+}
+
+const KEYWORDS = {
+  wifi:["wifi","wi-fi","internet","wireless"],parking:["parking","garage","valet"],
+  breakfast:["breakfast","buffet","morning meal"],pool:["pool","swimming","jacuzzi","hot tub"],
+  noise:["noise","noisy","loud","quiet","soundproof"],
+  location:["location","walkable","walking distance","nearby","close to","convenient"],
+  cleanliness:["clean","dirty","filthy","spotless"],
+  staff:["staff","front desk","receptionist","concierge","friendly"],
+  bathroom:["bathroom","shower","toilet","towel","water pressure"],
+  bed:["bed","mattress","pillow","sleep","comfortable"],
+  aircon:["air conditioning","ac ","a/c","heating","temperature"],
+  elevator:["elevator","lift"],restaurant:["restaurant","dining","food","bar"],
+  gym:["gym","fitness","exercise","workout"],checkin:["check-in","checkin","check in"],
+  pet_policy:["pet","dog","cat"],price_value:["price","value","expensive","cheap","worth"],
+  renovation:["renovation","renovated","remodel","updated","outdated"]
+};
+
+function detectTopics(text) {
+  const lower = text.toLowerCase();
+  return Object.keys(KEYWORDS).filter(t => KEYWORDS[t].some(kw => lower.includes(kw)));
+}
+
+function analyzeGaps(property) {
+  const gaps = [];
+  const cutoff = new Date("2025-10-13"); // 6 months ago from "today"
+  for (const [tid, cov] of Object.entries(property.topic_coverage)) {
+    const meta = TOPICS[tid];
+    if (!meta) continue;
+    if (cov.status === "missing" || cov.count === 0) {
+      gaps.push({topicId:tid, label:meta.label, icon:meta.icon, reason:"never_mentioned",
+        reasonLabel:"No data yet", priority:3, count:0, questions:meta.questions});
+    } else if (cov.latest && new Date(cov.latest) < cutoff) {
+      gaps.push({topicId:tid, label:meta.label, icon:meta.icon, reason:"stale",
+        reasonLabel:"Last mentioned " + formatTimeAgo(cov.latest), priority:2, count:cov.count, questions:meta.questions});
+    } else if (cov.sentiment === "mixed" && cov.count > 5) {
+      gaps.push({topicId:tid, label:meta.label, icon:meta.icon, reason:"conflicting",
+        reasonLabel:"Mixed reviews — needs clarity", priority:1, count:cov.count, questions:meta.questions});
+    }
+  }
+  return gaps.sort((a,b) => b.priority - a.priority);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// APP STATE
+// ══════════════════════════════════════════════════════════════════
+const state = {
+  selectedProp: PROPERTIES[0],
+  activeView: "review",
+  reviewText: "",
+  rating: 0,
+  submitted: false,
+  isAnalyzing: false,
+  coveredTopics: [],
+  gaps: [],
+  selectedGaps: [],
+  followUpStep: 0,   // 0=not started, 1=Q1, 2=Q2, 99=done
+  answeredTopics: {},
+  quickAnswer: null,
+  answerText: "",
+  listening: false,
+  recognition: null,
+};
+
+function render() {
+  document.getElementById("app").innerHTML = renderApp();
+  bindEvents();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════════════════
+function renderApp() {
+  return `
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">💬</div>
+      <span>ReviewIQ</span>
+      <span class="logo-sub">Smart Review Gap Analysis</span>
+    </div>
+    <div class="nav">
+      <button class="nav-btn ${state.activeView==='review'?'active':''}" data-view="review">✏️ Write Review</button>
+      <button class="nav-btn ${state.activeView==='dashboard'?'active':''}" data-view="dashboard">📊 Dashboard</button>
+      <button class="nav-btn ${state.activeView==='traveler'?'active':''}" data-view="traveler">🧳 Traveler View</button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="grid">
+      <div>${renderSidebar()}</div>
+      <div>${state.activeView==='review'?renderReview():state.activeView==='dashboard'?renderDashboard():renderTraveler()}</div>
+    </div>
+  </div>`;
+}
+
+function renderSidebar() {
+  return `<div class="card">
+    <div class="card-title">Properties (${PROPERTIES.length})</div>
+    ${PROPERTIES.map(p => `
+      <div class="prop-item ${state.selectedProp.id===p.id?'selected':''}" data-propid="${p.id}">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="prop-name">${p.name}</span>
+          <span class="prop-rating">⭐ ${p.avg_rating}</span>
+        </div>
+        <div class="prop-meta">
+          <span class="badge ${p.completeness>=80?'badge-green':p.completeness>=50?'badge-amber':'badge-red'}">${p.completeness}% complete</span>
+          <span style="font-size:11px;color:var(--text-dim)">${p.total_reviews} reviews</span>
+        </div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+// ─── Review View ───
+function renderReview() {
+  if (state.followUpStep === 99) return renderDone();
+  
+  const p = state.selectedProp;
+  return `
+  <div class="card">
+    <div class="card-title">${state.submitted?'Your Review':'Write a Review for ' + p.name}</div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:6px">Overall Rating</div>
+      <div class="stars">${[1,2,3,4,5].map(s =>
+        `<button class="star ${s<=state.rating?'active':''}" data-star="${s}" ${state.submitted?'disabled':''}>⭐</button>`
+      ).join('')}</div>
+    </div>
+    <textarea class="textarea" id="review-text" placeholder="Share your experience at this hotel... What stood out? What could be better?"
+      style="min-height:${state.submitted?'80px':'110px'};opacity:${state.submitted?'0.7':'1'}"
+      ${state.submitted?'readonly':''}>${state.reviewText}</textarea>
+    ${state.submitted && state.coveredTopics.length ? `
+      <div style="margin-top:10px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+        <span style="font-size:12px;color:var(--text-muted)">Topics detected:</span>
+        ${state.coveredTopics.map(t => `<span class="badge badge-green">${TOPICS[t]?.icon} ${TOPICS[t]?.label}</span>`).join('')}
+      </div>` : ''}
+    ${!state.submitted ? `
+      <div style="display:flex;justify-content:flex-end;margin-top:10px">
+        <button class="btn btn-primary" id="submit-review" ${!state.reviewText.trim()||state.rating===0?'disabled':''}>
+          ${state.isAnalyzing?'Analyzing...':'Submit Review →'}
+        </button>
+      </div>` : ''}
+  </div>
+  ${state.submitted && state.followUpStep >= 1 && state.followUpStep <= state.selectedGaps.length ? renderFollowUp() : ''}`;
+}
+
+function renderFollowUp() {
+  const gap = state.selectedGaps[state.followUpStep - 1];
+  if (!gap) return '';
+  const q = gap.questions[0];
+  return `
+  <div style="display:flex;align-items:center;gap:8px;margin:16px 0 6px">
+    <span style="font-size:12px;color:var(--text-muted)">🙏 Quick question ${state.followUpStep} of ${state.selectedGaps.length} — help future travelers!</span>
+    <div style="flex:1;height:1px;background:var(--card-border)"></div>
+  </div>
+  <div class="followup-card">
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:14px">
+      <span style="font-size:18px">${gap.icon}</span>
+      <span style="font-size:12px;color:var(--accent);font-weight:600">
+        ${gap.reason==='never_mentioned'?'No one has mentioned this yet':gap.reason==='stale'?'Info outdated — '+gap.reasonLabel:'Reviews are mixed on this'}
+      </span>
+    </div>
+    <div class="followup-q">${q}</div>
+    <div class="quick-btns">
+      ${['Great 👍','It was okay','Not good 👎'].map(o => `
+        <button class="quick-btn ${state.quickAnswer===o?'selected':''}" data-quick="${o}">${o}</button>
+      `).join('')}
+    </div>
+    ${!state.quickAnswer ? `
+    <div style="display:flex;gap:7px;align-items:flex-start">
+      <textarea class="textarea" id="answer-text" style="min-height:54px;flex:1" placeholder="Add a few details (optional)...">${state.answerText}</textarea>
+      <button class="voice-btn ${state.listening?'active':''}" id="voice-btn" title="${state.listening?'Stop':'Speak your answer'}" style="position:relative">
+        ${state.listening?'⏹':'🎤'}${state.listening?'<span class="rec-dot"></span>':''}
+      </button>
+    </div>` : `
+    <textarea class="textarea" id="answer-text" style="min-height:46px" placeholder="Want to add more detail? (optional)">${state.answerText}</textarea>
+    `}
+    <div style="display:flex;gap:7px;margin-top:14px;justify-content:space-between;align-items:center">
+      <span style="font-size:12px;color:var(--text-dim)">Helping future travelers decide 🧳</span>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-outline" id="skip-btn">Skip →</button>
+        <button class="btn btn-primary" id="answer-btn" ${!state.quickAnswer&&!state.answerText?'disabled':''}>Submit Answer</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderDone() {
+  const n = Object.keys(state.answeredTopics).length;
+  return `<div class="card success-card">
+    <div class="icon">🎉</div>
+    <h2>Review Complete!</h2>
+    <p>${n>0?`You covered ${state.coveredTopics.length} topics in your review and answered ${n} follow-up question${n>1?'s':''}. Future travelers will thank you!`:`Your review covered ${state.coveredTopics.length} topics. Thanks for sharing your experience!`}</p>
+    <div class="tag-list">
+      ${state.coveredTopics.map(t=>`<span class="badge badge-green">${TOPICS[t]?.icon} ${TOPICS[t]?.label}</span>`).join('')}
+      ${Object.keys(state.answeredTopics).map(t=>`<span class="badge badge-accent">${TOPICS[t]?.icon} ${TOPICS[t]?.label} 🆕</span>`).join('')}
+    </div>
+    <button class="btn btn-outline" id="reset-btn" style="margin-top:20px">Write Another Review</button>
+  </div>`;
+}
+
+// ─── Dashboard View ───
+function renderDashboard() {
+  const p = state.selectedProp;
+  const gaps = analyzeGaps(p);
+  const nUpdated = Object.keys(state.answeredTopics).length;
+  const comp = Math.min(100, p.completeness + nUpdated * 5);
+
+  return `
+  <div class="stats-grid">
+    <div class="stat-box"><div class="stat-num" style="color:var(--accent)">${comp}%</div><div class="stat-label">Info Completeness</div></div>
+    <div class="stat-box"><div class="stat-num">${p.total_reviews}</div><div class="stat-label">Total Reviews</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--amber)">${gaps.length}</div><div class="stat-label">Info Gaps</div></div>
+    <div class="stat-box"><div class="stat-num" style="color:var(--green)">${nUpdated}</div><div class="stat-label">Just Filled</div></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span style="font-weight:600;font-size:14px">Information Completeness</span>
+      <span style="color:var(--accent);font-weight:700;font-size:17px">${comp}%</span>
+    </div>
+    <div class="progress" style="height:9px;border-radius:5px">
+      <div class="progress-fill" style="width:${comp}%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:5px"></div>
+    </div>
+    ${nUpdated?`<div style="margin-top:6px;font-size:12px;color:var(--green)">↑ +${nUpdated*5}% from follow-up answers this session</div>`:''}
+  </div>
+  <div class="card">
+    <div class="card-title">Topic Coverage Map</div>
+    ${renderTopicHeatmap()}
+    <div class="legend"><span>✅ Current</span><span>⏰ Stale (&gt;6mo)</span><span>⚠️ Missing</span><span>🆕 Just Updated</span></div>
+  </div>
+  ${gaps.length?`<div class="card">
+    <div class="card-title">Priority Information Gaps</div>
+    ${gaps.slice(0,5).map(g=>`
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(30,42,58,0.15)">
+        <span style="font-size:18px">${g.icon}</span>
+        <div style="flex:1"><div style="font-weight:600;font-size:13px">${g.label}</div><div style="font-size:11px;color:var(--text-muted)">${g.reasonLabel}</div></div>
+        <span class="badge ${g.reason==='never_mentioned'?'badge-red':'badge-amber'}">${g.reason==='never_mentioned'?'No data':g.reason==='stale'?'Outdated':'Mixed'}</span>
+      </div>
+    `).join('')}
+  </div>`:''}`;
+}
+
+function renderTopicHeatmap() {
+  const p = state.selectedProp;
+  return Object.entries(p.topic_coverage).map(([tid, cov]) => {
+    const meta = TOPICS[tid];
+    if (!meta) return '';
+    const isUpdated = state.answeredTopics[tid];
+    const isMissing = cov.status==='missing'||cov.count===0;
+    const isStale = cov.status==='stale';
+    const color = isUpdated?'var(--green)':isMissing?'var(--red)':isStale?'var(--amber)':'var(--accent)';
+    const pct = isMissing?0:Math.min(100, cov.count/50*100);
+    const dpct = isUpdated?Math.min(100,pct+15):pct;
+    return `<div class="topic-row">
+      <span class="topic-icon">${meta.icon}</span>
+      <span class="topic-label">${meta.label}</span>
+      <div class="progress" style="flex:1"><div class="progress-fill" style="width:${dpct}%;background:${color}"></div></div>
+      <span class="topic-count">${isUpdated?cov.count+1:cov.count}</span>
+      <span class="topic-status">${isUpdated?'🆕':isMissing?'⚠️':isStale?'⏰':'✅'}</span>
+    </div>`;
+  }).join('');
+}
+
+// ─── Traveler View ───
+function renderTraveler() {
+  const p = state.selectedProp;
+  const insights = [];
+  for (const [tid, cov] of Object.entries(p.topic_coverage)) {
+    const meta = TOPICS[tid];
+    if (!meta) continue;
+    if (state.answeredTopics[tid]) {
+      insights.push({tid, icon:meta.icon, label:meta.label, answer:state.answeredTopics[tid], isNew:true});
+    } else if (cov.count > 0 && cov.status === "current") {
+      insights.push({tid, icon:meta.icon, label:meta.label, isNew:false, count:cov.count, sentiment:cov.sentiment, latest:cov.latest});
+    }
+  }
+  return `<div class="card">
+    <div class="card-title">🧳 Future Traveler's View — What others say about ${p.name}</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-bottom:18px">Information collected from ${p.total_reviews} guest reviews, prioritizing the most recent data.</div>
+    ${insights.map(ins => `
+      <div class="insight ${ins.isNew?'new':''}">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+          <span>${ins.icon}</span>
+          <span style="font-weight:600;font-size:13px">${ins.label}</span>
+          ${ins.isNew?'<span class="badge badge-accent">🆕 Just updated</span>':''}
+          ${!ins.isNew&&ins.sentiment?`<span class="badge ${ins.sentiment==='positive'?'badge-green':ins.sentiment==='negative'?'badge-red':'badge-amber'}">${ins.sentiment==='positive'?'Mostly positive':ins.sentiment==='negative'?'Mostly negative':'Mixed reviews'}</span>`:''}
+        </div>
+        ${ins.isNew?`<div style="font-size:13px;color:var(--text);font-style:italic;margin-left:28px">"${ins.answer}" — Guest, today</div>`
+        :`<div style="font-size:12px;color:var(--text-muted);margin-left:28px">Based on ${ins.count} reviews · Last updated ${formatTimeAgo(ins.latest)}</div>`}
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// EVENT BINDING
+// ══════════════════════════════════════════════════════════════════
+function bindEvents() {
+  // Nav
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => { state.activeView = btn.dataset.view; render(); });
+  });
+  // Property select
+  document.querySelectorAll('.prop-item').forEach(el => {
+    el.addEventListener('click', () => {
+      state.selectedProp = PROPERTIES.find(p => p.id === el.dataset.propid);
+      resetReviewState();
+      render();
+    });
+  });
+  // Stars
+  document.querySelectorAll('.star').forEach(btn => {
+    btn.addEventListener('click', () => { if(!state.submitted){state.rating=parseInt(btn.dataset.star);render();} });
+  });
+  // Review text
+  const ta = document.getElementById('review-text');
+  if (ta && !state.submitted) {
+    ta.addEventListener('input', () => { state.reviewText = ta.value; });
+  }
+  // Submit review
+  const submitBtn = document.getElementById('submit-review');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', submitReview);
+  }
+  // Quick answer
+  document.querySelectorAll('.quick-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.quick;
+      state.quickAnswer = state.quickAnswer === v ? null : v;
+      state.answerText = "";
+      render();
+    });
+  });
+  // Answer text
+  const at = document.getElementById('answer-text');
+  if (at) { at.addEventListener('input', () => { state.answerText = at.value; }); }
+  // Voice
+  const vb = document.getElementById('voice-btn');
+  if (vb) { vb.addEventListener('click', toggleVoice); }
+  // Skip
+  const sk = document.getElementById('skip-btn');
+  if (sk) { sk.addEventListener('click', skipQuestion); }
+  // Submit answer
+  const ab = document.getElementById('answer-btn');
+  if (ab) { ab.addEventListener('click', submitAnswer); }
+  // Reset
+  const rb = document.getElementById('reset-btn');
+  if (rb) { rb.addEventListener('click', () => { resetReviewState(); render(); }); }
+}
+
+function resetReviewState() {
+  state.reviewText = ""; state.rating = 0; state.submitted = false;
+  state.isAnalyzing = false; state.coveredTopics = []; state.gaps = [];
+  state.selectedGaps = []; state.followUpStep = 0; state.answeredTopics = {};
+  state.quickAnswer = null; state.answerText = ""; state.listening = false;
+}
+
+function submitReview() {
+  if (!state.reviewText.trim() || state.rating === 0) return;
+  state.isAnalyzing = true;
+  render();
+  setTimeout(() => {
+    state.coveredTopics = detectTopics(state.reviewText);
+    const allGaps = analyzeGaps(state.selectedProp);
+    state.gaps = allGaps.filter(g => !state.coveredTopics.includes(g.topicId));
+    state.selectedGaps = state.gaps.slice(0, 2);
+    state.submitted = true;
+    state.isAnalyzing = false;
+    state.followUpStep = state.selectedGaps.length > 0 ? 1 : 99;
+    render();
+  }, 700);
+}
+
+function submitAnswer() {
+  const answer = state.quickAnswer || state.answerText;
+  if (!answer) return;
+  const gap = state.selectedGaps[state.followUpStep - 1];
+  state.answeredTopics[gap.topicId] = answer;
+  state.quickAnswer = null;
+  state.answerText = "";
+  if (state.followUpStep < state.selectedGaps.length) {
+    state.followUpStep++;
+  } else {
+    state.followUpStep = 99;
+  }
+  render();
+}
+
+function skipQuestion() {
+  state.quickAnswer = null; state.answerText = "";
+  if (state.followUpStep < state.selectedGaps.length) {
+    state.followUpStep++;
+  } else {
+    state.followUpStep = 99;
+  }
+  render();
+}
+
+function toggleVoice() {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    state.answerText = "(Voice not supported — please type your answer)";
+    render(); return;
+  }
+  if (state.listening) {
+    state.recognition?.stop();
+    state.listening = false;
+    render(); return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new SR();
+  rec.continuous = false; rec.interimResults = true; rec.lang = "en-US";
+  rec.onresult = e => {
+    state.answerText = Array.from(e.results).map(r => r[0].transcript).join('');
+    render();
+  };
+  rec.onend = () => { state.listening = false; render(); };
+  rec.onerror = () => { state.listening = false; render(); };
+  state.recognition = rec;
+  state.listening = true;
+  rec.start();
+  render();
+}
+
+// ═══ INIT ═══
+render();
+</script>
+</body>
+</html>
