@@ -46,7 +46,7 @@ def find_gaps(
         # ── Official vs. review conflict ─────────────────────────────
         # Hotel claims X officially, but guests consistently complain
         if info.get("official_conflict"):
-            sc = info.get("sentiment_counts", {})
+            sc = info.get("stance_counts", {})
             gaps.append({
                 "dimension": dim,
                 "label": info.get("label", dim),
@@ -59,7 +59,7 @@ def find_gaps(
                 "priority": 4,
                 "mention_count": mention_count,
                 "last_mentioned": last_str,
-                "dominant_sentiment": info.get("dominant_sentiment"),
+                "dominant_stance": info.get("dominant_stance"),
                 "official_info": info.get("official_info"),
             })
             seen_dims.add(dim)
@@ -76,7 +76,7 @@ def find_gaps(
                 "priority": 3,
                 "mention_count": 0,
                 "last_mentioned": None,
-                "dominant_sentiment": None,
+                "dominant_stance": None,
                 "official_info": None,
             })
             seen_dims.add(dim)
@@ -97,7 +97,7 @@ def find_gaps(
                     "priority": 2,
                     "mention_count": mention_count,
                     "last_mentioned": last_str,
-                    "dominant_sentiment": info.get("dominant_sentiment"),
+                    "dominant_stance": info.get("dominant_stance"),
                     "official_info": info.get("official_info"),
                 })
                 seen_dims.add(dim)
@@ -107,9 +107,9 @@ def find_gaps(
         if (
             dim not in seen_dims
             and mention_count >= MIN_MENTIONS_FOR_CONFLICT
-            and info.get("sentiment_variance", 0) > CONFLICT_VARIANCE_THRESHOLD
+            and info.get("stance_variance", 0) > CONFLICT_VARIANCE_THRESHOLD
         ):
-            sc = info.get("sentiment_counts", {})
+            sc = info.get("stance_counts", {})
             gaps.append({
                 "dimension": dim,
                 "label": info.get("label", dim),
@@ -122,7 +122,7 @@ def find_gaps(
                 "priority": 1,
                 "mention_count": mention_count,
                 "last_mentioned": last_str,
-                "dominant_sentiment": info.get("dominant_sentiment"),
+                "dominant_stance": info.get("dominant_stance"),
                 "official_info": info.get("official_info"),
             })
 

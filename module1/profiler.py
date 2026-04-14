@@ -1,8 +1,16 @@
 """
 Module 1 — Hotel Profile Builder
 
-Aggregates per-review dimension mentions into a per-hotel profile.
-Each hotel profile covers all predefined dimensions, even if mention_count == 0.
+Aggregates per-review dimension observations into a per-hotel profile.
+
+Each observation (from extractor.py) has the schema:
+    {dimension, mentioned, stance, confidence, evidence, source}
+
+The profile for each dimension stores aggregated stance counts:
+    {positive_count, negative_count, mixed_count, neutral_count}
+
+sentiment_variance is computed from positive vs negative only (mixed excluded),
+since mixed already captures the ambiguity explicitly.
 """
 
 from collections import Counter
@@ -12,22 +20,25 @@ import pandas as pd
 
 from .dimensions import ALL_DIMENSIONS, DIMENSIONS
 
+STANCE_KEYS = ("positive", "negative", "mixed", "neutral")
 
-def _sentiment_variance(counts: dict) -> float:
+
+def _stance_variance(counts: dict) -> float:
     """
-    Conflict score: higher = more mixed reviews.
-    Formula: min(pos, neg) / total  (ranges 0.0 – 0.5)
+    Conflict score using only positive vs negative counts.
+    mixed is not counted — it already represents acknowledged ambiguity.
+    Formula: min(pos, neg) / (pos + neg)  → range [0.0, 0.5]
     """
     pos = counts.get("positive", 0)
     neg = counts.get("negative", 0)
-    total = pos + neg + counts.get("neutral", 0)
+    total = pos + neg
     if total == 0:
         return 0.0
     return round(min(pos, neg) / total, 4)
 
 
-def _dominant_sentiment(counts: dict) -> Optional[str]:
-    nonzero = {k: v for k, v in counts.items() if v > 0 and k != "unknown"}
+def _dominant_stance(counts: dict) -> Optional[str]:
+    nonzero = {k: v for k, v in counts.items() if v > 0}
     return max(nonzero, key=nonzero.get) if nonzero else None
 
 
@@ -37,9 +48,14 @@ def build_hotel_profiles(
 ) -> dict:
     """
     Build hotel_profiles[property_id][dimension] = {
-        category, label, mention_count, last_mentioned,
-        dominant_sentiment, sentiment_counts, sentiment_variance,
-        example_snippets
+        category, label,
+        mention_count,
+        last_mentioned,
+        dominant_stance,
+        stance_counts: {positive, negative, mixed, neutral},
+        stance_variance,
+        avg_confidence,
+        example_snippets,
     }
     """
     hotel_profiles: dict = {}
@@ -51,30 +67,27 @@ def build_hotel_profiles(
         for dim in ALL_DIMENSIONS:
             dim_rows = hotel_data[hotel_data["dimension"] == dim]
 
-            empty_profile = {
+            empty = {
                 "category": DIMENSIONS[dim]["category"],
                 "label": DIMENSIONS[dim]["label"],
                 "mention_count": 0,
                 "last_mentioned": None,
-                "dominant_sentiment": None,
-                "sentiment_counts": {"positive": 0, "neutral": 0, "negative": 0, "unknown": 0},
-                "sentiment_variance": 0.0,
+                "dominant_stance": None,
+                "stance_counts": {k: 0 for k in STANCE_KEYS},
+                "stance_variance": 0.0,
+                "avg_confidence": None,
                 "example_snippets": [],
             }
 
             if len(dim_rows) == 0:
-                hotel_profiles[pid][dim] = empty_profile
+                hotel_profiles[pid][dim] = empty
                 continue
 
-            counts = Counter(dim_rows["sentiment"].fillna("unknown"))
-            clean_counts = {
-                "positive": counts.get("positive", 0),
-                "neutral":  counts.get("neutral", 0),
-                "negative": counts.get("negative", 0),
-                "unknown":  counts.get("unknown", 0),
-            }
+            counts = Counter(dim_rows["stance"].fillna("neutral"))
+            stance_counts = {k: counts.get(k, 0) for k in STANCE_KEYS}
 
             last_mentioned = dim_rows["review_date"].max()
+
             snippets = (
                 dim_rows["evidence"]
                 .dropna()
@@ -84,6 +97,9 @@ def build_hotel_profiles(
                 .tolist()
             )
 
+            confidences = dim_rows["confidence"].dropna()
+            avg_conf = round(float(confidences.mean()), 3) if len(confidences) > 0 else None
+
             hotel_profiles[pid][dim] = {
                 "category": DIMENSIONS[dim]["category"],
                 "label": DIMENSIONS[dim]["label"],
@@ -91,9 +107,10 @@ def build_hotel_profiles(
                 "last_mentioned": (
                     last_mentioned.strftime("%Y-%m-%d") if pd.notna(last_mentioned) else None
                 ),
-                "dominant_sentiment": _dominant_sentiment(clean_counts),
-                "sentiment_counts": clean_counts,
-                "sentiment_variance": _sentiment_variance(clean_counts),
+                "dominant_stance": _dominant_stance(stance_counts),
+                "stance_counts": stance_counts,
+                "stance_variance": _stance_variance(stance_counts),
+                "avg_confidence": avg_conf,
                 "example_snippets": snippets,
             }
 
@@ -102,15 +119,13 @@ def build_hotel_profiles(
 
 def merge_official_info(hotel_profiles: dict, official_info: dict) -> dict:
     """
-    Merge description-based official info into the review-based hotel profiles.
+    Merge description-based official info into review-based profiles.
 
-    For each hotel + dimension that has official info, adds:
-      - official_info : str   — the extracted text from Description_PROC.csv
-      - official_source : str — which CSV field it came from
-      - has_official_info : bool
-
-    Also detects conflicts: official policy exists but dominant review sentiment
-    is negative (e.g., hotel claims "free parking" but guests complain about fees).
+    Adds per-dimension:
+        official_info:     str | None
+        official_source:   str | None
+        has_official_info: bool
+        official_conflict: bool  — official data exists but dominant review stance is negative
     """
     CONFLICT_DIMS = {"parking", "wifi_speed", "pet_policy", "breakfast_quality", "elevator"}
 
@@ -124,16 +139,11 @@ def merge_official_info(hotel_profiles: dict, official_info: dict) -> dict:
                 info["official_info"] = off["text"]
                 info["official_source"] = off["source"]
                 info["has_official_info"] = True
-
-                # Conflict detection: official data exists + reviews disagree
-                if (
+                info["official_conflict"] = (
                     dim in CONFLICT_DIMS
                     and info["mention_count"] >= 3
-                    and info["dominant_sentiment"] == "negative"
-                ):
-                    info["official_conflict"] = True
-                else:
-                    info["official_conflict"] = False
+                    and info["dominant_stance"] == "negative"
+                )
             else:
                 info["official_info"] = None
                 info["official_source"] = None
@@ -145,8 +155,7 @@ def merge_official_info(hotel_profiles: dict, official_info: dict) -> dict:
 
 def compute_completeness(profile: dict) -> dict:
     """
-    Percentage of dimensions that are 'known' — either from reviews
-    or from official Description data.
+    Percentage of dimensions that are 'known' — either from reviews or official data.
     """
     total = len(profile)
     covered = sum(
@@ -163,13 +172,13 @@ def compute_completeness(profile: dict) -> dict:
 
 
 def profile_to_flat_rows(property_id: str, profile: dict) -> list[dict]:
-    """Convert nested profile to flat list (useful for DataFrame / export)."""
+    """Flatten nested profile to a list of rows (for CSV export / inspection)."""
     rows = []
     for dim, info in profile.items():
         rows.append({
             "eg_property_id": property_id,
             "dimension": dim,
-            **info,
-            "example_snippets": " || ".join(info["example_snippets"]),
+            **{k: v for k, v in info.items() if k != "example_snippets"},
+            "example_snippets": " || ".join(info.get("example_snippets", [])),
         })
     return rows

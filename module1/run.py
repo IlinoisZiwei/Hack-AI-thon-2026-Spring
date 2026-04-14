@@ -101,16 +101,17 @@ def run_extraction(rows: list[dict], use_llm: bool) -> list[dict]:
     dimension_records: list[dict] = []
 
     if use_llm:
-        logger.info("Extracting with LLM (gpt-4o-mini), batch_size=20 …")
-        batch_mentions = extract_llm_batch(rows, model="gpt-4o-mini", batch_size=20)
+        logger.info("Extracting with LLM (gpt-4o-mini), batch_size=10 …")
+        batch_mentions = extract_llm_batch(rows, model="gpt-4o-mini", batch_size=10)
         for row, mentions in zip(rows, batch_mentions):
             for m in mentions:
                 dimension_records.append({
                     "eg_property_id": row["eg_property_id"],
                     "dimension": m["dimension"],
                     "category": DIMENSIONS[m["dimension"]]["category"],
-                    "sentiment": m["sentiment"],
-                    "sentiment_source": "llm",
+                    "stance": m["stance"],
+                    "confidence": m["confidence"],
+                    "source": m["source"],
                     "review_date": row["acquisition_date"],
                     "evidence": m.get("evidence", ""),
                 })
@@ -121,9 +122,10 @@ def run_extraction(rows: list[dict], use_llm: bool) -> list[dict]:
                 dimension_records.append({
                     "eg_property_id": row["eg_property_id"],
                     "dimension": m["dimension"],
-                    "category": m["category"],
-                    "sentiment": m["sentiment"],
-                    "sentiment_source": m["sentiment_source"],
+                    "category": DIMENSIONS[m["dimension"]]["category"],
+                    "stance": m["stance"],
+                    "confidence": m["confidence"],
+                    "source": m["source"],
                     "review_date": row["acquisition_date"],
                     "evidence": m["evidence"],
                 })
@@ -224,7 +226,7 @@ def main() -> None:
             for dim, info in data["profile"].items():
                 bar = "█" * min(info["mention_count"], 20)
                 print(f"    {dim:<28} {info['mention_count']:>4}  {bar}  "
-                      f"{info['dominant_sentiment'] or '—'}")
+                      f"{info['dominant_stance'] or '—'}")
 
 
 if __name__ == "__main__":
