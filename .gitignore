@@ -1,0 +1,12 @@
+# Secrets & config
+config.py
+ 
+# Data files
+Reviews_PROC.csv
+*.csv
+ 
+# Python
+__pycache__/
+*.pyc
+.env
+
