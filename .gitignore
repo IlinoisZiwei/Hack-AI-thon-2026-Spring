@@ -1,12 +1,26 @@
-# Secrets & config
+# Secrets & API keys
+.env
+.env.local
 config.py
- 
-# Data files
-Reviews_PROC.csv
-*.csv
- 
+
 # Python
 __pycache__/
-*.pyc
-.env
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Output (generated files)
+output/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
 
