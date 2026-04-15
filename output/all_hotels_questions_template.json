@@ -1,0 +1,691 @@
+[
+  {
+    "property_id": "110f01b8ae518a0ee41047bce5c22572988a435e10ead72dc1af793bba8ce0b0",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Were you satisfied with the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492114"
+      },
+      {
+        "question": "Were the rules easy to understand?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492118"
+      },
+      {
+        "question": "What was your experience with the Nearby Dining Options?",
+        "source": "template",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492119"
+      },
+      {
+        "question": "Was the location convenient?",
+        "source": "template_category",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492120"
+      },
+      {
+        "question": "What was your experience with the Outside Noise Level?",
+        "source": "template",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492121"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "3216b1b7885bffdb336265a8de7322ba0cd477cfb3d4f99d19acf488f76a1941",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Were you satisfied with the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492160"
+      },
+      {
+        "question": "Were the rules easy to understand?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492162"
+      },
+      {
+        "question": "Were you satisfied with the Luggage Storage?",
+        "source": "template",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492163"
+      },
+      {
+        "question": "Were you satisfied with the service quality?",
+        "source": "template_category",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492164"
+      },
+      {
+        "question": "Did the Breakfast work well this time?",
+        "source": "template",
+        "gap_dimension": "breakfast_quality",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492164"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "3b984f3ba8df55b2609a1e33fd694cf8407842e1d833c9b4d993b07fc83a2820",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "What was your experience with the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492214"
+      },
+      {
+        "question": "Were the rules easy to understand?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492217"
+      },
+      {
+        "question": "What was your experience with the Luggage Storage?",
+        "source": "template",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492218"
+      },
+      {
+        "question": "Was the staff friendly and helpful?",
+        "source": "template_category",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492219"
+      },
+      {
+        "question": "Did the Nearby Dining Options meet your expectations?",
+        "source": "template",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492220"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "5f5a0cd8662f0ddf297f2d27358f680daab5d3ac22fd45a4e1c3c3ec2c101a12",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "What was your experience with the Air Conditioning / Heating?",
+        "source": "template",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492263"
+      },
+      {
+        "question": "Did the equipment function properly?",
+        "source": "template_category",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492264"
+      },
+      {
+        "question": "How would you rate the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492265"
+      },
+      {
+        "question": "Were the policies applied consistently?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492265"
+      },
+      {
+        "question": "Did the Luggage Storage meet your expectations?",
+        "source": "template",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492266"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "7d027ef72c02eaa17af3c993fd5dba50d17b41a6280389a46c13c7e2c32a5b06",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "How would you rate the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492348"
+      },
+      {
+        "question": "Were the policies applied consistently?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492350"
+      },
+      {
+        "question": "How was the Check-out Time during this stay?",
+        "source": "template",
+        "gap_dimension": "checkout_time",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492351"
+      },
+      {
+        "question": "Were the rules easy to understand?",
+        "source": "template_category",
+        "gap_dimension": "checkout_time",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492351"
+      },
+      {
+        "question": "How is the Elevator currently?",
+        "source": "template",
+        "gap_dimension": "elevator",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492352"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "823fb2499b4e37d99acb65e7198e75965d6496fd1c579f976205c0e6179206df",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "How would you rate the Power Outlets & Charging?",
+        "source": "template",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492382"
+      },
+      {
+        "question": "Were the facilities in good working order?",
+        "source": "template_category",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492383"
+      },
+      {
+        "question": "How is the Air Conditioning / Heating currently?",
+        "source": "template",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492383"
+      },
+      {
+        "question": "Did the equipment function properly?",
+        "source": "template_category",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492384"
+      },
+      {
+        "question": "What was Breakfast Hours like on your recent visit?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492385"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "9a0043fd4258a1286db1e253ca591662b3aac849da12d0d4f67e08b8f59be65f",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "What was your experience with the Air Conditioning / Heating?",
+        "source": "template",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492413"
+      },
+      {
+        "question": "Did the equipment function properly?",
+        "source": "template_category",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492414"
+      },
+      {
+        "question": "How would you rate the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492415"
+      },
+      {
+        "question": "Were the hotel policies reasonable?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492416"
+      },
+      {
+        "question": "What was your experience with the Luggage Storage?",
+        "source": "template",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492417"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "a036cbe1d9fbf9cba088075d1b4d966ee871df55aa4a58ba0da23c116c499052",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "What was your experience with the Air Conditioning / Heating?",
+        "source": "template",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492443"
+      },
+      {
+        "question": "Did the equipment function properly?",
+        "source": "template_category",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492444"
+      },
+      {
+        "question": "How would you rate the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492445"
+      },
+      {
+        "question": "Were the policies applied consistently?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492446"
+      },
+      {
+        "question": "Were you satisfied with the Luggage Storage?",
+        "source": "template",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492446"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "db38b19b897dbece3e34919c662b3fd66d23b615395d11fb69264dd3a9b17723",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did the Breakfast Hours meet your expectations?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492474"
+      },
+      {
+        "question": "Were the rules easy to understand?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492475"
+      },
+      {
+        "question": "Did the Air Conditioning / Heating work well this time?",
+        "source": "template",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492475"
+      },
+      {
+        "question": "Were the facilities in good working order?",
+        "source": "template_category",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492476"
+      },
+      {
+        "question": "Did the Check-out Time work well this time?",
+        "source": "template",
+        "gap_dimension": "checkout_time",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492477"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "e52d67a758ce4ad0229aacc97e5dfe89984c384c51a70208f9e0cc65c9cd4676",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "How would you rate the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492502"
+      },
+      {
+        "question": "Were the policies applied consistently?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492503"
+      },
+      {
+        "question": "Did the Outside Noise Level meet your expectations?",
+        "source": "template",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492504"
+      },
+      {
+        "question": "Was it noisy around the hotel?",
+        "source": "template_category",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492505"
+      },
+      {
+        "question": "Did the Power Outlets & Charging meet your expectations?",
+        "source": "template",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492506"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "f2d8d9557208d58577e9df7ff34e42bf86fb5b10fdfae0c3040d14c374a2a2b9",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did the Breakfast Hours meet your expectations?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492531"
+      },
+      {
+        "question": "Were the policies applied consistently?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492532"
+      },
+      {
+        "question": "What was your experience with the Luggage Storage?",
+        "source": "template",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492533"
+      },
+      {
+        "question": "Were you satisfied with the service quality?",
+        "source": "template_category",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492533"
+      },
+      {
+        "question": "Were you satisfied with the Nearby Dining Options?",
+        "source": "template",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492534"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "fa014137b3ea9af6a90c0a86a1d099e46f7e56d6eb33db1ad1ec4bdac68c3caa",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did the Breakfast Hours meet your expectations?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492559"
+      },
+      {
+        "question": "Were the rules easy to understand?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492560"
+      },
+      {
+        "question": "What was your experience with the Power Outlets & Charging?",
+        "source": "template",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492561"
+      },
+      {
+        "question": "Did the equipment function properly?",
+        "source": "template_category",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492562"
+      },
+      {
+        "question": "How was the Elevator during this stay?",
+        "source": "template",
+        "gap_dimension": "elevator",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "current_status",
+        "generated_at": "2026-04-14T21:47:41.492562"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  },
+  {
+    "property_id": "ff26cdda236b233f7c481f0e896814075ac6bed335e162e0ff01d5491343f838",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "How would you rate the Breakfast Hours?",
+        "source": "template",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492587"
+      },
+      {
+        "question": "Were the rules easy to understand?",
+        "source": "template_category",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492588"
+      },
+      {
+        "question": "How would you rate the Luggage Storage?",
+        "source": "template",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492589"
+      },
+      {
+        "question": "Was the staff friendly and helpful?",
+        "source": "template_category",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "category_specific",
+        "generated_at": "2026-04-14T21:47:41.492590"
+      },
+      {
+        "question": "What was your experience with the Power Outlets & Charging?",
+        "source": "template",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "service_audit",
+        "generated_at": "2026-04-14T21:47:41.492590"
+      }
+    ],
+    "success": true,
+    "generation_method": "template_based"
+  }
+]
