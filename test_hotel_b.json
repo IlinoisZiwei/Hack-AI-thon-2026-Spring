@@ -1,0 +1,65 @@
+{
+  "property_id": "hotel_seaside_resort_002",
+  "top_gaps": [
+    {
+      "dimension": "pool_hours",
+      "label": "Swimming Pool",
+      "category": "hardware",
+      "reason": "never_mentioned",
+      "reason_label": "No guest feedback available",
+      "priority": 3,
+      "mention_count": 0,
+      "last_mentioned": null,
+      "dominant_stance": null,
+      "official_info": "Outdoor pool open 6am-10pm daily"
+    },
+    {
+      "dimension": "beach_access",
+      "label": "Beach Access",
+      "category": "surroundings",
+      "reason": "stale",
+      "reason_label": "Last mentioned 1 year ago",
+      "priority": 2,
+      "mention_count": 8,
+      "last_mentioned": "2025-04-10",
+      "dominant_stance": "positive",
+      "official_info": "Private beach access included"
+    },
+    {
+      "dimension": "spa_service",
+      "label": "Spa Services",
+      "category": "service",
+      "reason": "official_conflict",
+      "reason_label": "Official info conflicts with reviews (12 negative)",
+      "priority": 4,
+      "mention_count": 20,
+      "last_mentioned": "2026-03-25",
+      "dominant_stance": "negative",
+      "official_info": "Full-service spa with massage and treatments"
+    },
+    {
+      "dimension": "restaurant_quality",
+      "label": "Restaurant Food",
+      "category": "service",
+      "reason": "conflicting",
+      "reason_label": "Mixed reviews — 10 positive / 8 negative",
+      "priority": 1,
+      "mention_count": 18,
+      "last_mentioned": "2026-04-05",
+      "dominant_stance": "mixed",
+      "official_info": null
+    },
+    {
+      "dimension": "noise_level",
+      "label": "Room Noise",
+      "category": "hardware",
+      "reason": "stale",
+      "reason_label": "Last mentioned 5 months ago",
+      "priority": 2,
+      "mention_count": 15,
+      "last_mentioned": "2025-11-12",
+      "dominant_stance": "negative",
+      "official_info": "Soundproof rooms for peaceful stay"
+    }
+  ]
+}

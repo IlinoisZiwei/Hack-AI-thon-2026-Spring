@@ -1,0 +1,131 @@
+{
+  "property_id": "demo_hotel_001",
+  "questions_generated": 5,
+  "generation_method": "llm_enhanced",
+  "questions": [
+    {
+      "question": "你最近有使用过酒店提供的早餐服务吗？",
+      "source": "llm_enhanced",
+      "gap_dimension": "breakfast_hours",
+      "gap_reason": "never_mentioned",
+      "priority": 3,
+      "question_type": "simple_feedback",
+      "expected_outcome": "了解客人对早餐服务的使用情况",
+      "llm_priority": "medium",
+      "relevance_score": 0.0,
+      "generated_at": "2026-04-14T20:54:01.678846"
+    },
+    {
+      "question": "你觉得酒店的WiFi速度和连接稳定性如何？",
+      "source": "llm_enhanced",
+      "gap_dimension": "wifi_speed",
+      "gap_reason": "stale",
+      "priority": 2,
+      "question_type": "simple_feedback",
+      "expected_outcome": "了解客人对WiFi服务质量的感受",
+      "llm_priority": "high",
+      "relevance_score": 0.1,
+      "generated_at": "2026-04-14T20:54:01.678850"
+    },
+    {
+      "question": "你对酒店客房的清洁程度有什么看法？",
+      "source": "llm_enhanced",
+      "gap_dimension": "room_cleanliness",
+      "gap_reason": "official_conflict",
+      "priority": 4,
+      "question_type": "simple_feedback",
+      "expected_outcome": "了解客人对客房清洁度的感受",
+      "llm_priority": "low",
+      "relevance_score": 0.1,
+      "generated_at": "2026-04-14T20:54:01.678851"
+    },
+    {
+      "question": "你认为酒店员工的服务态度如何？",
+      "source": "llm_enhanced",
+      "gap_dimension": "staff_friendliness",
+      "gap_reason": "conflicting",
+      "priority": 1,
+      "question_type": "simple_feedback",
+      "expected_outcome": "了解客人对员工服务态度的评价",
+      "llm_priority": "high",
+      "relevance_score": 0.1,
+      "generated_at": "2026-04-14T20:54:01.678852"
+    },
+    {
+      "question": "你知道酒店停车政策有没有变化吗？",
+      "source": "llm_enhanced",
+      "gap_dimension": "parking",
+      "gap_reason": "stale",
+      "priority": 2,
+      "question_type": "simple_feedback",
+      "expected_outcome": "了解客人对停车政策信息的了解情况",
+      "llm_priority": "medium",
+      "relevance_score": 0.0,
+      "generated_at": "2026-04-14T20:54:01.678853"
+    }
+  ],
+  "input_gaps_count": 5,
+  "gaps_processed": [
+    {
+      "dimension": "breakfast_hours",
+      "label": "Breakfast Hours",
+      "category": "policy",
+      "reason": "never_mentioned",
+      "reason_label": "No data yet",
+      "priority": 3,
+      "mention_count": 0,
+      "last_mentioned": null,
+      "dominant_stance": null,
+      "official_info": null
+    },
+    {
+      "dimension": "wifi_speed",
+      "label": "WiFi & Internet",
+      "category": "hardware",
+      "reason": "stale",
+      "reason_label": "Last mentioned 8 months ago",
+      "priority": 2,
+      "mention_count": 12,
+      "last_mentioned": "2025-08-15",
+      "dominant_stance": "negative",
+      "official_info": "Free WiFi in all rooms and public areas"
+    },
+    {
+      "dimension": "room_cleanliness",
+      "label": "Room Cleanliness",
+      "category": "service",
+      "reason": "official_conflict",
+      "reason_label": "Official info conflicts with reviews (15 negative)",
+      "priority": 4,
+      "mention_count": 28,
+      "last_mentioned": "2026-03-10",
+      "dominant_stance": "negative",
+      "official_info": "Daily housekeeping with premium cleaning standards"
+    },
+    {
+      "dimension": "staff_friendliness",
+      "label": "Staff & Service",
+      "category": "service",
+      "reason": "conflicting",
+      "reason_label": "Mixed reviews — 8 positive / 6 negative",
+      "priority": 1,
+      "mention_count": 14,
+      "last_mentioned": "2026-04-01",
+      "dominant_stance": "mixed",
+      "official_info": null
+    },
+    {
+      "dimension": "parking",
+      "label": "Parking",
+      "category": "policy",
+      "reason": "stale",
+      "reason_label": "Last mentioned 6 months ago",
+      "priority": 2,
+      "mention_count": 5,
+      "last_mentioned": "2025-10-15",
+      "dominant_stance": "neutral",
+      "official_info": "Self-parking available for $15/night"
+    }
+  ],
+  "timestamp": "2026-04-14T20:54:01.678881"
+}

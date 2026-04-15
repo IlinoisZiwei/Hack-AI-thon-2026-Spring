@@ -11,8 +11,6 @@ __pycache__/
 venv/
 env/
 
-# Output (generated files)
-output/
 
 # Jupyter checkpoints
 .ipynb_checkpoints/

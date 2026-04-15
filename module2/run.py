@@ -1,195 +1,292 @@
 """
-Module 2 — 缺口评分系统运行脚本
-==============================
+Module 2 — Intelligent Question Generation System
+===================================================
 
-演示如何使用 Module 2 的缺口评分功能。
-支持与 Module 1 的集成，以及独立的评分分析。
+Generates targeted survey questions for hotels based on Module 1 gap analysis.
 
-使用方法:
-    python -m module2.run
+Usage:
+    python -m module2.run <module1_output.json>             # Process Module 1 JSON output
+    python -m module2.run --demo                            # Use built-in demo data
+    python -m module2.run --template-only                   # Template only, no LLM calls
+    python -m module2.run --batch <multiple_hotels.json>    # Batch process multiple hotels
+
+Output:
+    hotel_questions_<property_id>.json  — Questions generated for a specific hotel
+    or batch_questions_output.json       — Batch processing results
 """
 
+import argparse
+import json
 import logging
-from datetime import datetime
+import os
+import sys
 from pathlib import Path
+from typing import Dict, List
 
-import pandas as pd
-
-# 配置日志
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
+# Import project config
+try:
+    sys.path.append(str(Path(__file__).parent.parent))
+    from config import OPENAI_API_KEY
+except ImportError:
+    logger.warning("⚠️ Could not import config.py, will try environment variable for API key")
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-def demo_gap_scoring():
-    """演示缺口评分系统的基本用法"""
+from .question_generator import generate_hotel_questions, process_multiple_hotels
 
-    print("🏨 Module 2 缺口评分系统演示")
-    print("=" * 50)
 
-    # 尝试加载 Module 1 的输出数据
+def load_module1_output(file_path: str) -> Dict:
+    """Load Module 1 JSON output."""
     try:
-        from module1.run import main as module1_main
-        from module1.profiler import build_hotel_profiles
-
-        print("📊 正在运行 Module 1 生成酒店档案...")
-        # 这里应该从 Module 1 获取 hotel_profiles
-        # 为了演示，我们创建一些模拟数据
-
-        # 模拟酒店档案数据
-        hotel_profiles = create_mock_hotel_profiles()
-        print(f"✅ 加载了 {len(hotel_profiles)} 个酒店的档案数据")
-
-    except ImportError:
-        logger.warning("无法导入 Module 1，使用模拟数据进行演示")
-        hotel_profiles = create_mock_hotel_profiles()
-
-    # 导入 Module 2 功能
-    from .gap_scorer import compute_gap_scores, get_top_gaps, analyze_gap_patterns
-    from .business_weights import get_weight_stats
-
-    print("\n📈 计算缺口评分...")
-
-    # 计算所有缺口评分
-    gap_scores_df = compute_gap_scores(hotel_profiles)
-
-    print(f"✅ 完成评分计算，共 {len(gap_scores_df)} 条记录")
-    print(f"📊 评分范围: {gap_scores_df['gap_score'].min():.1f} - {gap_scores_df['gap_score'].max():.1f}")
-
-    # 显示商业权重统计
-    print("\n🎯 商业权重分布:")
-    weight_stats = get_weight_stats()
-    for key, value in weight_stats.items():
-        print(f"   {key}: {value}")
-
-    # 显示前10个最需要关注的缺口
-    print("\n🚨 前10个最需要关注的缺口:")
-    top_gaps = get_top_gaps(gap_scores_df, top_n=10, min_score=30.0)
-    if len(top_gaps) > 0:
-        for _, row in top_gaps.head(10).iterrows():
-            print(f"   🏨 {row['eg_property_id'][:12]}... | "
-                  f"{row['label']:<20} | "
-                  f"评分: {row['gap_score']:.1f} | "
-                  f"原因: {', '.join(row['reason_breakdown'])}")
-    else:
-        print("   ✅ 未发现高优先级缺口")
-
-    # 分析缺口模式
-    print("\n📈 缺口模式分析:")
-    analysis = analyze_gap_patterns(gap_scores_df)
-
-    print(f"   总缺口数量: {analysis['total_gaps']}")
-    print(f"   平均评分: {analysis['score_distribution']['mean']}")
-    print(f"   高优先级缺口: {analysis['high_priority_gaps']['count']} "
-          f"({analysis['high_priority_gaps']['percentage']}%)")
-
-    print("\n📊 按类别分布:")
-    for category, stats in analysis['category_breakdown'].items():
-        print(f"   {category:<12}: "
-              f"{stats['count']:3d}个 | "
-              f"平均评分 {stats['mean']:4.1f} | "
-              f"范围 {stats['min']:4.1f}-{stats['max']:4.1f}")
-
-    print("\n🔍 主要缺口原因:")
-    for reason, count in list(analysis['reason_frequency'].items())[:5]:
-        print(f"   {reason:<12}: {count:3d} 次")
-
-    # 保存结果
-    output_file = Path("gap_scores_output.csv")
-    gap_scores_df.to_csv(output_file, index=False, encoding="utf-8")
-    print(f"\n💾 评分结果已保存至: {output_file}")
-
-    return gap_scores_df
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        logger.info(f"✅ Successfully loaded Module 1 output: {file_path}")
+        return data
+    except FileNotFoundError:
+        logger.error(f"❌ File not found: {file_path}")
+        sys.exit(1)
+    except json.JSONDecodeError as e:
+        logger.error(f"❌ JSON parse error: {e}")
+        sys.exit(1)
 
 
-def create_mock_hotel_profiles():
-    """创建模拟的酒店档案数据用于演示"""
-
-    from datetime import datetime, timedelta
-    import random
-
-    # 模拟3个酒店的档案
-    hotel_profiles = {}
-
-    # 导入维度定义
-    try:
-        from module1.dimensions import ALL_DIMENSIONS, DIMENSIONS
-    except ImportError:
-        # 如果无法导入，使用简化的维度定义
-        ALL_DIMENSIONS = [
-            "wifi_speed", "room_cleanliness", "location_convenience",
-            "front_desk_efficiency", "parking", "breakfast_quality"
-        ]
-        DIMENSIONS = {dim: {"category": "service", "label": dim.replace("_", " ").title()}
-                     for dim in ALL_DIMENSIONS}
-
-    hotel_ids = [
-        "hotel_downtown_001",
-        "hotel_airport_002",
-        "hotel_business_003"
-    ]
-
-    for hotel_id in hotel_ids:
-        hotel_profiles[hotel_id] = {}
-
-        for dimension in ALL_DIMENSIONS:
-            # 随机生成维度信息，模拟真实的缺口场景
-            mention_count = random.choices([0, 1, 2, 5, 8, 15, 25],
-                                         weights=[2, 2, 2, 3, 3, 2, 1])[0]
-
-            if mention_count > 0:
-                # 有提及的维度
-                last_date = datetime.now() - timedelta(days=random.randint(1, 400))
-                last_mentioned = last_date.strftime("%Y-%m-%d")
-                stance_variance = random.uniform(0.0, 0.4)
-                dominant_stance = random.choice(["positive", "negative", "neutral", "mixed"])
-
-                stance_counts = {
-                    "positive": random.randint(0, mention_count),
-                    "negative": random.randint(0, mention_count),
-                    "mixed": random.randint(0, 2),
-                    "neutral": random.randint(0, 3),
-                }
-            else:
-                # 无提及的维度
-                last_mentioned = None
-                stance_variance = 0.0
-                dominant_stance = None
-                stance_counts = {"positive": 0, "negative": 0, "mixed": 0, "neutral": 0}
-
-            # 随机决定是否有官方信息和冲突
-            has_official_info = random.choice([True, False])
-            official_conflict = (has_official_info and
-                               dominant_stance == "negative" and
-                               mention_count >= 3 and
-                               random.choice([True, False]))
-
-            hotel_profiles[hotel_id][dimension] = {
-                "category": DIMENSIONS.get(dimension, {}).get("category", "service"),
-                "label": DIMENSIONS.get(dimension, {}).get("label", dimension.replace("_", " ").title()),
-                "mention_count": mention_count,
-                "last_mentioned": last_mentioned,
-                "dominant_stance": dominant_stance,
-                "stance_counts": stance_counts,
-                "stance_variance": stance_variance,
-                "has_official_info": has_official_info,
-                "official_conflict": official_conflict,
-                "official_info": f"官方描述: {dimension}" if has_official_info else None,
+def get_demo_data() -> Dict:
+    """Return demo Module 1 output data."""
+    return {
+        "property_id": "demo_hotel_001",
+        "top_gaps": [
+            {
+                "dimension": "breakfast_hours",
+                "label": "Breakfast Hours",
+                "category": "policy",
+                "reason": "never_mentioned",
+                "reason_label": "No data yet",
+                "priority": 3,
+                "mention_count": 0,
+                "last_mentioned": None,
+                "dominant_stance": None,
+                "official_info": None
+            },
+            {
+                "dimension": "wifi_speed",
+                "label": "WiFi & Internet",
+                "category": "hardware",
+                "reason": "stale",
+                "reason_label": "Last mentioned 8 months ago",
+                "priority": 2,
+                "mention_count": 12,
+                "last_mentioned": "2025-08-15",
+                "dominant_stance": "negative",
+                "official_info": "Free WiFi in all rooms and public areas"
+            },
+            {
+                "dimension": "room_cleanliness",
+                "label": "Room Cleanliness",
+                "category": "service",
+                "reason": "official_conflict",
+                "reason_label": "Official info conflicts with reviews (15 negative)",
+                "priority": 4,
+                "mention_count": 28,
+                "last_mentioned": "2026-03-10",
+                "dominant_stance": "negative",
+                "official_info": "Daily housekeeping with premium cleaning standards"
+            },
+            {
+                "dimension": "staff_friendliness",
+                "label": "Staff & Service",
+                "category": "service",
+                "reason": "conflicting",
+                "reason_label": "Mixed reviews — 8 positive / 6 negative",
+                "priority": 1,
+                "mention_count": 14,
+                "last_mentioned": "2026-04-01",
+                "dominant_stance": "mixed",
+                "official_info": None
+            },
+            {
+                "dimension": "parking",
+                "label": "Parking",
+                "category": "policy",
+                "reason": "stale",
+                "reason_label": "Last mentioned 6 months ago",
+                "priority": 2,
+                "mention_count": 5,
+                "last_mentioned": "2025-10-15",
+                "dominant_stance": "neutral",
+                "official_info": "Self-parking available for $15/night"
             }
+        ]
+    }
 
-    return hotel_profiles
+
+def save_results(results: Dict, output_path: str):
+    """Save results to a JSON file."""
+    try:
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(results, f, indent=2, ensure_ascii=False)
+        logger.info(f"✅ Results saved to: {output_path}")
+    except Exception as e:
+        logger.error(f"❌ Failed to save results: {e}")
+
+
+def display_results(results: Dict):
+    """Display results in a formatted terminal output."""
+    print("\n" + "="*80)
+    print("🏨 HOTEL QUESTION GENERATION RESULTS")
+    print("="*80)
+
+    property_id = results.get("property_id", "Unknown")
+    print(f"🏨 Hotel: {property_id}")
+    print(f"📝 Questions Generated: {results.get('questions_generated', 0)}")
+    print(f"🛠️  Generation Method: {results.get('generation_method', 'unknown')}")
+    print(f"📊 Input Gaps: {results.get('input_gaps_count', 0)}")
+
+    print("\n" + "─"*80)
+    print("GENERATED QUESTIONS:")
+    print("─"*80)
+
+    questions = results.get("questions", [])
+    if not questions:
+        print("❌ No questions generated")
+        return
+
+    for i, q in enumerate(questions, 1):
+        question_text = q.get("question", "")
+        gap_dim = q.get("gap_dimension", "")
+        priority = q.get("priority", 0)
+        source = q.get("source", "unknown")
+
+        # Priority icons
+        priority_icon = {4: "🚨", 3: "⚠️", 2: "📋", 1: "📝"}.get(priority, "❓")
+
+        print(f"\n{i:2d}. {priority_icon} [{gap_dim}]")
+        print(f"    {question_text}")
+        print(f"    Source: {source} | Priority: {priority}")
+
+        if q.get("expected_outcome"):
+            print(f"    Expected: {q['expected_outcome']}")
+
+    print("\n" + "="*80)
 
 
 def main():
-    """主函数"""
+    """Main function."""
+    parser = argparse.ArgumentParser(
+        description="Module 2: Intelligent Question Generation System",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python -m module2.run hotel_gaps.json           # Process a single hotel
+  python -m module2.run --demo                    # Run demo
+  python -m module2.run --template-only input.json  # Template only
+  python -m module2.run --batch hotels.json       # Batch process
+        """
+    )
+
+    parser.add_argument("input_file", nargs="?",
+                      help="Path to Module 1 JSON output file")
+    parser.add_argument("--demo", action="store_true",
+                      help="Run demo with built-in sample data")
+    parser.add_argument("--template-only", action="store_true",
+                      help="Generate questions using templates only, no LLM calls")
+    parser.add_argument("--batch", action="store_true",
+                      help="Batch process multiple hotels (input file should contain an array)")
+    parser.add_argument("--output", "-o",
+                      help="Output file path (optional)")
+    parser.add_argument("--max-questions", type=int, default=5,
+                      help="Max questions per hotel (default: 5)")
+    parser.add_argument("--no-display", action="store_true",
+                      help="Don't display results in terminal")
+
+    args = parser.parse_args()
+
+    # Validate input
+    if not args.demo and not args.input_file:
+        parser.error("Must provide an input file or use --demo")
+
+    # Get API key
+    api_key = OPENAI_API_KEY
+    if not api_key or api_key.startswith("your_"):
+        logger.warning("⚠️ No valid OPENAI_API_KEY configured, will use template mode")
+        api_key = None
+
+    use_llm = not args.template_only and api_key is not None
+
     try:
-        demo_gap_scoring()
-        print("\n✅ Module 2 演示完成！")
+        if args.demo:
+            # Demo mode
+            logger.info("🎯 Running demo mode")
+            module1_data = get_demo_data()
+
+            results = generate_hotel_questions(
+                module1_data,
+                openai_api_key=api_key,
+                use_llm=use_llm,
+                max_questions=args.max_questions
+            )
+
+            output_path = args.output or "demo_questions.json"
+
+        elif args.batch:
+            # Batch processing mode
+            logger.info("📦 Running batch processing mode")
+            hotels_data = load_module1_output(args.input_file)
+
+            if not isinstance(hotels_data, list):
+                logger.error("❌ Batch mode requires input file to contain an array of hotels")
+                sys.exit(1)
+
+            results = process_multiple_hotels(
+                hotels_data,
+                openai_api_key=api_key,
+                use_llm=use_llm,
+                max_questions=args.max_questions
+            )
+
+            output_path = args.output or "batch_questions_output.json"
+
+            # Special display for batch results
+            if not args.no_display:
+                print(f"\n🏨 Batch processing complete: {len(results)} hotels")
+                success_count = sum(1 for r in results if r.get('success', True))
+                print(f"✅ Succeeded: {success_count} | ❌ Failed: {len(results) - success_count}")
+
+        else:
+            # Single hotel processing mode
+            logger.info("🏨 Running single hotel processing mode")
+            module1_data = load_module1_output(args.input_file)
+
+            results = generate_hotel_questions(
+                module1_data,
+                openai_api_key=api_key,
+                use_llm=use_llm,
+                max_questions=args.max_questions
+            )
+
+            property_id = results.get("property_id", "unknown")[:12]
+            output_path = args.output or f"hotel_questions_{property_id}.json"
+
+        # Save results
+        save_results(results, output_path)
+
+        # Display results (unless batch mode or user disabled)
+        if not args.no_display and not args.batch:
+            display_results(results)
+
+        logger.info("🎉 Module 2 complete!")
+
+    except KeyboardInterrupt:
+        logger.info("⏹️  Operation interrupted by user")
+        sys.exit(0)
     except Exception as e:
-        logger.error(f"运行失败: {e}")
-        raise
+        logger.error(f"❌ Run failed: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
