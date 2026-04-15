@@ -1,0 +1,847 @@
+[
+  {
+    "property_id": "110f01b8ae518a0ee41047bce5c22572988a435e10ead72dc1af793bba8ce0b0",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "noise_level",
+        "label": "Outside Noise Level",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 8 months ago",
+        "priority": 2,
+        "mention_count": 3,
+        "last_mentioned": "2025-07-19",
+        "dominant_stance": "positive",
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "3216b1b7885bffdb336265a8de7322ba0cd477cfb3d4f99d19acf488f76a1941",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "breakfast_quality",
+        "label": "Breakfast",
+        "category": "service",
+        "reason": "stale",
+        "reason_label": "Last mentioned 11 months ago",
+        "priority": 2,
+        "mention_count": 29,
+        "last_mentioned": "2025-05-06",
+        "dominant_stance": "positive",
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "stale",
+        "reason_label": "Last mentioned 17 months ago",
+        "priority": 2,
+        "mention_count": 3,
+        "last_mentioned": "2024-11-05",
+        "dominant_stance": "positive",
+        "official_info": null
+      },
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 37 months ago",
+        "priority": 2,
+        "mention_count": 4,
+        "last_mentioned": "2023-03-16",
+        "dominant_stance": "neutral",
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "3b984f3ba8df55b2609a1e33fd694cf8407842e1d833c9b4d993b07fc83a2820",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "noise_level",
+        "label": "Outside Noise Level",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "5f5a0cd8662f0ddf297f2d27358f680daab5d3ac22fd45a4e1c3c3ec2c101a12",
+    "top_gaps": [
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "noise_level",
+        "label": "Outside Noise Level",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "7d027ef72c02eaa17af3c993fd5dba50d17b41a6280389a46c13c7e2c32a5b06",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "checkout_time",
+        "label": "Check-out Time",
+        "category": "policy",
+        "reason": "stale",
+        "reason_label": "Last mentioned 10 months ago",
+        "priority": 2,
+        "mention_count": 1,
+        "last_mentioned": "2025-06-16",
+        "dominant_stance": "positive",
+        "official_info": "Check-out by 11:00 AM; Check-out before 11:00 AM; Express check-out available"
+      },
+      {
+        "dimension": "elevator",
+        "label": "Elevator",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 22 months ago",
+        "priority": 2,
+        "mention_count": 17,
+        "last_mentioned": "2024-06-05",
+        "dominant_stance": "neutral",
+        "official_info": "elevator; wheelchair-accessible path to elevator"
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "stale",
+        "reason_label": "Last mentioned 10 months ago",
+        "priority": 2,
+        "mention_count": 2,
+        "last_mentioned": "2025-06-16",
+        "dominant_stance": "mixed",
+        "official_info": null
+      },
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 32 months ago",
+        "priority": 2,
+        "mention_count": 3,
+        "last_mentioned": "2023-08-08",
+        "dominant_stance": "neutral",
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "823fb2499b4e37d99acb65e7198e75965d6496fd1c579f976205c0e6179206df",
+    "top_gaps": [
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 6 months ago",
+        "priority": 2,
+        "mention_count": 11,
+        "last_mentioned": "2025-09-30",
+        "dominant_stance": "neutral",
+        "official_info": null
+      },
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "stale",
+        "reason_label": "Last mentioned 19 months ago",
+        "priority": 2,
+        "mention_count": 2,
+        "last_mentioned": "2024-09-13",
+        "dominant_stance": "positive",
+        "official_info": null
+      },
+      {
+        "dimension": "checkout_time",
+        "label": "Check-out Time",
+        "category": "policy",
+        "reason": "stale",
+        "reason_label": "Last mentioned 20 months ago",
+        "priority": 2,
+        "mention_count": 1,
+        "last_mentioned": "2024-08-07",
+        "dominant_stance": "positive",
+        "official_info": "Check-out by 11:00 AM; Check-out before 11 AM"
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "stale",
+        "reason_label": "Last mentioned 6 months ago",
+        "priority": 2,
+        "mention_count": 10,
+        "last_mentioned": "2025-10-07",
+        "dominant_stance": "neutral",
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "9a0043fd4258a1286db1e253ca591662b3aac849da12d0d4f67e08b8f59be65f",
+    "top_gaps": [
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "water_pressure",
+        "label": "Water Pressure & Shower",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "a036cbe1d9fbf9cba088075d1b4d966ee871df55aa4a58ba0da23c116c499052",
+    "top_gaps": [
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "noise_level",
+        "label": "Outside Noise Level",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "db38b19b897dbece3e34919c662b3fd66d23b615395d11fb69264dd3a9b17723",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 22 months ago",
+        "priority": 2,
+        "mention_count": 5,
+        "last_mentioned": "2024-05-31",
+        "dominant_stance": "positive",
+        "official_info": null
+      },
+      {
+        "dimension": "checkout_time",
+        "label": "Check-out Time",
+        "category": "policy",
+        "reason": "stale",
+        "reason_label": "Last mentioned 34 months ago",
+        "priority": 2,
+        "mention_count": 1,
+        "last_mentioned": "2023-06-21",
+        "dominant_stance": "neutral",
+        "official_info": "Check-out by 11:00 AM; A late check-out fee will be charged; Check-out before 11 AM; Contactless check-out available; Express check-out available; Late check-out subject to availability"
+      },
+      {
+        "dimension": "elevator",
+        "label": "Elevator",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 10 months ago",
+        "priority": 2,
+        "mention_count": 4,
+        "last_mentioned": "2025-05-28",
+        "dominant_stance": "neutral",
+        "official_info": "elevator; elevator door width (inches): 36; wheelchair-accessible path to elevator"
+      },
+      {
+        "dimension": "front_desk_efficiency",
+        "label": "Front Desk & Check-in",
+        "category": "service",
+        "reason": "stale",
+        "reason_label": "Last mentioned 6 months ago",
+        "priority": 2,
+        "mention_count": 63,
+        "last_mentioned": "2025-10-13",
+        "dominant_stance": "positive",
+        "official_info": "Check-in: 4:00 PM \u2013 anytime; front desk staff will greet guests on arrival at the property; information provided by the property may be translated using automated translation tools"
+      }
+    ]
+  },
+  {
+    "property_id": "e52d67a758ce4ad0229aacc97e5dfe89984c384c51a70208f9e0cc65c9cd4676",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "noise_level",
+        "label": "Outside Noise Level",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 11 months ago",
+        "priority": 2,
+        "mention_count": 1,
+        "last_mentioned": "2025-04-20",
+        "dominant_stance": "neutral",
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "stale",
+        "reason_label": "Last mentioned 37 months ago",
+        "priority": 2,
+        "mention_count": 1,
+        "last_mentioned": "2023-03-02",
+        "dominant_stance": "neutral",
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "f2d8d9557208d58577e9df7ff34e42bf86fb5b10fdfae0c3040d14c374a2a2b9",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "noise_level",
+        "label": "Outside Noise Level",
+        "category": "surroundings",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 37 months ago",
+        "priority": 2,
+        "mention_count": 5,
+        "last_mentioned": "2023-03-16",
+        "dominant_stance": "neutral",
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "fa014137b3ea9af6a90c0a86a1d099e46f7e56d6eb33db1ad1ec4bdac68c3caa",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "elevator",
+        "label": "Elevator",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 6 months ago",
+        "priority": 2,
+        "mention_count": 19,
+        "last_mentioned": "2025-09-29",
+        "dominant_stance": "neutral",
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "stale",
+        "reason_label": "Last mentioned 6 months ago",
+        "priority": 2,
+        "mention_count": 20,
+        "last_mentioned": "2025-09-29",
+        "dominant_stance": "neutral",
+        "official_info": null
+      },
+      {
+        "dimension": "nearby_dining",
+        "label": "Nearby Dining Options",
+        "category": "surroundings",
+        "reason": "stale",
+        "reason_label": "Last mentioned 11 months ago",
+        "priority": 2,
+        "mention_count": 3,
+        "last_mentioned": "2025-05-07",
+        "dominant_stance": "neutral",
+        "official_info": null
+      }
+    ]
+  },
+  {
+    "property_id": "ff26cdda236b233f7c481f0e896814075ac6bed335e162e0ff01d5491343f838",
+    "top_gaps": [
+      {
+        "dimension": "breakfast_hours",
+        "label": "Breakfast Hours",
+        "category": "policy",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "luggage_storage",
+        "label": "Luggage Storage",
+        "category": "service",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "power_outlets",
+        "label": "Power Outlets & Charging",
+        "category": "hardware",
+        "reason": "never_mentioned",
+        "reason_label": "No data yet",
+        "priority": 3,
+        "mention_count": 0,
+        "last_mentioned": null,
+        "dominant_stance": null,
+        "official_info": null
+      },
+      {
+        "dimension": "air_conditioning",
+        "label": "Air Conditioning / Heating",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 8 months ago",
+        "priority": 2,
+        "mention_count": 5,
+        "last_mentioned": "2025-08-05",
+        "dominant_stance": "neutral",
+        "official_info": null
+      },
+      {
+        "dimension": "elevator",
+        "label": "Elevator",
+        "category": "hardware",
+        "reason": "stale",
+        "reason_label": "Last mentioned 13 months ago",
+        "priority": 2,
+        "mention_count": 2,
+        "last_mentioned": "2025-03-07",
+        "dominant_stance": "negative",
+        "official_info": "elevator"
+      }
+    ]
+  }
+]

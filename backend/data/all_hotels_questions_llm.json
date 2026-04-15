@@ -1,0 +1,886 @@
+[
+  {
+    "property_id": "110f01b8ae518a0ee41047bce5c22572988a435e10ead72dc1af793bba8ce0b0",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did you find the breakfast hours convenient during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast hours convenience",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:47:52.442524"
+      },
+      {
+        "question": "Were you satisfied with the dining options available near the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on nearby dining options satisfaction",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:47:52.442532"
+      },
+      {
+        "question": "How would you rate the noise level around the hotel premises?",
+        "source": "llm_enhanced",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "rating_request",
+        "expected_outcome": "Rating on noise level",
+        "llm_priority": "low",
+        "relevance_score": 0.25,
+        "generated_at": "2026-04-14T21:47:52.442534"
+      },
+      {
+        "question": "Were the power outlets and charging facilities easily accessible in your room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on power outlets accessibility",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:47:52.442536"
+      },
+      {
+        "question": "Did you find the air conditioning/heating system in your room satisfactory?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on air conditioning/heating satisfaction",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:47:52.442538"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "3216b1b7885bffdb336265a8de7322ba0cd477cfb3d4f99d19acf488f76a1941",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did you find the breakfast hours convenient during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast hours convenience",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:47:56.131796"
+      },
+      {
+        "question": "How would you rate the luggage storage service at the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "rating_request",
+        "expected_outcome": "Rating of luggage storage service",
+        "llm_priority": "low",
+        "relevance_score": 0.65,
+        "generated_at": "2026-04-14T21:47:56.131804"
+      },
+      {
+        "question": "Were you satisfied with the breakfast options provided by the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_quality",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast options satisfaction",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:47:56.131807"
+      },
+      {
+        "question": "Could you recommend any nearby dining options for future guests?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Updated information on nearby dining options",
+        "llm_priority": "medium",
+        "relevance_score": 0.4,
+        "generated_at": "2026-04-14T21:47:56.131808"
+      },
+      {
+        "question": "Were there enough power outlets for charging your devices in the room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on availability of power outlets",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:47:56.131810"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "3b984f3ba8df55b2609a1e33fd694cf8407842e1d833c9b4d993b07fc83a2820",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Were the breakfast hours clearly communicated to you?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Clarity on breakfast timing information",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:47:59.364622"
+      },
+      {
+        "question": "Was the luggage storage service easily accessible for you?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on luggage storage convenience",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:47:59.364628"
+      },
+      {
+        "question": "Did you find it easy to locate nearby dining options from the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Insight on the ease of finding dining places nearby",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:47:59.364630"
+      },
+      {
+        "question": "Did you experience any disturbance from outside noise during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on noise levels impacting stay",
+        "llm_priority": "low",
+        "relevance_score": 0.25,
+        "generated_at": "2026-04-14T21:47:59.364632"
+      },
+      {
+        "question": "Were there enough power outlets for your charging needs in the room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Assessment of charging facilities availability",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:47:59.364633"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "5f5a0cd8662f0ddf297f2d27358f680daab5d3ac22fd45a4e1c3c3ec2c101a12",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did you find the air conditioning/heating in your room satisfactory?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Guest satisfaction with room temperature control",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:03.473709"
+      },
+      {
+        "question": "Were the breakfast hours convenient for you during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast timing suitability",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:03.473721"
+      },
+      {
+        "question": "Did you utilize the luggage storage service during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Usage feedback on luggage storage",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:03.473724"
+      },
+      {
+        "question": "How easy was it for you to find nearby dining options from the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Guest experience with finding dining options",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:03.473726"
+      },
+      {
+        "question": "Did outside noise levels impact your sleep quality during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on noise disturbance impact",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:03.473728"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "7d027ef72c02eaa17af3c993fd5dba50d17b41a6280389a46c13c7e2c32a5b06",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Were the breakfast hours convenient for you?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast timing",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:06.623172"
+      },
+      {
+        "question": "Was the check-out time clearly communicated to you?",
+        "source": "llm_enhanced",
+        "gap_dimension": "checkout_time",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Clarity of check-out information",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:06.623177"
+      },
+      {
+        "question": "Did you find the elevator easily accessible?",
+        "source": "llm_enhanced",
+        "gap_dimension": "elevator",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on elevator accessibility",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:06.623179"
+      },
+      {
+        "question": "Were you satisfied with the nearby dining options?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on dining choices nearby",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:06.623180"
+      },
+      {
+        "question": "Did you find enough power outlets for charging your devices?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on availability of power outlets",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:06.623180"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "823fb2499b4e37d99acb65e7198e75965d6496fd1c579f976205c0e6179206df",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Were there enough power outlets in your room for charging devices?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on availability of power outlets",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:10.759139"
+      },
+      {
+        "question": "How was the air conditioning/heating in your room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on the functionality of air conditioning/heating",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:10.759150"
+      },
+      {
+        "question": "Were the breakfast hours convenient for you during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on the suitability of breakfast hours",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:10.759153"
+      },
+      {
+        "question": "Did the check-out time meet your needs?",
+        "source": "llm_enhanced",
+        "gap_dimension": "checkout_time",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on the adequacy of the check-out time",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:10.759155"
+      },
+      {
+        "question": "Was the luggage storage service easily accessible for you?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on the accessibility of luggage storage",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:10.759156"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "9a0043fd4258a1286db1e253ca591662b3aac849da12d0d4f67e08b8f59be65f",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "How was the air conditioning/heating in your room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on room temperature comfort",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:13.939919"
+      },
+      {
+        "question": "Were the breakfast hours convenient for you during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast timing satisfaction",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:13.939928"
+      },
+      {
+        "question": "Did you find the luggage storage services easily accessible?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on luggage storage convenience",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:13.939930"
+      },
+      {
+        "question": "Were you satisfied with the dining options available nearby?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on dining choices satisfaction",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:13.939931"
+      },
+      {
+        "question": "How was the water pressure and shower quality in your room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "water_pressure",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on water pressure and shower experience",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:13.939933"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "a036cbe1d9fbf9cba088075d1b4d966ee871df55aa4a58ba0da23c116c499052",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did you find the air conditioning/heating in your room comfortable?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Guest comfort level with room temperature",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:17.307285"
+      },
+      {
+        "question": "Were the breakfast hours convenient for you during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Guest satisfaction with breakfast timing",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:17.307290"
+      },
+      {
+        "question": "Did you utilize the luggage storage service during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Guest usage of luggage storage",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:17.307291"
+      },
+      {
+        "question": "Were you satisfied with the dining options available near the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Guest satisfaction with dining choices nearby",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:17.307292"
+      },
+      {
+        "question": "Did you experience any disturbance from outside noise during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Guest perception of noise level around the hotel",
+        "llm_priority": "low",
+        "relevance_score": 0.25,
+        "generated_at": "2026-04-14T21:48:17.307292"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "db38b19b897dbece3e34919c662b3fd66d23b615395d11fb69264dd3a9b17723",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "How was your check-in experience at the front desk?",
+        "source": "llm_enhanced",
+        "gap_dimension": "front_desk_efficiency",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on recent check-in process",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:21.336373"
+      },
+      {
+        "question": "Did you find the breakfast hours convenient during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast timing",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:21.336377"
+      },
+      {
+        "question": "Were you satisfied with the air conditioning/heating in your room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on room temperature control",
+        "llm_priority": "high",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:21.336378"
+      },
+      {
+        "question": "How was your experience with the elevator during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "elevator",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on elevator functionality",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:21.336379"
+      },
+      {
+        "question": "Was the check-out time convenient for you on the day of departure?",
+        "source": "llm_enhanced",
+        "gap_dimension": "checkout_time",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on check-out timing",
+        "llm_priority": "high",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:21.336380"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "e52d67a758ce4ad0229aacc97e5dfe89984c384c51a70208f9e0cc65c9cd4676",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Were you satisfied with the breakfast hours during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast hours satisfaction",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:24.820166"
+      },
+      {
+        "question": "How was the noise level outside the hotel during your visit?",
+        "source": "llm_enhanced",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on outside noise level",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:24.820172"
+      },
+      {
+        "question": "Did you find enough power outlets for charging your devices in the room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on availability of power outlets",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:24.820174"
+      },
+      {
+        "question": "Was the air conditioning/heating in your room comfortable and up-to-date?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on room temperature control",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:24.820176"
+      },
+      {
+        "question": "Were you satisfied with the luggage storage service provided by the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on luggage storage experience",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:24.820177"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "f2d8d9557208d58577e9df7ff34e42bf86fb5b10fdfae0c3040d14c374a2a2b9",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did you find the breakfast hours convenient during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast hours convenience",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:28.963250"
+      },
+      {
+        "question": "How was your experience with the luggage storage service?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on luggage storage service",
+        "llm_priority": "low",
+        "relevance_score": 0.65,
+        "generated_at": "2026-04-14T21:48:28.963255"
+      },
+      {
+        "question": "Were you satisfied with the nearby dining options around the hotel?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on dining options satisfaction",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:28.963256"
+      },
+      {
+        "question": "Did you experience any issues with outside noise levels during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "noise_level",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on noise level experience",
+        "llm_priority": "low",
+        "relevance_score": 0.65,
+        "generated_at": "2026-04-14T21:48:28.963257"
+      },
+      {
+        "question": "How would you rate the effectiveness of the air conditioning/heating in your room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "rating_request",
+        "expected_outcome": "Rating on air conditioning/heating effectiveness",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:28.963258"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "fa014137b3ea9af6a90c0a86a1d099e46f7e56d6eb33db1ad1ec4bdac68c3caa",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did you find the breakfast hours convenient during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast hours convenience",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:32.749100"
+      },
+      {
+        "question": "Were there enough power outlets in your room for charging your devices?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on availability of power outlets",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:32.749110"
+      },
+      {
+        "question": "How was your experience with the elevator? Any feedback to share?",
+        "source": "llm_enhanced",
+        "gap_dimension": "elevator",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "experience_check",
+        "expected_outcome": "General feedback on elevator experience",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:32.749112"
+      },
+      {
+        "question": "Did you utilize the luggage storage service during your stay? Any comments on its convenience?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "experience_check",
+        "expected_outcome": "Feedback on luggage storage service",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:32.749115"
+      },
+      {
+        "question": "Have you tried any nearby dining options recommended by the hotel? How was your experience?",
+        "source": "llm_enhanced",
+        "gap_dimension": "nearby_dining",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "experience_check",
+        "expected_outcome": "Feedback on nearby dining options",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:32.749117"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  },
+  {
+    "property_id": "ff26cdda236b233f7c481f0e896814075ac6bed335e162e0ff01d5491343f838",
+    "questions_generated": 5,
+    "questions": [
+      {
+        "question": "Did you find the breakfast hours convenient during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "breakfast_hours",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on breakfast hour convenience",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:37.004507"
+      },
+      {
+        "question": "Were you satisfied with the luggage storage service provided?",
+        "source": "llm_enhanced",
+        "gap_dimension": "luggage_storage",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on luggage storage service satisfaction",
+        "llm_priority": "low",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:37.004520"
+      },
+      {
+        "question": "How was the availability of power outlets for charging your devices in your room?",
+        "source": "llm_enhanced",
+        "gap_dimension": "power_outlets",
+        "gap_reason": "never_mentioned",
+        "priority": 3,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on power outlet availability",
+        "llm_priority": "low",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:37.004523"
+      },
+      {
+        "question": "Was the air conditioning/heating in your room comfortable and up-to-date?",
+        "source": "llm_enhanced",
+        "gap_dimension": "air_conditioning",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on air conditioning/heating comfort and modernity",
+        "llm_priority": "medium",
+        "relevance_score": 0.1,
+        "generated_at": "2026-04-14T21:48:37.004525"
+      },
+      {
+        "question": "How was your experience using the elevator during your stay?",
+        "source": "llm_enhanced",
+        "gap_dimension": "elevator",
+        "gap_reason": "stale",
+        "priority": 2,
+        "question_type": "simple_feedback",
+        "expected_outcome": "Feedback on elevator usability and condition",
+        "llm_priority": "medium",
+        "relevance_score": 0.5,
+        "generated_at": "2026-04-14T21:48:37.004527"
+      }
+    ],
+    "success": true,
+    "generation_method": "llm_enhanced"
+  }
+]
