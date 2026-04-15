@@ -28,13 +28,8 @@ export default function VoiceInput({ onResult }) {
       }
     }
 
-    recognition.onerror = () => {
-      setListening(false)
-    }
-
-    recognition.onend = () => {
-      setListening(false)
-    }
+    recognition.onerror = () => setListening(false)
+    recognition.onend = () => setListening(false)
 
     recognitionRef.current = recognition
     recognition.start()
@@ -43,31 +38,37 @@ export default function VoiceInput({ onResult }) {
   }
 
   const stopListening = () => {
-    if (recognitionRef.current) {
-      recognitionRef.current.stop()
-    }
+    if (recognitionRef.current) recognitionRef.current.stop()
     setListening(false)
   }
 
   return (
-    <div className="text-center">
+    <div className="text-center py-4">
       <button
         onClick={listening ? stopListening : startListening}
         className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto transition-all cursor-pointer ${
           listening
-            ? 'bg-red-500 animate-pulse shadow-lg shadow-red-200'
-            : 'bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200'
+            ? 'bg-gradient-to-br from-red-500 to-pink-500 animate-pulse shadow-xl shadow-red-200/50'
+            : 'bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 shadow-xl shadow-blue-200/50'
         }`}
       >
-        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-14 0m14 0a7 7 0 00-14 0m14 0v1a7 7 0 01-14 0v-1m7 8v4m-4 0h8" />
-        </svg>
+        {listening ? (
+          <div className="flex gap-1">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="w-1 bg-white rounded-full animate-pulse" style={{ height: `${12 + i * 6}px`, animationDelay: `${i * 0.15}s` }} />
+            ))}
+          </div>
+        ) : (
+          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-14 0m14 0a7 7 0 00-14 0m14 0v1a7 7 0 01-14 0v-1m7 8v4m-4 0h8" />
+          </svg>
+        )}
       </button>
-      <p className="mt-3 text-sm text-gray-500">
-        {listening ? 'Listening... tap to stop' : 'Tap to speak'}
+      <p className="mt-3 text-sm text-gray-500 font-medium">
+        {listening ? '🔴 Listening... tap to stop' : '🎤 Tap to speak'}
       </p>
       {transcript && (
-        <div className="mt-3 bg-gray-50 rounded-xl p-3 text-sm text-gray-700">
+        <div className="mt-3 glass-card rounded-xl p-3 text-sm text-gray-700 max-w-xs mx-auto animate-fade-in">
           "{transcript}"
         </div>
       )}
