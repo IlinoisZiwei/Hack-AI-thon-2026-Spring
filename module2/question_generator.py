@@ -3,7 +3,7 @@ Module 2 — Intelligent Question Generation Engine
 ===================================================
 
 Combines LLM-enhanced and template-fallback question generation.
-Based on Module 1 gap analysis, generates 5 specific, actionable survey
+Based on Module 1 gap analysis, generates specific, actionable survey
 questions for each hotel.
 
 Design Features:
@@ -18,11 +18,243 @@ import json
 import logging
 import os
 import random
-from typing import Dict, List, Optional, Tuple
+import re
+from typing import Any, Dict, List, Optional, Set, Tuple
 
 from .question_templates import generate_template_questions, assess_question_relevance
+from module1.extractor import extract_rule_based
+from module1.dimensions import DIMENSIONS
 
 logger = logging.getLogger(__name__)
+
+
+LOW_FRICTION_KEYWORDS = {
+    "wifi", "internet", "parking", "breakfast", "pool", "gym",
+    "noise", "quiet", "location", "pet", "check", "shuttle",
+    "elevator", "air conditioning", "heater", "water", "shower"
+}
+
+
+def _build_review_row(
+    review_text: str,
+    review_title: str = "",
+    rating_dict: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    full_text = f"{review_title} {review_text}".strip().lower()
+    return {
+        "review_text_clean": full_text,
+        "rating_dict": rating_dict or {},
+    }
+
+
+def _extract_review_mentions(
+    review_text: str,
+    review_title: str = "",
+    rating_dict: Optional[Dict[str, Any]] = None,
+) -> List[Dict[str, Any]]:
+    row = _build_review_row(
+        review_text=review_text,
+        review_title=review_title,
+        rating_dict=rating_dict,
+    )
+    return extract_rule_based(row)
+
+
+def _mentioned_dimensions(mentions: List[Dict[str, Any]]) -> Set[str]:
+    return {
+        m.get("dimension")
+        for m in mentions
+        if m.get("dimension")
+    }
+
+
+def _mentioned_categories(mentioned_dims: Set[str]) -> Set[str]:
+    cats = set()
+    for dim in mentioned_dims:
+        if dim in DIMENSIONS:
+            cats.add(DIMENSIONS[dim].get("category"))
+    return {c for c in cats if c}
+
+
+def _tokenize(text: str) -> Set[str]:
+    return set(re.findall(r"[a-zA-Z]+", (text or "").lower()))
+
+
+def _normalize_gap_importance(gap: Dict[str, Any], max_gap_score: float) -> float:
+    """
+    Normalize gap importance to [0,1].
+    Prefer gap_score if present, otherwise fall back to priority.
+    """
+    try:
+        gap_score = float(gap.get("gap_score", 0))
+    except (TypeError, ValueError):
+        gap_score = 0.0
+
+    if max_gap_score > 0:
+        return min(max(gap_score / max_gap_score, 0.0), 1.0)
+
+    try:
+        priority = float(gap.get("priority", 2))
+    except (TypeError, ValueError):
+        priority = 2.0
+
+    return min(max(priority / 4.0, 0.0), 1.0)
+
+
+def _compute_review_relevance(
+    gap: Dict[str, Any],
+    review_text: str,
+    mentioned_categories: Set[str],
+) -> float:
+    """
+    Relevance to this review:
+    - boost if gap category matches what the user is already talking about
+    - boost if label/dimension tokens overlap with review text
+    - small boost if review uses problem/contrast language
+    """
+    score = 0.0
+
+    gap_category = gap.get("category", "")
+    if gap_category and gap_category in mentioned_categories:
+        score += 0.55
+
+    review_tokens = _tokenize(review_text)
+    gap_tokens = (
+        _tokenize(str(gap.get("dimension", "")).replace("_", " "))
+        | _tokenize(str(gap.get("label", "")))
+    )
+
+    overlap = review_tokens & gap_tokens
+    if gap_tokens:
+        score += min(0.30, 0.10 * len(overlap))
+
+    if re.search(r"\bbut\b|\bhowever\b|\bissue\b|\bproblem\b|\bnot\b|\bno\b", review_text.lower()):
+        if gap.get("reason") in {"conflicting", "official_conflict", "stale"}:
+            score += 0.10
+
+    return min(score, 1.0)
+
+
+def _ease_of_answering(gap: Dict[str, Any]) -> float:
+    """
+    Higher score = easier for the user to answer quickly.
+    """
+    dim = str(gap.get("dimension", "")).lower().replace("_", " ")
+    label = str(gap.get("label", "")).lower()
+    category = str(gap.get("category", "")).lower()
+
+    text = f"{dim} {label}"
+
+    if any(k in text for k in LOW_FRICTION_KEYWORDS):
+        return 1.0
+    if category == "policy":
+        return 0.90
+    if category == "surroundings":
+        return 0.85
+    if category == "hardware":
+        return 0.80
+    if category == "service":
+        return 0.75
+    return 0.75
+
+
+def select_candidate_gaps_for_review(
+    module1_output: Dict[str, Any],
+    review_text: str,
+    review_title: str = "",
+    rating_dict: Optional[Dict[str, Any]] = None,
+    max_questions: int = 2,
+    min_selector_score: float = 0.55,
+) -> Dict[str, Any]:
+    """
+    Selection policy:
+    1. generate candidate gaps from hotel profile
+    2. remove dimensions already mentioned by the reviewer
+    3. rank remaining gaps by:
+       - gap score
+       - relevance to user review
+       - ease of answering
+    4. ask top 1-2 only if score passes threshold
+    """
+    property_id = module1_output.get("property_id", "")
+    top_gaps = module1_output.get("top_gaps", []) or []
+
+    mentions = _extract_review_mentions(
+        review_text=review_text,
+        review_title=review_title,
+        rating_dict=rating_dict,
+    )
+    mentioned_dims = _mentioned_dimensions(mentions)
+    mentioned_cats = _mentioned_categories(mentioned_dims)
+
+    numeric_scores = []
+    for gap in top_gaps:
+        try:
+            numeric_scores.append(float(gap.get("gap_score", 0)))
+        except (TypeError, ValueError):
+            pass
+    max_gap_score = max(numeric_scores) if numeric_scores else 0.0
+
+    review_full_text = f"{review_title} {review_text}".strip()
+
+    selected = []
+    for gap in top_gaps:
+        dim = gap.get("dimension")
+        if not dim:
+            continue
+
+        # remove dimensions already mentioned by reviewer
+        if dim in mentioned_dims:
+            continue
+
+        importance = _normalize_gap_importance(gap, max_gap_score)
+        relevance = _compute_review_relevance(gap, review_full_text, mentioned_cats)
+        ease = _ease_of_answering(gap)
+
+        selector_score = (
+            0.55 * importance
+            + 0.30 * relevance
+            + 0.15 * ease
+        )
+
+        if selector_score >= min_selector_score:
+            enriched_gap = {
+                **gap,
+                "selector_score": round(selector_score, 4),
+                "selector_components": {
+                    "gap_importance": round(importance, 4),
+                    "review_relevance": round(relevance, 4),
+                    "ease_of_answering": round(ease, 4),
+                },
+            }
+            selected.append(enriched_gap)
+
+    selected.sort(
+        key=lambda x: (
+            x.get("selector_score", 0),
+            x.get("gap_score", 0),
+            x.get("priority", 0),
+        ),
+        reverse=True,
+    )
+
+    selected = selected[:max_questions]
+
+    return {
+        "property_id": property_id,
+        "mentioned_dimensions": sorted(mentioned_dims),
+        "review_mentions": mentions,
+        "selected_gaps": selected,
+        "selection_policy": {
+            "max_questions": max_questions,
+            "min_selector_score": min_selector_score,
+            "weights": {
+                "gap_importance": 0.55,
+                "review_relevance": 0.30,
+                "ease_of_answering": 0.15,
+            },
+        },
+    }
 
 
 class QuestionGenerator:
@@ -75,12 +307,10 @@ class QuestionGenerator:
             return generate_template_questions(top_gaps, max_questions)
 
         try:
-            # Build LLM prompt
             prompt = self._build_llm_prompt(property_id, top_gaps, max_questions)
 
-            # Call OpenAI API
             response = self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",  # Cost-effective model
+                model="gpt-3.5-turbo",
                 messages=[
                     {
                         "role": "system",
@@ -96,7 +326,6 @@ class QuestionGenerator:
                 response_format={"type": "json_object"}
             )
 
-            # Parse response
             llm_output = json.loads(response.choices[0].message.content)
             questions = self._parse_llm_response(llm_output, top_gaps)
 
@@ -109,8 +338,6 @@ class QuestionGenerator:
 
     def _build_llm_prompt(self, property_id: str, top_gaps: List[Dict], max_questions: int) -> str:
         """Build the LLM prompt."""
-
-        # Gap information summary
         gaps_summary = []
         for gap in top_gaps[:max_questions]:
             reason_en = {
@@ -172,7 +399,6 @@ Please return in JSON format with this structure:
             if not isinstance(q_data, dict) or "question" not in q_data:
                 continue
 
-            # Match corresponding gap info
             target_gap = q_data.get("target_gap", "")
             matched_gap = None
             for gap in top_gaps:
@@ -195,7 +421,6 @@ Please return in JSON format with this structure:
                 "llm_priority": q_data.get("priority_level", "medium"),
             }
 
-            # Assess question quality
             if matched_gap:
                 relevance = assess_question_relevance(q_data["question"], matched_gap)
                 question_info["relevance_score"] = relevance
@@ -225,17 +450,13 @@ Please return in JSON format with this structure:
             logger.warning(f"Hotel {property_id[:12]}... has no identified gaps")
             return []
 
-        # Try LLM generation
         if self.use_llm and self.openai_client:
             questions = self.generate_llm_questions(property_id, top_gaps, max_questions)
         else:
             questions = generate_template_questions(top_gaps, max_questions)
 
-        # Ensure question count doesn't exceed limit
         questions = questions[:max_questions]
 
-        # Add generation timestamp
-        import datetime
         for q in questions:
             q["generated_at"] = datetime.datetime.now().isoformat()
 
@@ -272,7 +493,6 @@ def generate_hotel_questions(
 
     questions = generator.generate_questions(property_id, top_gaps, max_questions)
 
-    # Build output result
     result = {
         "property_id": property_id,
         "questions_generated": len(questions),
@@ -284,6 +504,66 @@ def generate_hotel_questions(
     }
 
     return result
+
+
+def generate_personalized_questions_for_review(
+    module1_output: Dict,
+    review_text: str,
+    review_title: str = "",
+    rating_dict: Optional[Dict] = None,
+    openai_api_key: Optional[str] = None,
+    use_llm: bool = True,
+    max_questions: int = 2,
+    min_selector_score: float = 0.55,
+) -> Dict:
+    """
+    Personalized question generation for one live review.
+    This is the function that fulfills the hackathon-style selection policy.
+    """
+    selection = select_candidate_gaps_for_review(
+        module1_output=module1_output,
+        review_text=review_text,
+        review_title=review_title,
+        rating_dict=rating_dict,
+        max_questions=max_questions,
+        min_selector_score=min_selector_score,
+    )
+
+    property_id = selection.get("property_id", "")
+    selected_gaps = selection.get("selected_gaps", [])
+
+    if not property_id:
+        logger.error("Module 1 output missing property_id")
+        return {"error": "Missing property_id in Module 1 output"}
+
+    generator = QuestionGenerator(openai_api_key, use_llm)
+
+    if not selected_gaps:
+        return {
+            "property_id": property_id,
+            "questions_generated": 0,
+            "generation_method": "none_below_threshold",
+            "questions": [],
+            "selected_gaps": [],
+            "selection_metadata": selection,
+            "timestamp": datetime.datetime.now().isoformat(),
+        }
+
+    questions = generator.generate_questions(
+        property_id=property_id,
+        top_gaps=selected_gaps,
+        max_questions=max_questions,
+    )
+
+    return {
+        "property_id": property_id,
+        "questions_generated": len(questions),
+        "generation_method": "llm_enhanced" if (generator.use_llm and generator.openai_client) else "template_based",
+        "questions": questions,
+        "selected_gaps": selected_gaps,
+        "selection_metadata": selection,
+        "timestamp": datetime.datetime.now().isoformat(),
+    }
 
 
 def process_multiple_hotels(
