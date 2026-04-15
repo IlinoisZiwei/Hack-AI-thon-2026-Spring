@@ -1,181 +1,181 @@
-# 🏨 酒店评价分析与智能问题生成系统
+# 🏨 Hotel Review Analysis & Intelligent Question Generation System
 
-**Hack-AI-thon 2026 Spring 项目**
+**Hack-AI-thon 2026 Spring Project**
 
-一个端到端的酒店信息分析系统，通过分析客户评价数据自动识别服务缺口，并为每个酒店生成个性化的客户调研问题。系统结合机器学习、自然语言处理和LLM增强技术，为酒店运营优化提供数据驱动的解决方案。
-
----
-
-## 🎯 系统概览
-
-### 🔄 工作流程
-```
-客户评价数据 → Module 1 (缺口分析) → Module 2 (问题生成) → 客户调研问题
-```
-
-### 📦 模块架构
-
-**Module 1: 酒店信息档案构建器**
-- 🔍 从客户评价中提取20个酒店服务维度
-- 📊 构建每个酒店的服务质量档案
-- 🚨 识别并评分服务缺口 (4种类型)
-- 📈 基于商业重要性进行优先级排序
-
-**Module 2: 智能问题生成器**
-- 🤖 基于缺口分析结果生成个性化问题
-- 💬 使用OpenAI LLM增强问题自然性
-- 📋 模板回退机制确保系统稳定性
-- 🎯 生成简单易答的客户调研问题
+An end-to-end hotel information analysis system that automatically identifies service gaps by analyzing customer review data and generates personalized guest survey questions for each hotel. The system combines machine learning, natural language processing, and LLM-enhanced techniques to provide data-driven solutions for hotel operations optimization.
 
 ---
 
-## 🚀 快速开始
+## 🎯 System Overview
 
-### 1️⃣ 环境配置
+### 🔄 Workflow
+```
+Customer Review Data → Module 1 (Gap Analysis) → Module 2 (Question Generation) → Guest Survey Questions
+```
+
+### 📦 Module Architecture
+
+**Module 1: Hotel Information Profile Builder**
+- 🔍 Extracts 20 hotel service dimensions from customer reviews
+- 📊 Builds a service quality profile for each hotel
+- 🚨 Identifies and scores service gaps (4 types)
+- 📈 Prioritizes based on business importance
+
+**Module 2: Intelligent Question Generator**
+- 🤖 Generates personalized questions based on gap analysis results
+- 💬 Uses OpenAI LLM to enhance question naturalness
+- 📋 Template fallback mechanism ensures system stability
+- 🎯 Generates simple, easy-to-answer guest survey questions
+
+---
+
+## 🚀 Quick Start
+
+### 1️⃣ Environment Setup
 
 ```bash
-# 创建虚拟环境
+# Create virtual environment
 python3 -m venv venv
 source venv/bin/activate  # Linux/Mac
-# 或 venv\Scripts\activate  # Windows
+# or venv\Scripts\activate  # Windows
 
-# 安装依赖
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2️⃣ 配置API密钥
+### 2️⃣ Configure API Key
 
-编辑 `config.py` 文件：
+Edit `config.py`:
 ```python
 OPENAI_API_KEY = "your_openai_api_key_here"
 ```
 
-### 3️⃣ 运行系统
+### 3️⃣ Run the System
 
-**Module 1 - 缺口分析：**
+**Module 1 — Gap Analysis:**
 ```bash
-# 使用示例数据
+# Use sample data
 python -m module1.run --sample
 
-# 分析特定酒店
+# Analyze a specific hotel
 python -m module1.run --hotel hotel_id_123
 
-# 批量分析
+# Batch analysis
 python -m module1.run Reviews_PROC.csv --output results/
 ```
 
-**Module 2 - 问题生成：**
+**Module 2 — Question Generation:**
 ```bash
-# 演示模式（推荐）
+# Demo mode (recommended)
 python -m module2.run --demo
 
-# 处理 Module 1 输出
+# Process Module 1 output
 python -m module2.run hotel_gaps.json
 
-# 仅使用模板（不调用API）
+# Template only (no API calls)
 python -m module2.run --template-only input.json
 
-# 批量处理多个酒店
+# Batch process multiple hotels
 python -m module2.run --batch hotels_list.json
 ```
 
 ---
 
-## 📊 核心功能详解
+## 📊 Core Features
 
-### 🔍 Module 1: 缺口识别系统
+### 🔍 Module 1: Gap Identification System
 
-**20个酒店服务维度：**
-- **硬件设施** (7维度): WiFi、空调、电视、停车等
-- **服务体验** (8维度): 员工态度、客房清洁、早餐等
-- **周边环境** (3维度): 位置、噪音、周边设施
-- **酒店政策** (2维度): 入住退房、宠物政策
+**20 Hotel Service Dimensions:**
+- **Hardware & Facilities** (7 dimensions): WiFi, air conditioning, TV, parking, etc.
+- **Service Experience** (8 dimensions): Staff attitude, room cleanliness, breakfast, etc.
+- **Surroundings** (3 dimensions): Location, noise, nearby amenities
+- **Hotel Policies** (2 dimensions): Check-in/out, pet policy
 
-**4种缺口类型：**
-1. 🔴 **官方冲突** (优先级4) - 官方信息与客户评价不符
-2. 🟡 **从未提及** (优先级3) - 缺乏客户反馈数据
-3. 🟠 **信息过时** (优先级2) - 反馈时间过久需要更新
-4. 🟢 **评价冲突** (优先级1) - 客户评价观点不一致
+**4 Gap Types:**
+1. 🔴 **Official Conflict** (Priority 4) — Official info contradicts guest reviews
+2. 🟡 **Never Mentioned** (Priority 3) — Lacking guest feedback data
+3. 🟠 **Stale Info** (Priority 2) — Feedback too old, needs refresh
+4. 🟢 **Conflicting Reviews** (Priority 1) — Inconsistent guest opinions
 
-### 🤖 Module 2: 智能问题生成
+### 🤖 Module 2: Intelligent Question Generation
 
-**问题生成策略：**
-- **LLM增强模式**: 使用GPT-3.5-turbo生成自然对话问题
-- **模板回退模式**: 基于规则的结构化问题生成
-- **个性化设计**: 每个酒店获得专属的5个问题
+**Question Generation Strategy:**
+- **LLM-Enhanced Mode**: Uses GPT-3.5-turbo for natural conversational questions
+- **Template Fallback Mode**: Rule-based structured question generation
+- **Personalized Design**: Each hotel receives 5 unique questions
 
-**问题示例：**
+**Question Examples:**
 ```
-城市商务酒店：
-- "你觉得酒店的WiFi速度和连接稳定性如何？"
-- "你对酒店客房的清洁程度有什么看法？"
+City Business Hotel:
+- "How was the WiFi speed and connection stability?"
+- "What did you think about the room cleanliness?"
 
-海滨度假酒店：
-- "你上次使用酒店游泳池是什么时候？"
-- "你最近去过酒店的海滩吗？"
+Beachfront Resort:
+- "When did you last use the hotel pool?"
+- "Have you visited the hotel's beach recently?"
 ```
 
 ---
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 Hack-AI-thon-2026-Spring/
-├── 📂 module1/                 # 缺口分析模块
-│   ├── dimensions.py          # 20个酒店维度定义
-│   ├── extractor.py           # 关键词提取器
-│   ├── profiler.py            # 酒店档案构建器
-│   ├── gap_finder.py          # 缺口识别与评分
-│   ├── business_weights.py    # 商业重要性权重
-│   └── run.py                 # 命令行入口
-├── 📂 module2/                 # 问题生成模块
-│   ├── question_templates.py  # 问题模板系统
-│   ├── question_generator.py  # LLM增强生成器
-│   └── run.py                 # 命令行入口
-├── 📊 Reviews_PROC.csv        # 客户评价数据
-├── ⚙️ config.py               # API配置文件
-├── 📋 requirements.txt        # 依赖列表
-└── 📖 README.md              # 项目文档
+├── 📂 module1/                 # Gap Analysis Module
+│   ├── dimensions.py          # 20 hotel dimension definitions
+│   ├── extractor.py           # Keyword extractor
+│   ├── profiler.py            # Hotel profile builder
+│   ├── gap_finder.py          # Gap identification & scoring
+│   ├── business_weights.py    # Business importance weights
+│   └── run.py                 # CLI entry point
+├── 📂 module2/                 # Question Generation Module
+│   ├── question_templates.py  # Question template system
+│   ├── question_generator.py  # LLM-enhanced generator
+│   └── run.py                 # CLI entry point
+├── 📊 Reviews_PROC.csv        # Customer review data
+├── ⚙️ config.py               # API configuration
+├── 📋 requirements.txt        # Dependencies
+└── 📖 README.md              # Project documentation
 ```
 
 ---
 
-## 🛠️ 详细用法
+## 🛠️ Detailed Usage
 
-### Module 1 高级选项
+### Module 1 Advanced Options
 
 ```bash
-# 指定输出格式和位置
+# Specify output format and location
 python -m module1.run --sample --format json --output results/
 
-# 启用LLM增强提取（实验性）
+# Enable LLM-enhanced extraction (experimental)
 python -m module1.run --sample --use-llm
 
-# 调整评分阈值
+# Adjust scoring threshold
 python -m module1.run --sample --min-gap-score 30.0
 
-# 详细调试信息
+# Verbose debug information
 python -m module1.run --sample --verbose
 ```
 
-### Module 2 高级选项
+### Module 2 Advanced Options
 
 ```bash
-# 控制生成问题数量
+# Control number of generated questions
 python -m module2.run --demo --max-questions 3
 
-# 指定输出文件
+# Specify output file
 python -m module2.run input.json --output custom_questions.json
 
-# 不显示终端结果
+# Suppress terminal output
 python -m module2.run --batch hotels.json --no-display
 ```
 
 ---
 
-## 📈 输出结果格式
+## 📈 Output Format
 
-### Module 1 输出 (JSON):
+### Module 1 Output (JSON):
 ```json
 {
   "property_id": "hotel_001",
@@ -194,7 +194,7 @@ python -m module2.run --batch hotels.json --no-display
 }
 ```
 
-### Module 2 输出 (JSON):
+### Module 2 Output (JSON):
 ```json
 {
   "property_id": "hotel_001",
@@ -202,11 +202,11 @@ python -m module2.run --batch hotels.json --no-display
   "generation_method": "llm_enhanced",
   "questions": [
     {
-      "question": "你觉得酒店的WiFi速度和连接稳定性如何？",
+      "question": "How was the WiFi speed and connection stability?",
       "gap_dimension": "wifi_speed",
       "gap_reason": "stale",
       "priority": 2,
-      "expected_outcome": "了解客人对WiFi服务质量的感受"
+      "expected_outcome": "Understand guest perception of WiFi quality"
     }
   ]
 }
@@ -214,51 +214,51 @@ python -m module2.run --batch hotels.json --no-display
 
 ---
 
-## ⚙️ 配置选项
+## ⚙️ Configuration
 
-### API使用控制
-- **成本控制**: 使用GPT-3.5-turbo降低API成本
-- **模板回退**: API调用失败时自动使用模板
-- **批量优化**: 支持批量处理减少API调用次数
+### API Usage Control
+- **Cost Control**: Uses GPT-3.5-turbo to minimize API costs
+- **Template Fallback**: Automatically uses templates when API calls fail
+- **Batch Optimization**: Supports batch processing to reduce API call count
 
-### 评分系统调优
-编辑 `module1/business_weights.py` 调整维度权重：
+### Scoring System Tuning
+Edit `module1/business_weights.py` to adjust dimension weights:
 ```python
 BUSINESS_WEIGHTS = {
-    "wifi_speed": 4.5,      # 高优先级
-    "room_cleanliness": 4.8, # 最高优先级
-    "parking": 2.1,          # 较低优先级
+    "wifi_speed": 4.5,      # High priority
+    "room_cleanliness": 4.8, # Highest priority
+    "parking": 2.1,          # Lower priority
 }
 ```
 
 ---
 
-## 🤝 贡献指南
+## 🤝 Contributing
 
-1. Fork 项目
-2. 创建功能分支: `git checkout -b feature/amazing-feature`
-3. 提交更改: `git commit -m 'Add amazing feature'`
-4. 推送分支: `git push origin feature/amazing-feature`
-5. 提交 Pull Request
+1. Fork the project
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push the branch: `git push origin feature/amazing-feature`
+5. Submit a Pull Request
 
 ---
 
-## 📄 许可证
+## 📄 License
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
 ## 🏆 Hack-AI-thon 2026 Spring
 
-本项目为 Hack-AI-thon 2026 Spring 竞赛作品，专注于将AI技术应用于酒店行业的数据驱动决策优化。
+This project is a Hack-AI-thon 2026 Spring competition entry, focused on applying AI technology to data-driven decision optimization in the hotel industry.
 
-**核心创新点：**
-- 🎯 端到端的酒店信息缺口识别与问题生成流程
-- 🤖 LLM增强的自然语言问题生成
-- 📊 基于商业重要性的智能优先级排序
-- 🔄 模板回退机制确保系统稳定性
+**Core Innovations:**
+- 🎯 End-to-end hotel information gap identification and question generation pipeline
+- 🤖 LLM-enhanced natural language question generation
+- 📊 Intelligent prioritization based on business importance
+- 🔄 Template fallback mechanism for system stability
 
 ---
 
-**项目链接**: https://github.com/dengjiaming/Hack-AI-thon-2026-Spring
+**Project Link**: https://github.com/dengjiaming/Hack-AI-thon-2026-Spring

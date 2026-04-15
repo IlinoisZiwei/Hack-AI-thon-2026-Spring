@@ -1,15 +1,16 @@
 """
-Module 2 — 智能问题生成核心引擎
-===============================
+Module 2 — Intelligent Question Generation Engine
+===================================================
 
-结合 LLM 增强和模板回退的问题生成系统。
-基于 Module 1 的缺口分析，为每个酒店生成5个具体可操作的调研问题。
+Combines LLM-enhanced and template-fallback question generation.
+Based on Module 1 gap analysis, generates 5 specific, actionable survey
+questions for each hotel.
 
-设计特点：
-- 优先使用 LLM 生成个性化问题
-- 模板作为回退机制，确保系统鲁棒性
-- 智能控制 API 使用，避免过度消耗
-- 问题质量评估和筛选机制
+Design Features:
+- Prioritizes LLM for personalized question generation
+- Templates serve as fallback to ensure system robustness
+- Smart API usage control to avoid over-consumption
+- Question quality assessment and filtering
 """
 
 import datetime
@@ -25,15 +26,15 @@ logger = logging.getLogger(__name__)
 
 
 class QuestionGenerator:
-    """智能问题生成器"""
+    """Intelligent Question Generator"""
 
     def __init__(self, openai_api_key: Optional[str] = None, use_llm: bool = True):
         """
-        初始化问题生成器
+        Initialize the question generator.
 
         Args:
-            openai_api_key: OpenAI API 密钥
-            use_llm: 是否使用 LLM 增强（默认 True，失败时自动回退到模板）
+            openai_api_key: OpenAI API key
+            use_llm: Whether to use LLM enhancement (default True, auto-falls back to templates on failure)
         """
         self.use_llm = use_llm
         self.openai_client = None
@@ -42,12 +43,12 @@ class QuestionGenerator:
             try:
                 from openai import OpenAI
                 self.openai_client = OpenAI(api_key=openai_api_key)
-                logger.info("✅ OpenAI 客户端初始化成功")
+                logger.info("✅ OpenAI client initialized successfully")
             except ImportError:
-                logger.warning("⚠️ 未安装 openai 库，将使用模板模式")
+                logger.warning("⚠️ openai library not installed, falling back to template mode")
                 self.use_llm = False
             except Exception as e:
-                logger.warning(f"⚠️ OpenAI 客户端初始化失败: {e}，将使用模板模式")
+                logger.warning(f"⚠️ OpenAI client initialization failed: {e}, falling back to template mode")
                 self.use_llm = False
         else:
             self.use_llm = False
@@ -59,31 +60,31 @@ class QuestionGenerator:
         max_questions: int = 5
     ) -> List[Dict]:
         """
-        使用 LLM 生成个性化问题
+        Generate personalized questions using LLM.
 
         Args:
-            property_id: 酒店 ID
-            top_gaps: 前 N 个缺口列表
-            max_questions: 最大问题数量
+            property_id: Hotel ID
+            top_gaps: Top N gap list
+            max_questions: Maximum number of questions
 
         Returns:
-            问题列表，包含问题文本和元数据
+            List of questions with text and metadata
         """
         if not self.openai_client:
-            logger.warning("OpenAI 客户端不可用，使用模板回退")
+            logger.warning("OpenAI client unavailable, using template fallback")
             return generate_template_questions(top_gaps, max_questions)
 
         try:
-            # 构建 LLM 提示
+            # Build LLM prompt
             prompt = self._build_llm_prompt(property_id, top_gaps, max_questions)
 
-            # 调用 OpenAI API
+            # Call OpenAI API
             response = self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",  # 使用成本较低的模型
+                model="gpt-3.5-turbo",  # Cost-effective model
                 messages=[
                     {
                         "role": "system",
-                        "content": "你是一位经验丰富的客户体验专家，专门设计简单易懂的客户调研问题来收集酒店反馈。"
+                        "content": "You are an experienced customer experience expert who specializes in designing simple, easy-to-understand survey questions to collect hotel feedback from guests."
                     },
                     {
                         "role": "user",
@@ -95,64 +96,64 @@ class QuestionGenerator:
                 response_format={"type": "json_object"}
             )
 
-            # 解析响应
+            # Parse response
             llm_output = json.loads(response.choices[0].message.content)
             questions = self._parse_llm_response(llm_output, top_gaps)
 
-            logger.info(f"✅ LLM 生成了 {len(questions)} 个问题")
+            logger.info(f"✅ LLM generated {len(questions)} questions")
             return questions
 
         except Exception as e:
-            logger.warning(f"⚠️ LLM 问题生成失败: {e}，使用模板回退")
+            logger.warning(f"⚠️ LLM question generation failed: {e}, using template fallback")
             return generate_template_questions(top_gaps, max_questions)
 
     def _build_llm_prompt(self, property_id: str, top_gaps: List[Dict], max_questions: int) -> str:
-        """构建 LLM 提示词"""
+        """Build the LLM prompt."""
 
-        # 缺口信息摘要
+        # Gap information summary
         gaps_summary = []
         for gap in top_gaps[:max_questions]:
-            reason_cn = {
-                "never_mentioned": "缺乏数据",
-                "stale": "信息过时",
-                "conflicting": "评价冲突",
-                "official_conflict": "官方冲突"
+            reason_en = {
+                "never_mentioned": "No data available",
+                "stale": "Outdated information",
+                "conflicting": "Conflicting reviews",
+                "official_conflict": "Official info conflict"
             }.get(gap.get("reason"), gap.get("reason", ""))
 
-            category_cn = {
-                "hardware": "硬件设施",
-                "service": "服务体验",
-                "surroundings": "周边环境",
-                "policy": "酒店政策"
+            category_en = {
+                "hardware": "Hardware & Facilities",
+                "service": "Service Experience",
+                "surroundings": "Surroundings & Location",
+                "policy": "Hotel Policies"
             }.get(gap.get("category"), gap.get("category", ""))
 
-            gap_desc = f"- {gap.get('label', '')}: {reason_cn} (优先级{gap.get('priority', 0)}, {category_cn})"
+            gap_desc = f"- {gap.get('label', '')}: {reason_en} (Priority {gap.get('priority', 0)}, {category_en})"
             if gap.get("reason_label"):
                 gap_desc += f" - {gap.get('reason_label')}"
             gaps_summary.append(gap_desc)
 
         prompt = f"""
-请为酒店ID {property_id[:12]}... 的以下服务缺口生成 {max_questions} 个简单易答的客户调研问题：
+Please generate {max_questions} simple, easy-to-answer guest survey questions for hotel ID {property_id[:12]}... based on the following service gaps:
 
-识别的关键缺口：
+Identified key gaps:
 {chr(10).join(gaps_summary)}
 
-要求：
-1. 问题应该简单易懂，客人能够快速回答
-2. 避免复杂的专业术语，使用口语化表达
-3. 重点收集关于缺失或过时信息的反馈
-4. 问题要让客人感到轻松，不会造成负担
-5. 例如："WiFi快不快？"、"早餐好吃吗？"、"晚上噪音大不大？"这样的风格
+Requirements:
+1. Questions should be simple and easy to understand, allowing guests to answer quickly
+2. Avoid complex jargon; use casual, conversational language
+3. Focus on collecting feedback about missing or outdated information
+4. Questions should feel lightweight and not burden the guest
+5. Style examples: "How was the WiFi speed?", "Was breakfast good?", "Was it noisy at night?"
 
-请以 JSON 格式返回，结构如下：
+Please return in JSON format with this structure:
 {{
   "questions": [
     {{
-      "question": "简单易答的问题内容",
-      "target_gap": "对应的缺口维度",
-      "question_type": "问题类型(如: simple_feedback, rating_request, experience_check)",
-      "priority_level": "优先级(high/medium/low)",
-      "expected_outcome": "收集到的信息类型"
+      "question": "Simple, easy-to-answer question",
+      "target_gap": "Corresponding gap dimension",
+      "question_type": "Question type (e.g.: simple_feedback, rating_request, experience_check)",
+      "priority_level": "Priority (high/medium/low)",
+      "expected_outcome": "Type of information to collect"
     }}
   ]
 }}
@@ -160,18 +161,18 @@ class QuestionGenerator:
         return prompt
 
     def _parse_llm_response(self, llm_output: Dict, top_gaps: List[Dict]) -> List[Dict]:
-        """解析 LLM 响应并格式化"""
+        """Parse LLM response and format it."""
         questions = []
 
         if "questions" not in llm_output:
-            logger.warning("LLM 响应格式异常，使用模板回退")
+            logger.warning("LLM response format unexpected, using template fallback")
             return generate_template_questions(top_gaps, 5)
 
         for i, q_data in enumerate(llm_output["questions"]):
             if not isinstance(q_data, dict) or "question" not in q_data:
                 continue
 
-            # 匹配对应的缺口信息
+            # Match corresponding gap info
             target_gap = q_data.get("target_gap", "")
             matched_gap = None
             for gap in top_gaps:
@@ -194,7 +195,7 @@ class QuestionGenerator:
                 "llm_priority": q_data.get("priority_level", "medium"),
             }
 
-            # 评估问题质量
+            # Assess question quality
             if matched_gap:
                 relevance = assess_question_relevance(q_data["question"], matched_gap)
                 question_info["relevance_score"] = relevance
@@ -210,35 +211,35 @@ class QuestionGenerator:
         max_questions: int = 5
     ) -> List[Dict]:
         """
-        生成问题的主入口方法
+        Main entry point for question generation.
 
         Args:
-            property_id: 酒店 ID
-            top_gaps: 缺口列表
-            max_questions: 最大问题数量
+            property_id: Hotel ID
+            top_gaps: List of gaps
+            max_questions: Maximum number of questions
 
         Returns:
-            问题列表
+            List of questions
         """
         if not top_gaps:
-            logger.warning(f"酒店 {property_id[:12]}... 没有识别到缺口")
+            logger.warning(f"Hotel {property_id[:12]}... has no identified gaps")
             return []
 
-        # 尝试 LLM 生成
+        # Try LLM generation
         if self.use_llm and self.openai_client:
             questions = self.generate_llm_questions(property_id, top_gaps, max_questions)
         else:
             questions = generate_template_questions(top_gaps, max_questions)
 
-        # 确保问题数量不超过限制
+        # Ensure question count doesn't exceed limit
         questions = questions[:max_questions]
 
-        # 添加生成时间戳
+        # Add generation timestamp
         import datetime
         for q in questions:
             q["generated_at"] = datetime.datetime.now().isoformat()
 
-        logger.info(f"为酒店 {property_id[:12]}... 生成了 {len(questions)} 个问题")
+        logger.info(f"Generated {len(questions)} questions for hotel {property_id[:12]}...")
         return questions
 
 
@@ -249,16 +250,16 @@ def generate_hotel_questions(
     max_questions: int = 5
 ) -> Dict:
     """
-    基于 Module 1 输出生成酒店问题
+    Generate hotel questions based on Module 1 output.
 
     Args:
-        module1_output: Module 1 的 JSON 输出
-        openai_api_key: OpenAI API 密钥
-        use_llm: 是否使用 LLM
-        max_questions: 每个酒店最大问题数
+        module1_output: Module 1 JSON output
+        openai_api_key: OpenAI API key
+        use_llm: Whether to use LLM
+        max_questions: Max questions per hotel
 
     Returns:
-        包含问题的结果字典
+        Result dictionary containing questions
     """
     generator = QuestionGenerator(openai_api_key, use_llm)
 
@@ -266,12 +267,12 @@ def generate_hotel_questions(
     top_gaps = module1_output.get("top_gaps", [])
 
     if not property_id:
-        logger.error("Module 1 输出缺少 property_id")
+        logger.error("Module 1 output missing property_id")
         return {"error": "Missing property_id in Module 1 output"}
 
     questions = generator.generate_questions(property_id, top_gaps, max_questions)
 
-    # 构建输出结果
+    # Build output result
     result = {
         "property_id": property_id,
         "questions_generated": len(questions),
@@ -292,16 +293,16 @@ def process_multiple_hotels(
     max_questions: int = 5
 ) -> List[Dict]:
     """
-    批量处理多个酒店的问题生成
+    Batch process question generation for multiple hotels.
 
     Args:
-        module1_results: 多个酒店的 Module 1 输出列表
-        openai_api_key: OpenAI API 密钥
-        use_llm: 是否使用 LLM
-        max_questions: 每个酒店最大问题数
+        module1_results: List of Module 1 outputs for multiple hotels
+        openai_api_key: OpenAI API key
+        use_llm: Whether to use LLM
+        max_questions: Max questions per hotel
 
     Returns:
-        所有酒店问题生成结果的列表
+        List of question generation results for all hotels
     """
     generator = QuestionGenerator(openai_api_key, use_llm)
     results = []
@@ -322,7 +323,7 @@ def process_multiple_hotels(
             results.append(result)
 
         except Exception as e:
-            logger.error(f"处理酒店 {hotel_data.get('property_id', 'unknown')} 失败: {e}")
+            logger.error(f"Failed to process hotel {hotel_data.get('property_id', 'unknown')}: {e}")
             results.append({
                 "property_id": hotel_data.get("property_id", "unknown"),
                 "questions_generated": 0,
@@ -331,5 +332,5 @@ def process_multiple_hotels(
                 "error": str(e)
             })
 
-    logger.info(f"批量处理完成: {len(results)} 个酒店")
+    logger.info(f"Batch processing complete: {len(results)} hotels")
     return results

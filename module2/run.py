@@ -1,18 +1,18 @@
 """
-Module 2 — 智能问题生成系统运行脚本
-=================================
+Module 2 — Intelligent Question Generation System
+===================================================
 
-基于 Module 1 的缺口分析结果，为酒店生成针对性的调研问题。
+Generates targeted survey questions for hotels based on Module 1 gap analysis.
 
-使用方法:
-    python -m module2.run <module1_output.json>             # 处理 Module 1 的 JSON 输出
-    python -m module2.run --demo                            # 使用内置示例数据演示
-    python -m module2.run --template-only                   # 仅使用模板，不调用 LLM
-    python -m module2.run --batch <multiple_hotels.json>    # 批量处理多个酒店
+Usage:
+    python -m module2.run <module1_output.json>             # Process Module 1 JSON output
+    python -m module2.run --demo                            # Use built-in demo data
+    python -m module2.run --template-only                   # Template only, no LLM calls
+    python -m module2.run --batch <multiple_hotels.json>    # Batch process multiple hotels
 
-输出:
-    hotel_questions_<property_id>.json  — 为特定酒店生成的问题
-    或 batch_questions_output.json       — 批量处理结果
+Output:
+    hotel_questions_<property_id>.json  — Questions generated for a specific hotel
+    or batch_questions_output.json       — Batch processing results
 """
 
 import argparse
@@ -23,41 +23,41 @@ import sys
 from pathlib import Path
 from typing import Dict, List
 
-# 配置日志
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
-# 导入项目配置
+# Import project config
 try:
     sys.path.append(str(Path(__file__).parent.parent))
     from config import OPENAI_API_KEY
 except ImportError:
-    logger.warning("⚠️ 无法导入 config.py，将尝试从环境变量获取 API 密钥")
+    logger.warning("⚠️ Could not import config.py, will try environment variable for API key")
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 from .question_generator import generate_hotel_questions, process_multiple_hotels
 
 
 def load_module1_output(file_path: str) -> Dict:
-    """加载 Module 1 的 JSON 输出"""
+    """Load Module 1 JSON output."""
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        logger.info(f"✅ 成功加载 Module 1 输出: {file_path}")
+        logger.info(f"✅ Successfully loaded Module 1 output: {file_path}")
         return data
     except FileNotFoundError:
-        logger.error(f"❌ 文件不存在: {file_path}")
+        logger.error(f"❌ File not found: {file_path}")
         sys.exit(1)
     except json.JSONDecodeError as e:
-        logger.error(f"❌ JSON 解析错误: {e}")
+        logger.error(f"❌ JSON parse error: {e}")
         sys.exit(1)
 
 
 def get_demo_data() -> Dict:
-    """返回演示用的 Module 1 输出数据"""
+    """Return demo Module 1 output data."""
     return {
         "property_id": "demo_hotel_001",
         "top_gaps": [
@@ -126,17 +126,17 @@ def get_demo_data() -> Dict:
 
 
 def save_results(results: Dict, output_path: str):
-    """保存结果到 JSON 文件"""
+    """Save results to a JSON file."""
     try:
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(results, f, indent=2, ensure_ascii=False)
-        logger.info(f"✅ 结果已保存到: {output_path}")
+        logger.info(f"✅ Results saved to: {output_path}")
     except Exception as e:
-        logger.error(f"❌ 保存结果失败: {e}")
+        logger.error(f"❌ Failed to save results: {e}")
 
 
 def display_results(results: Dict):
-    """在终端中美观地显示结果"""
+    """Display results in a formatted terminal output."""
     print("\n" + "="*80)
     print("🏨 HOTEL QUESTION GENERATION RESULTS")
     print("="*80)
@@ -162,7 +162,7 @@ def display_results(results: Dict):
         priority = q.get("priority", 0)
         source = q.get("source", "unknown")
 
-        # 优先级图标
+        # Priority icons
         priority_icon = {4: "🚨", 3: "⚠️", 2: "📋", 1: "📝"}.get(priority, "❓")
 
         print(f"\n{i:2d}. {priority_icon} [{gap_dim}]")
@@ -176,52 +176,52 @@ def display_results(results: Dict):
 
 
 def main():
-    """主函数"""
+    """Main function."""
     parser = argparse.ArgumentParser(
-        description="Module 2: 智能问题生成系统",
+        description="Module 2: Intelligent Question Generation System",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python -m module2.run hotel_gaps.json           # 处理单个酒店
-  python -m module2.run --demo                    # 运行演示
-  python -m module2.run --template-only input.json  # 仅使用模板
-  python -m module2.run --batch hotels.json       # 批量处理
+  python -m module2.run hotel_gaps.json           # Process a single hotel
+  python -m module2.run --demo                    # Run demo
+  python -m module2.run --template-only input.json  # Template only
+  python -m module2.run --batch hotels.json       # Batch process
         """
     )
 
     parser.add_argument("input_file", nargs="?",
-                      help="Module 1 的 JSON 输出文件路径")
+                      help="Path to Module 1 JSON output file")
     parser.add_argument("--demo", action="store_true",
-                      help="使用内置示例数据运行演示")
+                      help="Run demo with built-in sample data")
     parser.add_argument("--template-only", action="store_true",
-                      help="仅使用模板生成问题，不调用 LLM")
+                      help="Generate questions using templates only, no LLM calls")
     parser.add_argument("--batch", action="store_true",
-                      help="批量处理多个酒店（输入文件应包含酒店数组）")
+                      help="Batch process multiple hotels (input file should contain an array)")
     parser.add_argument("--output", "-o",
-                      help="输出文件路径（可选）")
+                      help="Output file path (optional)")
     parser.add_argument("--max-questions", type=int, default=5,
-                      help="每个酒店最大问题数量（默认5）")
+                      help="Max questions per hotel (default: 5)")
     parser.add_argument("--no-display", action="store_true",
-                      help="不在终端显示结果")
+                      help="Don't display results in terminal")
 
     args = parser.parse_args()
 
-    # 验证输入
+    # Validate input
     if not args.demo and not args.input_file:
-        parser.error("需要提供输入文件或使用 --demo 选项")
+        parser.error("Must provide an input file or use --demo")
 
-    # 获取 API 密钥
+    # Get API key
     api_key = OPENAI_API_KEY
     if not api_key or api_key.startswith("your_"):
-        logger.warning("⚠️ 未配置有效的 OPENAI_API_KEY，将使用模板模式")
+        logger.warning("⚠️ No valid OPENAI_API_KEY configured, will use template mode")
         api_key = None
 
     use_llm = not args.template_only and api_key is not None
 
     try:
         if args.demo:
-            # 演示模式
-            logger.info("🎯 运行演示模式")
+            # Demo mode
+            logger.info("🎯 Running demo mode")
             module1_data = get_demo_data()
 
             results = generate_hotel_questions(
@@ -234,12 +234,12 @@ Examples:
             output_path = args.output or "demo_questions.json"
 
         elif args.batch:
-            # 批量处理模式
-            logger.info("📦 运行批量处理模式")
+            # Batch processing mode
+            logger.info("📦 Running batch processing mode")
             hotels_data = load_module1_output(args.input_file)
 
             if not isinstance(hotels_data, list):
-                logger.error("❌ 批量模式需要输入文件包含酒店数组")
+                logger.error("❌ Batch mode requires input file to contain an array of hotels")
                 sys.exit(1)
 
             results = process_multiple_hotels(
@@ -251,15 +251,15 @@ Examples:
 
             output_path = args.output or "batch_questions_output.json"
 
-            # 批量结果的特殊显示
+            # Special display for batch results
             if not args.no_display:
-                print(f"\n🏨 批量处理完成: {len(results)} 个酒店")
+                print(f"\n🏨 Batch processing complete: {len(results)} hotels")
                 success_count = sum(1 for r in results if r.get('success', True))
-                print(f"✅ 成功: {success_count} | ❌ 失败: {len(results) - success_count}")
+                print(f"✅ Succeeded: {success_count} | ❌ Failed: {len(results) - success_count}")
 
         else:
-            # 单个酒店处理模式
-            logger.info("🏨 运行单酒店处理模式")
+            # Single hotel processing mode
+            logger.info("🏨 Running single hotel processing mode")
             module1_data = load_module1_output(args.input_file)
 
             results = generate_hotel_questions(
@@ -272,20 +272,20 @@ Examples:
             property_id = results.get("property_id", "unknown")[:12]
             output_path = args.output or f"hotel_questions_{property_id}.json"
 
-        # 保存结果
+        # Save results
         save_results(results, output_path)
 
-        # 显示结果（除非是批量模式或用户禁用）
+        # Display results (unless batch mode or user disabled)
         if not args.no_display and not args.batch:
             display_results(results)
 
-        logger.info("🎉 Module 2 运行完成！")
+        logger.info("🎉 Module 2 complete!")
 
     except KeyboardInterrupt:
-        logger.info("⏹️  用户中断操作")
+        logger.info("⏹️  Operation interrupted by user")
         sys.exit(0)
     except Exception as e:
-        logger.error(f"❌ 运行失败: {e}")
+        logger.error(f"❌ Run failed: {e}")
         sys.exit(1)
 
 

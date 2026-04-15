@@ -1,152 +1,152 @@
 """
-Module 2 — 问题模板系统
-======================
+Module 2 — Question Template System
+=====================================
 
-为不同类型的酒店服务缺口定义结构化的问题模板。
-这些模板既可以直接使用，也可以作为 LLM 增强的基础。
+Defines structured question templates for different types of hotel service gaps.
+These templates can be used directly or as a basis for LLM-enhanced generation.
 
-设计原则：
-- 基于缺口原因和优先级生成针对性问题
-- 问题具体可操作，便于酒店运营团队实施
-- 涵盖数据收集、问题诊断、改进方案等多个层面
+Design Principles:
+- Generate targeted questions based on gap type and priority
+- Questions are specific and actionable for hotel operations teams
+- Cover data collection, issue diagnosis, and improvement dimensions
 """
 
 import random
 from typing import Dict, List
 
 
-# ═══ 基础问题模板 ═══════════════════════════════════════════════════════════════
+# ═══ Base Question Templates ═══════════════════════════════════════════════════
 
 QUESTION_TEMPLATES: Dict[str, Dict[str, List[str]]] = {
-    # ── 从未提及的维度（优先级3）──────────────────────────────────────────────
+    # ── Never-mentioned dimensions (Priority 3) ─────────────────────────────
     "never_mentioned": {
         "direct_feedback": [
-            "您觉得{label}怎么样？",
-            "请评价一下{label}的体验",
-            "您对{label}满意吗？",
-            "{label}符合您的期望吗？",
+            "How would you rate the {label}?",
+            "What was your experience with the {label}?",
+            "Were you satisfied with the {label}?",
+            "Did the {label} meet your expectations?",
         ],
         "simple_rating": [
-            "{label}好不好？",
-            "您觉得{label}如何？",
-            "{label}的质量怎么样？",
+            "Was the {label} good?",
+            "How was the {label}?",
+            "How would you describe the quality of {label}?",
         ],
     },
 
-    # ── 信息过时的维度（优先级2）──────────────────────────────────────────────
+    # ── Stale/outdated dimensions (Priority 2) ──────────────────────────────
     "stale": {
         "current_experience": [
-            "这次入住时{label}怎么样？",
-            "您最近体验的{label}如何？",
-            "现在的{label}好用吗？",
-            "目前{label}的情况怎样？",
+            "How was the {label} during this stay?",
+            "What was {label} like on your recent visit?",
+            "Did the {label} work well this time?",
+            "How is the {label} currently?",
         ],
         "updated_feedback": [
-            "{label}现在的状况如何？",
-            "您觉得现在的{label}怎么样？",
-            "这次{label}的体验好吗？",
+            "What's the current state of {label}?",
+            "How do you feel about the {label} now?",
+            "Was the {label} good this time?",
         ],
     },
 
-    # ── 评价冲突的维度（优先级1）──────────────────────────────────────────────
+    # ── Conflicting reviews (Priority 1) ────────────────────────────────────
     "conflicting": {
         "clarifying_experience": [
-            "您这次{label}的体验怎么样？",
-            "请问{label}让您满意吗？",
-            "您觉得{label}表现如何？",
-            "这次{label}给您的感受怎样？",
+            "How was your experience with {label} this time?",
+            "Were you satisfied with {label}?",
+            "How would you say {label} performed?",
+            "What was your impression of {label}?",
         ],
         "specific_rating": [
-            "{label}好不好用？",
-            "{label}的质量怎么样？",
-            "您对{label}的评价是？",
+            "Did {label} work well for you?",
+            "How would you rate the quality of {label}?",
+            "What's your take on {label}?",
         ],
     },
 
-    # ── 官方信息冲突（优先级4）────────────────────────────────────────────────
+    # ── Official info conflicts (Priority 4) ────────────────────────────────
     "official_conflict": {
         "reality_check": [
-            "实际的{label}体验怎么样？",
-            "{label}和您预期的一样吗？",
-            "您觉得{label}达到宣传的标准了吗？",
-            "入住后{label}的实际情况如何？",
+            "How was the actual {label} experience?",
+            "Did {label} match what you expected?",
+            "Do you feel {label} lived up to the advertised standard?",
+            "What was {label} actually like after checking in?",
         ],
         "expectation_vs_reality": [
-            "{label}符合您的预期吗？",
-            "实际的{label}好不好？",
-            "{label}和描述的一致吗？",
+            "Did {label} meet your expectations?",
+            "Was the actual {label} good?",
+            "Did {label} match the description?",
         ],
     },
 }
 
 
-# ═══ 按类别的专业问题 ═══════════════════════════════════════════════════════════
+# ═══ Category-Specific Questions ═══════════════════════════════════════════════
 
 CATEGORY_SPECIFIC_QUESTIONS: Dict[str, List[str]] = {
     "hardware": [
-        "设施好用吗？",
-        "设备运行正常吗？",
-        "硬件设施满意吗？",
+        "Were the facilities in good working order?",
+        "Did the equipment function properly?",
+        "Were you satisfied with the room amenities?",
     ],
     "service": [
-        "服务怎么样？",
-        "员工态度好吗？",
-        "服务质量满意吗？",
+        "How was the service?",
+        "Was the staff friendly and helpful?",
+        "Were you satisfied with the service quality?",
     ],
     "surroundings": [
-        "周边环境怎么样？",
-        "位置方便吗？",
-        "周围噪音大不大？",
+        "How was the surrounding area?",
+        "Was the location convenient?",
+        "Was it noisy around the hotel?",
     ],
     "policy": [
-        "酒店政策合理吗？",
-        "规定容易理解吗？",
-        "政策执行得好吗？",
+        "Were the hotel policies reasonable?",
+        "Were the rules easy to understand?",
+        "Were the policies applied consistently?",
     ],
 }
 
 
-# ═══ 问题生成辅助函数 ═══════════════════════════════════════════════════════════
+# ═══ Question Generation Helpers ═══════════════════════════════════════════════
 
 def get_template_question(gap_info: Dict, question_type: str = "mixed") -> str:
     """
-    基于缺口信息生成模板化问题
+    Generate a template-based question from gap information.
 
     Args:
-        gap_info: 缺口信息字典（来自 Module 1）
-        question_type: 问题类型 ("data_collection", "service_audit", 等)
+        gap_info: Gap info dictionary (from Module 1)
+        question_type: Question type ("data_collection", "service_audit", etc.)
 
     Returns:
-        格式化的问题字符串
+        Formatted question string
     """
     reason = gap_info.get("reason", "never_mentioned")
-    label = gap_info.get("label", gap_info.get("dimension", "未知服务"))
+    label = gap_info.get("label", gap_info.get("dimension", "this service"))
     category = gap_info.get("category", "service")
 
-    # 获取原因对应的问题模板
+    # Get templates for the gap reason
     reason_templates = QUESTION_TEMPLATES.get(reason, QUESTION_TEMPLATES["never_mentioned"])
 
-    # 选择问题类型
+    # Select question type
     if question_type == "mixed":
-        # 随机选择一个问题类型
+        # Randomly select a question type
         question_type = random.choice(list(reason_templates.keys()))
 
     questions = reason_templates.get(question_type, reason_templates[list(reason_templates.keys())[0]])
     selected_question = random.choice(questions)
 
-    # 格式化问题
+    # Format the question
     format_params = {
         "label": label,
         "dimension": gap_info.get("dimension", ""),
-        "last_mentioned": gap_info.get("last_mentioned", "很久之前"),
-        "dominant_stance": gap_info.get("dominant_stance", "中性"),
+        "last_mentioned": gap_info.get("last_mentioned", "a long time ago"),
+        "dominant_stance": gap_info.get("dominant_stance", "neutral"),
         "mention_count": gap_info.get("mention_count", 0),
     }
 
     try:
         formatted_question = selected_question.format(**format_params)
     except KeyError:
-        # 如果格式化失败，返回原问题
+        # If formatting fails, return the question with basic substitution
         formatted_question = selected_question.replace("{label}", label)
 
     return formatted_question
@@ -154,21 +154,21 @@ def get_template_question(gap_info: Dict, question_type: str = "mixed") -> str:
 
 def generate_template_questions(gap_list: List[Dict], max_questions: int = 5) -> List[Dict]:
     """
-    为缺口列表生成模板化问题
+    Generate template-based questions for a list of gaps.
 
     Args:
-        gap_list: 缺口信息列表
-        max_questions: 最大问题数量
+        gap_list: List of gap info dictionaries
+        max_questions: Maximum number of questions
 
     Returns:
-        问题列表，每个包含 question 和 metadata
+        List of questions, each containing question text and metadata
     """
     questions = []
 
     for i, gap in enumerate(gap_list[:max_questions]):
-        # 基于优先级选择问题深度
+        # Select question depth based on priority
         priority = gap.get("priority", 2)
-        if priority >= 4:  # 最高优先级
+        if priority >= 4:  # Highest priority
             question_type = "immediate_action"
         elif priority >= 3:
             question_type = "service_audit"
@@ -179,11 +179,10 @@ def generate_template_questions(gap_list: List[Dict], max_questions: int = 5) ->
 
         question = get_template_question(gap, question_type)
 
-        # 添加类别特定问题
+        # Add category-specific question
         category = gap.get("category", "service")
         if category in CATEGORY_SPECIFIC_QUESTIONS and len(questions) < max_questions:
             category_question = random.choice(CATEGORY_SPECIFIC_QUESTIONS[category])
-            category_question = category_question.replace("相关", gap.get("label", "相关"))
 
             questions.extend([
                 {
@@ -216,32 +215,33 @@ def generate_template_questions(gap_list: List[Dict], max_questions: int = 5) ->
     return questions[:max_questions]
 
 
-# ═══ 问题质量评估 ═══════════════════════════════════════════════════════════════
+# ═══ Question Quality Assessment ═══════════════════════════════════════════════
 
 def assess_question_relevance(question: str, gap_info: Dict) -> float:
     """
-    评估问题与缺口的相关性 (0.0-1.0)
+    Assess question relevance to a gap (0.0-1.0).
 
-    简单的关键词匹配算法，可以后续用更复杂的语义相似度替换
+    Simple keyword-matching algorithm; can be replaced with
+    more sophisticated semantic similarity later.
     """
     question_lower = question.lower()
     label_lower = gap_info.get("label", "").lower()
     dimension_lower = gap_info.get("dimension", "").lower()
 
-    # 基础相关性评分
+    # Base relevance score
     relevance = 0.0
 
-    # 检查维度/标签关键词
+    # Check dimension/label keywords
     if label_lower in question_lower or dimension_lower in question_lower:
         relevance += 0.4
 
-    # 检查原因相关关键词
+    # Check reason-related keywords
     reason = gap_info.get("reason", "")
     reason_keywords = {
-        "never_mentioned": ["收集", "了解", "评估", "建立"],
-        "stale": ["当前", "最近", "更新", "监控"],
-        "conflicting": ["分歧", "一致", "稳定", "标准"],
-        "official_conflict": ["官方", "承诺", "实际", "差距"],
+        "never_mentioned": ["collect", "understand", "assess", "establish", "rate", "experience"],
+        "stale": ["current", "recent", "update", "now", "this time", "today"],
+        "conflicting": ["clarify", "consistent", "stable", "standard", "impression"],
+        "official_conflict": ["official", "advertised", "actual", "match", "expect"],
     }
 
     if reason in reason_keywords:
@@ -249,8 +249,8 @@ def assess_question_relevance(question: str, gap_info: Dict) -> float:
             if keyword in question_lower:
                 relevance += 0.15
 
-    # 检查可操作性关键词
-    action_keywords = ["如何", "什么", "哪些", "是否", "需要"]
+    # Check actionability keywords
+    action_keywords = ["how", "what", "which", "did", "were", "was", "do you"]
     for keyword in action_keywords:
         if keyword in question_lower:
             relevance += 0.1

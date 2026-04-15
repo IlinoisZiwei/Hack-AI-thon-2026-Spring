@@ -1,15 +1,17 @@
 """
-Module 2 — 智能问题生成器
-=========================
+Module 2 — Intelligent Question Generator
+==========================================
 
-基于 Module 1 的缺口分析结果，为每个酒店生成针对性的调研问题。
-结合问题模板和 LLM 增强，为酒店运营团队提供具体可操作的调研方向。
+Generates targeted survey questions for each hotel based on
+Module 1 gap analysis results. Combines question templates with
+LLM enhancement to provide specific, actionable survey directions
+for hotel operations teams.
 
-主要功能：
-- 基于缺口类型生成结构化问题
-- 使用 LLM 增强问题的针对性和自然性
-- 支持模板回退机制，避免过度依赖 API
-- 为不同优先级的缺口生成不同深度的问题
+Key Features:
+- Generates structured questions based on gap types
+- Uses LLM to enhance question specificity and naturalness
+- Template fallback mechanism to avoid over-reliance on API
+- Generates questions of varying depth for different priority gaps
 """
 
 from .question_generator import QuestionGenerator, generate_hotel_questions
