@@ -9,7 +9,7 @@ const STEPS = [
   { key: 'select', label: 'Select Hotel', icon: '🏨' },
   { key: 'review', label: 'Write Review', icon: '✍️' },
   { key: 'followup', label: 'Questions', icon: '💬' },
-  { key: 'dashboard', label: 'Dashboard', icon: '📊' },
+  { key: 'dashboard', label: 'Results', icon: '📊' },
 ]
 
 export default function App() {
