@@ -1,0 +1,61 @@
+eg_property_id,dimension,category,label,gap_score,missing_weight,stale_weight,conflict_weight,business_priority,reason_breakdown,mention_count,last_mentioned,dominant_stance,stance_variance,has_official_conflict
+hotel_downtown_001,restaurant_quality,service,Restaurant & Dining,54.11,20.0,23.11,0.0,11.0,"['提及不足', '信息过时']",1,2025-04-28,neutral,0.04946217301655449,False
+hotel_airport_002,transport_access,surroundings,Transport & Access,53.26,0.0,24.86,9.4,19.0,"['信息过时', '高商业优先级']",8,2025-04-15,positive,0.31347189663878366,False
+hotel_airport_002,room_cleanliness,service,Room Cleanliness,50.0,30.0,0.0,0.0,20.0,"['数据缺失', '高商业优先级']",0,,,0.0,False
+hotel_downtown_001,power_outlets,hardware,Power Outlets & Charging,47.68,20.0,15.68,0.0,12.0,"['提及不足', '信息过时']",2,2025-06-22,negative,0.36427792493666805,False
+hotel_business_003,front_desk_efficiency,service,Front Desk & Check-in,47.0,30.0,0.0,0.0,17.0,"['数据缺失', '高商业优先级']",0,,,0.0,False
+hotel_business_003,nearby_dining,surroundings,Nearby Dining Options,45.62,0.0,11.62,25.0,9.0,"['信息过时', '官方冲突']",8,2025-07-22,negative,0.3270864912942289,True
+hotel_business_003,location_convenience,surroundings,Location Convenience,45.0,0.0,25.0,0.0,20.0,"['信息过时', '高商业优先级']",15,2025-04-08,negative,0.04998702975608458,False
+hotel_downtown_001,air_conditioning,hardware,Air Conditioning / Heating,42.65,8.0,18.65,0.0,16.0,"['信息过时', '高商业优先级']",1,2025-05-31,positive,0.044810614438188304,False
+hotel_downtown_001,breakfast_quality,service,Breakfast,41.54,8.0,20.54,0.0,13.0,['信息过时'],1,2025-05-17,neutral,0.048570382202192834,False
+hotel_business_003,transport_access,surroundings,Transport & Access,41.19,8.0,14.19,0.0,19.0,"['信息过时', '高商业优先级']",1,2025-07-03,negative,0.26979797267127364,False
+hotel_downtown_001,room_cleanliness,service,Room Cleanliness,39.79,0.0,9.05,10.74,20.0,"['评价冲突', '高商业优先级']",8,2025-08-10,positive,0.3578779703758026,False
+hotel_downtown_001,location_convenience,surroundings,Location Convenience,39.35,8.0,11.35,0.0,20.0,"['信息过时', '高商业优先级']",1,2025-07-24,positive,0.13772607629497569,False
+hotel_downtown_001,transport_access,surroundings,Transport & Access,39.0,20.0,0.0,0.0,19.0,"['提及不足', '高商业优先级']",2,2026-01-12,mixed,0.09865266840474285,False
+hotel_business_003,power_outlets,hardware,Power Outlets & Charging,37.0,0.0,25.0,0.0,12.0,['信息过时'],5,2025-04-07,neutral,0.19184485721485608,False
+hotel_business_003,water_pressure,hardware,Water Pressure & Shower,36.99,0.0,15.0,7.99,14.0,['信息过时'],5,2025-06-27,neutral,0.2663073197122114,False
+hotel_airport_002,air_conditioning,hardware,Air Conditioning / Heating,36.0,20.0,0.0,0.0,16.0,"['提及不足', '高商业优先级']",2,2026-01-26,mixed,0.3068199471135376,False
+hotel_business_003,luggage_storage,service,Luggage Storage,36.0,30.0,0.0,0.0,6.0,['数据缺失'],0,,,0.0,False
+hotel_airport_002,soundproofing,hardware,Soundproofing,35.0,20.0,0.0,0.0,15.0,['提及不足'],2,2026-02-11,positive,0.10886956931474585,False
+hotel_business_003,parking,policy,Parking,35.0,0.0,0.0,25.0,10.0,['官方冲突'],8,2025-12-03,negative,0.1037437750704509,True
+hotel_downtown_001,wifi_speed,hardware,WiFi & Internet,34.62,0.0,16.62,0.0,18.0,"['信息过时', '高商业优先级']",5,2025-06-15,positive,0.033492324377348885,False
+hotel_business_003,air_conditioning,hardware,Air Conditioning / Heating,32.62,0.0,16.62,0.0,16.0,"['信息过时', '高商业优先级']",8,2025-06-15,positive,0.1690087044731489,False
+hotel_airport_002,location_convenience,surroundings,Location Convenience,32.0,12.0,0.0,0.0,20.0,['高商业优先级'],0,,,0.0,False
+hotel_airport_002,power_outlets,hardware,Power Outlets & Charging,32.0,20.0,0.0,0.0,12.0,['提及不足'],2,2025-10-20,mixed,0.13951939997482762,False
+hotel_airport_002,front_desk_efficiency,service,Front Desk & Check-in,31.97,0.0,0.0,14.97,17.0,"['评价冲突', '高商业优先级']",8,2025-10-25,negative,0.33244868066646693,False
+hotel_airport_002,breakfast_quality,service,Breakfast,30.14,0.0,2.3,14.84,13.0,['评价冲突'],25,2025-09-29,negative,0.3278874591057288,False
+hotel_downtown_001,luggage_storage,service,Luggage Storage,29.46,0.0,14.05,9.41,6.0,['信息过时'],5,2025-07-04,negative,0.3137599976355143,False
+hotel_airport_002,noise_level,surroundings,Outside Noise Level,29.31,0.0,0.0,15.31,14.0,['评价冲突'],15,2026-02-27,negative,0.3436159709411628,False
+hotel_airport_002,water_pressure,hardware,Water Pressure & Shower,28.86,0.0,1.35,13.51,14.0,['评价冲突'],5,2025-10-06,positive,0.2838152049365161,False
+hotel_business_003,noise_level,surroundings,Outside Noise Level,28.56,0.0,6.62,7.94,14.0,[],8,2025-08-28,negative,0.2648287516861841,False
+hotel_airport_002,elevator,hardware,Elevator,28.0,20.0,0.0,0.0,8.0,['提及不足'],2,2026-03-31,neutral,0.013445194488689305,False
+hotel_airport_002,wifi_speed,hardware,WiFi & Internet,27.73,0.0,9.73,0.0,18.0,['高商业优先级'],25,2025-08-05,neutral,0.06530809521357343,False
+hotel_downtown_001,checkout_time,policy,Check-out Time,27.0,20.0,0.0,0.0,7.0,['提及不足'],1,2025-12-06,mixed,0.032029226080840405,False
+hotel_business_003,checkout_time,policy,Check-out Time,26.32,0.0,19.32,0.0,7.0,['信息过时'],8,2025-05-26,neutral,0.07501012585358216,False
+hotel_downtown_001,water_pressure,hardware,Water Pressure & Shower,26.0,12.0,0.0,0.0,14.0,[],0,,,0.0,False
+hotel_airport_002,parking,policy,Parking,25.3,8.0,7.3,0.0,10.0,[],2,2025-08-23,positive,0.06509936548992333,False
+hotel_airport_002,pet_policy,policy,Pet Policy,25.0,20.0,0.0,0.0,5.0,['提及不足'],2,2026-02-21,positive,0.021656363924639568,False
+hotel_business_003,room_cleanliness,service,Room Cleanliness,24.86,0.0,4.86,0.0,20.0,['高商业优先级'],8,2025-09-10,positive,0.02598999187465978,False
+hotel_downtown_001,pet_policy,policy,Pet Policy,24.73,0.0,19.73,0.0,5.0,['信息过时'],8,2025-05-23,positive,0.01899132476925316,False
+hotel_business_003,breakfast_quality,service,Breakfast,24.59,0.0,0.0,11.59,13.0,['评价冲突'],5,2026-03-05,neutral,0.38638840895243154,False
+hotel_downtown_001,staff_friendliness,service,Staff & Service,24.11,0.0,8.11,0.0,16.0,['高商业优先级'],8,2025-08-17,neutral,0.16115883793581942,False
+hotel_business_003,soundproofing,hardware,Soundproofing,23.0,8.0,0.0,0.0,15.0,[],2,2026-01-23,neutral,0.27420352129212716,False
+hotel_downtown_001,parking,policy,Parking,21.07,0.0,0.0,11.07,10.0,['评价冲突'],5,2026-04-04,neutral,0.3691605088464149,False
+hotel_downtown_001,nearby_dining,surroundings,Nearby Dining Options,21.0,12.0,0.0,0.0,9.0,[],0,,,0.0,False
+hotel_downtown_001,breakfast_hours,policy,Breakfast Hours,20.85,0.0,0.0,12.85,8.0,['评价冲突'],15,2026-03-06,positive,0.2618135171365305,False
+hotel_business_003,elevator,hardware,Elevator,20.0,12.0,0.0,0.0,8.0,[],0,,,0.0,False
+hotel_business_003,wifi_speed,hardware,WiFi & Internet,18.0,0.0,0.0,0.0,18.0,['高商业优先级'],8,2026-03-03,mixed,0.10390291964409025,False
+hotel_business_003,restaurant_quality,service,Restaurant & Dining,17.89,0.0,6.89,0.0,11.0,[],5,2025-08-26,neutral,0.1786440928241393,False
+hotel_airport_002,nearby_dining,surroundings,Nearby Dining Options,17.0,8.0,0.0,0.0,9.0,[],2,2026-03-10,positive,0.21763521389249973,False
+hotel_business_003,pet_policy,policy,Pet Policy,17.0,12.0,0.0,0.0,5.0,[],0,,,0.0,False
+hotel_downtown_001,front_desk_efficiency,service,Front Desk & Check-in,17.0,0.0,0.0,0.0,17.0,['高商业优先级'],8,2026-01-27,positive,0.21438103896972735,False
+hotel_airport_002,staff_friendliness,service,Staff & Service,16.0,0.0,0.0,0.0,16.0,['高商业优先级'],25,2025-10-21,neutral,0.12259698459935611,False
+hotel_business_003,staff_friendliness,service,Staff & Service,16.0,0.0,0.0,0.0,16.0,['高商业优先级'],5,2025-12-30,neutral,0.11729109247286802,False
+hotel_downtown_001,elevator,hardware,Elevator,16.0,8.0,0.0,0.0,8.0,[],1,2026-03-10,mixed,0.1605225319396497,False
+hotel_downtown_001,soundproofing,hardware,Soundproofing,15.0,0.0,0.0,0.0,15.0,[],15,2025-11-03,positive,0.17058394794368872,False
+hotel_downtown_001,noise_level,surroundings,Outside Noise Level,14.0,0.0,0.0,0.0,14.0,[],15,2025-10-22,negative,0.014644159868533225,False
+hotel_airport_002,checkout_time,policy,Check-out Time,11.73,0.0,4.73,0.0,7.0,[],15,2025-09-11,mixed,0.033478010542373225,False
+hotel_airport_002,restaurant_quality,service,Restaurant & Dining,11.0,0.0,0.0,0.0,11.0,[],8,2026-01-13,negative,0.22876163052240323,False
+hotel_airport_002,breakfast_hours,policy,Breakfast Hours,8.0,0.0,0.0,0.0,8.0,[],15,2025-11-29,negative,0.0316102323654619,False
+hotel_business_003,breakfast_hours,policy,Breakfast Hours,8.0,0.0,0.0,0.0,8.0,[],8,2026-01-06,positive,0.15522700480254703,False
+hotel_airport_002,luggage_storage,service,Luggage Storage,6.0,0.0,0.0,0.0,6.0,[],8,2026-02-01,neutral,0.2121305046990242,False
