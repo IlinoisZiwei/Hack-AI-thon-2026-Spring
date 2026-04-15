@@ -1,7 +1,6 @@
 # Secrets & API keys
 .env
 .env.local
-config.py
 
 # Python
 __pycache__/
@@ -17,6 +16,10 @@ env/
 
 # Claude Code
 .claude/
+
+# Node
+node_modules/
+dist/
 
 # macOS
 .DS_Store
