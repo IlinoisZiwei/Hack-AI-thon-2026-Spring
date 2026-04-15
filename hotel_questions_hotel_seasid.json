@@ -1,0 +1,131 @@
+{
+  "property_id": "hotel_seaside_resort_002",
+  "questions_generated": 5,
+  "generation_method": "llm_enhanced",
+  "questions": [
+    {
+      "question": "你上次使用酒店游泳池是什么时候？",
+      "source": "llm_enhanced",
+      "gap_dimension": "pool_hours",
+      "gap_reason": "never_mentioned",
+      "priority": 3,
+      "question_type": "simple_feedback",
+      "expected_outcome": "上次使用情况",
+      "llm_priority": "medium",
+      "relevance_score": 0.1,
+      "generated_at": "2026-04-14T20:55:19.800501"
+    },
+    {
+      "question": "你最近去过酒店的海滩吗？",
+      "source": "llm_enhanced",
+      "gap_dimension": "beach_access",
+      "gap_reason": "stale",
+      "priority": 2,
+      "question_type": "simple_feedback",
+      "expected_outcome": "最近访问情况",
+      "llm_priority": "medium",
+      "relevance_score": 0.15,
+      "generated_at": "2026-04-14T20:55:19.800508"
+    },
+    {
+      "question": "你对酒店的水疗服务有什么看法？",
+      "source": "llm_enhanced",
+      "gap_dimension": "spa_service",
+      "gap_reason": "official_conflict",
+      "priority": 4,
+      "question_type": "simple_feedback",
+      "expected_outcome": "个人看法",
+      "llm_priority": "low",
+      "relevance_score": 0.1,
+      "generated_at": "2026-04-14T20:55:19.800510"
+    },
+    {
+      "question": "你觉得酒店餐厅的食物如何？",
+      "source": "llm_enhanced",
+      "gap_dimension": "restaurant_quality",
+      "gap_reason": "conflicting",
+      "priority": 1,
+      "question_type": "simple_feedback",
+      "expected_outcome": "个人看法",
+      "llm_priority": "high",
+      "relevance_score": 0.1,
+      "generated_at": "2026-04-14T20:55:19.800512"
+    },
+    {
+      "question": "你最近有没有注意到酒店房间的噪音情况？",
+      "source": "llm_enhanced",
+      "gap_dimension": "noise_level",
+      "gap_reason": "stale",
+      "priority": 2,
+      "question_type": "simple_feedback",
+      "expected_outcome": "最近观察情况",
+      "llm_priority": "medium",
+      "relevance_score": 0.15,
+      "generated_at": "2026-04-14T20:55:19.800514"
+    }
+  ],
+  "input_gaps_count": 5,
+  "gaps_processed": [
+    {
+      "dimension": "pool_hours",
+      "label": "Swimming Pool",
+      "category": "hardware",
+      "reason": "never_mentioned",
+      "reason_label": "No guest feedback available",
+      "priority": 3,
+      "mention_count": 0,
+      "last_mentioned": null,
+      "dominant_stance": null,
+      "official_info": "Outdoor pool open 6am-10pm daily"
+    },
+    {
+      "dimension": "beach_access",
+      "label": "Beach Access",
+      "category": "surroundings",
+      "reason": "stale",
+      "reason_label": "Last mentioned 1 year ago",
+      "priority": 2,
+      "mention_count": 8,
+      "last_mentioned": "2025-04-10",
+      "dominant_stance": "positive",
+      "official_info": "Private beach access included"
+    },
+    {
+      "dimension": "spa_service",
+      "label": "Spa Services",
+      "category": "service",
+      "reason": "official_conflict",
+      "reason_label": "Official info conflicts with reviews (12 negative)",
+      "priority": 4,
+      "mention_count": 20,
+      "last_mentioned": "2026-03-25",
+      "dominant_stance": "negative",
+      "official_info": "Full-service spa with massage and treatments"
+    },
+    {
+      "dimension": "restaurant_quality",
+      "label": "Restaurant Food",
+      "category": "service",
+      "reason": "conflicting",
+      "reason_label": "Mixed reviews — 10 positive / 8 negative",
+      "priority": 1,
+      "mention_count": 18,
+      "last_mentioned": "2026-04-05",
+      "dominant_stance": "mixed",
+      "official_info": null
+    },
+    {
+      "dimension": "noise_level",
+      "label": "Room Noise",
+      "category": "hardware",
+      "reason": "stale",
+      "reason_label": "Last mentioned 5 months ago",
+      "priority": 2,
+      "mention_count": 15,
+      "last_mentioned": "2025-11-12",
+      "dominant_stance": "negative",
+      "official_info": "Soundproof rooms for peaceful stay"
+    }
+  ],
+  "timestamp": "2026-04-14T20:55:19.800556"
+}

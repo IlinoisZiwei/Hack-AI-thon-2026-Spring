@@ -1,24 +1,25 @@
 """
-Module 2 — 酒店维度缺口评分系统
-=================================
+Module 2 — 智能问题生成器
+=========================
 
-将 Module 1 的定性缺口分析转化为定量评分系统。
-为每个酒店×维度组合计算 0-100 分的缺口评分，用于优先级排序。
+基于 Module 1 的缺口分析结果，为每个酒店生成针对性的调研问题。
+结合问题模板和 LLM 增强，为酒店运营团队提供具体可操作的调研方向。
 
 主要功能：
-- 数值化的缺口评分算法
-- 商业优先级权重分配
-- 批量评分和排序功能
+- 基于缺口类型生成结构化问题
+- 使用 LLM 增强问题的针对性和自然性
+- 支持模板回退机制，避免过度依赖 API
+- 为不同优先级的缺口生成不同深度的问题
 """
 
-from .gap_scorer import compute_gap_scores, GapScorer
-from .business_weights import BUSINESS_WEIGHTS, get_business_priority
+from .question_generator import QuestionGenerator, generate_hotel_questions
+from .question_templates import QUESTION_TEMPLATES, get_template_question
 
-__version__ = "1.0.0"
+__version__ = "2.0.0"
 
 __all__ = [
-    "compute_gap_scores",
-    "GapScorer",
-    "BUSINESS_WEIGHTS",
-    "get_business_priority",
+    "QuestionGenerator",
+    "generate_hotel_questions",
+    "QUESTION_TEMPLATES",
+    "get_template_question",
 ]
