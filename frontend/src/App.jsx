@@ -87,15 +87,23 @@ export default function App() {
 
       {/* Progress bar */}
       <div className="max-w-4xl mx-auto px-6 mt-6">
-        <div className="flex items-center gap-2 mb-8">
-          {['Select Hotel', 'Write Review', 'Quick Questions', 'Dashboard'].map((label, i) => {
+        <div className="flex items-center gap-1 sm:gap-2 mb-8">
+          {['Select Hotel', 'Write Review', 'Questions', 'Dashboard'].map((label, i) => {
             const steps = ['select', 'review', 'followup', 'dashboard']
             const currentIdx = steps.indexOf(step)
             const isActive = i <= currentIdx
+            const canGoTo = i <= currentIdx && profile
             return (
-              <div key={label} className="flex-1 flex flex-col items-center gap-1">
-                <div className={`w-full h-1.5 rounded-full transition-colors duration-500 ${isActive ? 'bg-blue-600' : 'bg-gray-200'}`} />
-                <span className={`text-xs ${isActive ? 'text-blue-600 font-medium' : 'text-gray-400'}`}>
+              <div
+                key={label}
+                className={`flex-1 flex flex-col items-center gap-1 ${canGoTo ? 'cursor-pointer' : ''}`}
+                onClick={() => {
+                  if (i === 0) handleRestart()
+                  else if (i === 3 && profile) setStep('dashboard')
+                }}
+              >
+                <div className={`w-full h-2 rounded-full transition-colors duration-500 ${isActive ? 'bg-blue-600' : 'bg-gray-200'}`} />
+                <span className={`text-[10px] sm:text-xs ${isActive ? 'text-blue-600 font-medium' : 'text-gray-400'}`}>
                   {label}
                 </span>
               </div>

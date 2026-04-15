@@ -89,29 +89,31 @@ export default function HotelDashboard({ profile, prevScore }) {
               : 'bg-gray-300'
 
             return (
-              <div key={dim.key} className="flex items-center gap-3">
-                <div className="w-44 text-sm text-gray-700 shrink-0 flex items-center gap-2">
+              <div key={dim.key} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 py-2 sm:py-0">
+                <div className="sm:w-44 text-sm text-gray-700 shrink-0 flex items-center gap-2">
                   {dim.label}
                   {dim.mention_count === 0 && (
                     <span className="text-xs bg-red-50 text-red-500 px-1.5 py-0.5 rounded">missing</span>
                   )}
                 </div>
-                <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
-                  <div
-                    className={`h-full rounded-full ${stanceColor} transition-all duration-700`}
-                    style={{ width: `${width}%` }}
-                  />
+                <div className="flex items-center gap-2 flex-1">
+                  <div className="flex-1 bg-gray-100 rounded-full h-4 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${stanceColor} transition-all duration-700`}
+                      style={{ width: `${width}%` }}
+                    />
+                  </div>
+                  <div className="w-20 text-right text-xs text-gray-400 shrink-0">
+                    {dim.mention_count > 0 ? (
+                      <span>{dim.mention_count} mentions</span>
+                    ) : (
+                      <span className="text-red-400">no data</span>
+                    )}
+                  </div>
+                  <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${categoryColors[dim.category] || 'bg-gray-100 text-gray-600'}`}>
+                    {dim.category}
+                  </span>
                 </div>
-                <div className="w-20 text-right text-xs text-gray-400 shrink-0">
-                  {dim.mention_count > 0 ? (
-                    <span>{dim.mention_count} mentions</span>
-                  ) : (
-                    <span className="text-red-400">no data</span>
-                  )}
-                </div>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${categoryColors[dim.category] || 'bg-gray-100 text-gray-600'}`}>
-                  {dim.category}
-                </span>
               </div>
             )
           })}

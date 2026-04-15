@@ -5,7 +5,7 @@ export default function ReviewForm({ hotel, onSubmit, loading }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (text.trim().length < 10) return
+    if (text.trim().length < 1) return
     onSubmit(text)
   }
 
@@ -33,7 +33,7 @@ export default function ReviewForm({ hotel, onSubmit, loading }) {
           </span>
           <button
             type="submit"
-            disabled={loading || text.trim().length < 10}
+            disabled={loading || text.trim().length < 1}
             className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors cursor-pointer flex items-center gap-2"
           >
             {loading ? (
