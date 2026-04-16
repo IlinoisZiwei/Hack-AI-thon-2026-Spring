@@ -103,16 +103,28 @@ export default function App() {
               </p>
             </div>
           </div>
-          {/* Back button — admin dashboard only */}
-          {isAdmin && step === 'dashboard' && (
-            <button
-              onClick={handleRestart}
-              className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer transition-colors"
-              title="Back to hotel list"
-            >
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-            </button>
-          )}
+          {/* Back button */}
+          {(() => {
+            // Determine back action based on current step
+            let backAction = null
+            if (isAdmin && step === 'dashboard') {
+              backAction = handleRestart
+            } else if (!isAdmin && step === 'review') {
+              backAction = () => { setStep('pick'); setSelectedHotel(null); setProfile(null) }
+            } else if (!isAdmin && step === 'followup') {
+              backAction = () => setStep('review')
+            }
+            if (!backAction) return null
+            return (
+              <button
+                onClick={backAction}
+                className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer transition-colors"
+                title="Back"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              </button>
+            )
+          })()}
         </div>
       </header>
 
@@ -201,11 +213,20 @@ export default function App() {
                   {selectedHotel ? <> at <span className="font-semibold text-orange-600">{selectedHotel.name}</span></> : ''}.
                   Every review makes a difference!
                 </p>
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 px-5 py-2.5 rounded-full text-sm font-semibold border border-green-200/60 shadow-sm">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 px-5 py-2.5 rounded-full text-sm font-semibold border border-green-200/60 shadow-sm mb-6">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   Feedback submitted successfully
+                </div>
+                <div>
+                  <button
+                    onClick={handleRestart}
+                    className="px-6 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-600 cursor-pointer transition-all shadow-lg shadow-orange-200/50 flex items-center gap-2 mx-auto"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                    Review Another Hotel
+                  </button>
                 </div>
               </div>
             </div>
