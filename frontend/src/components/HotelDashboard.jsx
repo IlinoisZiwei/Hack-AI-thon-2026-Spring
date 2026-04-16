@@ -165,6 +165,66 @@ export default function HotelDashboard({ profile, prevScore }) {
         </div>
       )}
 
+      {/* Recent Activity */}
+      {(() => {
+        // Build activity feed from dimensions that have snippets & dates
+        const activities = profile.dimensions
+          .filter(d => d.mention_count > 0 && d.last_mentioned)
+          .map(d => ({
+            dimension: d.label,
+            category: d.category,
+            date: d.last_mentioned,
+            stance: d.dominant_stance,
+            snippets: d.example_snippets || [],
+            mentions: d.mention_count,
+          }))
+          .sort((a, b) => b.date.localeCompare(a.date))
+
+        if (activities.length === 0) return null
+
+        return (
+          <div className="glass-card rounded-2xl p-6 shadow-md border border-white/60 mt-6">
+            <h3 className="font-bold text-gray-900 mb-4 text-lg flex items-center gap-2">
+              🕐 Recent Review Activity
+              <span className="text-sm font-normal text-gray-400">({activities.length} dimensions with data)</span>
+            </h3>
+            <div className="space-y-3">
+              {activities.slice(0, 10).map((act, i) => {
+                const cat = CATEGORY_CONFIG[act.category] || { emoji: '📌', colors: 'bg-gray-50 text-gray-600 border-gray-200' }
+                const stanceIcon = act.stance === 'positive' ? '🟢' : act.stance === 'negative' ? '🔴' : act.stance === 'mixed' ? '🟡' : '⚪'
+                return (
+                  <div key={i} className="bg-white/60 rounded-xl border border-gray-100 p-4 hover:bg-white/80 transition-colors">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs">{stanceIcon}</span>
+                        <span className="text-sm font-semibold text-gray-800">{act.dimension}</span>
+                        <span className={`text-[10px] px-2 py-0.5 rounded-full border font-medium ${cat.colors}`}>
+                          {cat.emoji} {act.category}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-400 font-medium">{act.mentions} mentions</span>
+                        <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded font-mono">{act.date}</span>
+                      </div>
+                    </div>
+                    {act.snippets.length > 0 && (
+                      <div className="space-y-1.5 ml-5">
+                        {act.snippets.slice(0, 2).map((snippet, j) => (
+                          <p key={j} className="text-xs text-gray-500 leading-relaxed flex items-start gap-1.5">
+                            <span className="text-gray-300 shrink-0 mt-0.5">›</span>
+                            <span className="italic">"{snippet.length > 120 ? snippet.slice(0, 120) + '...' : snippet}"</span>
+                          </p>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )
+      })()}
+
       <div className="text-center mt-8 text-sm text-gray-400">
         Based on {profile.review_count.toLocaleString()} reviews
       </div>

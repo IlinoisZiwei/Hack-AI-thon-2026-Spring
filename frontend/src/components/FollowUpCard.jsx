@@ -78,6 +78,9 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
     setListening(false)
   }, [])
 
+  // Capture text before voice starts so we can append to it
+  const textBeforeVoiceRef = useRef('')
+
   const startListening = useCallback(async () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
     if (!SpeechRecognition) return
@@ -89,21 +92,22 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
       return
     }
 
+    // Save existing text so voice appends to it
+    textBeforeVoiceRef.current = textInput
+
     const recognition = new SpeechRecognition()
     recognition.continuous = true
     recognition.interimResults = true
     recognition.lang = 'en-US'
 
     recognition.onresult = (event) => {
-      let text = ''
+      let transcript = ''
       for (let i = 0; i < event.results.length; i++) {
-        text += event.results[i][0].transcript
+        transcript += event.results[i][0].transcript
       }
-      finalTranscriptRef.current = text
-      setTextInput(prev => {
-        // Replace with latest voice transcript
-        return text
-      })
+      finalTranscriptRef.current = transcript
+      const prefix = textBeforeVoiceRef.current
+      setTextInput(prefix ? `${prefix} ${transcript}` : transcript)
     }
 
     recognition.onerror = () => setListening(false)
@@ -113,7 +117,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
     finalTranscriptRef.current = ''
     recognition.start()
     setListening(true)
-  }, [])
+  }, [textInput])
 
   const toggleVoice = useCallback(() => {
     if (listening) {

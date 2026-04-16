@@ -10,9 +10,7 @@ const isAdmin = window.location.pathname.startsWith('/admin')
 
 const ADMIN_STEPS = [
   { key: 'select', label: 'Select Hotel', icon: '🏨' },
-  { key: 'review', label: 'Write Review', icon: '✍️' },
-  { key: 'followup', label: 'Questions', icon: '💬' },
-  { key: 'dashboard', label: 'Results', icon: '📊' },
+  { key: 'dashboard', label: 'Dashboard', icon: '📊' },
 ]
 
 const USER_STEPS = [
@@ -33,12 +31,22 @@ export default function App() {
   const [profile, setProfile] = useState(null)
   const [prevCompleteness, setPrevCompleteness] = useState(null)
 
-  const handleHotelSelect = async (hotel) => {
+  // Admin: select hotel → go straight to dashboard
+  const handleAdminHotelSelect = async (hotel) => {
     setSelectedHotel(hotel)
-    setStep('review')
     const p = await fetchHotelProfile(hotel.property_id)
     setProfile(p)
     setPrevCompleteness(p.completeness.score)
+    setStep('dashboard')
+  }
+
+  // User: select hotel → go to review
+  const handleUserHotelSelect = async (hotel) => {
+    setSelectedHotel(hotel)
+    const p = await fetchHotelProfile(hotel.property_id)
+    setProfile(p)
+    setPrevCompleteness(p.completeness.score)
+    setStep('review')
   }
 
   const handleReviewSubmit = async (text) => {
@@ -52,14 +60,10 @@ export default function App() {
         analysis.covered_dimensions
       )
       setQuestions(result.questions || [])
-      if (result.questions?.length > 0) {
-        setStep('followup')
-      } else {
-        setStep(isAdmin ? 'dashboard' : 'thankyou')
-      }
+      setStep(result.questions?.length > 0 ? 'followup' : 'thankyou')
     } catch (err) {
       console.error(err)
-      setStep(isAdmin ? 'dashboard' : 'thankyou')
+      setStep('thankyou')
     }
     setLoading(false)
   }
@@ -68,14 +72,8 @@ export default function App() {
     await submitAnswer(selectedHotel.property_id, question.gap_dimension, answer, sentiment)
   }
 
-  const handleFollowUpDone = async () => {
-    if (isAdmin) {
-      const p = await fetchHotelProfile(selectedHotel.property_id)
-      setProfile(p)
-      setStep('dashboard')
-    } else {
-      setStep('thankyou')
-    }
+  const handleFollowUpDone = () => {
+    setStep('thankyou')
   }
 
   const handleRestart = () => {
@@ -88,20 +86,6 @@ export default function App() {
   }
 
   const currentIdx = STEPS.findIndex(s => s.key === step)
-
-  // Admin nav helpers
-  const goBack = () => {
-    if (!isAdmin) return
-    if (currentIdx === 1) handleRestart()
-    else if (currentIdx === 2) setStep('review')
-    else if (currentIdx === 3) setStep('followup')
-  }
-
-  const goForward = () => {
-    if (!isAdmin) return
-    if (currentIdx === 2 && profile) setStep('dashboard')
-    if (currentIdx === 3) handleRestart()
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 font-sans">
@@ -119,27 +103,15 @@ export default function App() {
               </p>
             </div>
           </div>
-          {/* Back / Forward nav — admin only */}
-          {isAdmin && step !== 'select' && (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={goBack}
-                className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer transition-colors"
-                title="Back"
-              >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-              </button>
-              {currentIdx < STEPS.length - 1 && (
-                <button
-                  onClick={goForward}
-                  disabled={currentIdx === 1}
-                  className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                  title="Forward"
-                >
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </button>
-              )}
-            </div>
+          {/* Back button — admin dashboard only */}
+          {isAdmin && step === 'dashboard' && (
+            <button
+              onClick={handleRestart}
+              className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer transition-colors"
+              title="Back to hotel list"
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            </button>
           )}
         </div>
       </header>
@@ -188,20 +160,20 @@ export default function App() {
       {/* Main content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-16">
         <div className="animate-fade-in-up" key={step}>
-          {step === 'select' && isAdmin && <HotelSelector onSelect={handleHotelSelect} />}
+          {step === 'select' && isAdmin && <HotelSelector onSelect={handleAdminHotelSelect} />}
 
-          {step === 'pick' && !isAdmin && <UserHotelPicker onSelect={handleHotelSelect} />}
+          {step === 'pick' && !isAdmin && <UserHotelPicker onSelect={handleUserHotelSelect} />}
 
-          {step === 'review' && (
+          {step === 'review' && !isAdmin && (
             <ReviewForm
               hotel={selectedHotel}
               onSubmit={handleReviewSubmit}
               loading={loading}
-              isAdmin={isAdmin}
+              isAdmin={false}
             />
           )}
 
-          {step === 'followup' && (
+          {step === 'followup' && !isAdmin && (
             <FollowUpCard
               questions={questions}
               onAnswer={handleAnswer}
