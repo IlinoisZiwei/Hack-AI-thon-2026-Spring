@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import VoiceInput from './VoiceInput'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 const QUICK_OPTIONS = [
   { label: 'Great!', emoji: '👍', sentiment: 'positive', colors: 'border-green-200 bg-green-50 text-green-700 hover:bg-green-100 hover:border-green-300', selectedBg: 'border-green-400 bg-green-100 text-green-800 ring-2 ring-green-300' },
@@ -11,9 +10,11 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
   const [currentIdx, setCurrentIdx] = useState(0)
   const [textInput, setTextInput] = useState('')
   const [selectedQuick, setSelectedQuick] = useState(null) // {label, sentiment}
-  const [mode, setMode] = useState(null)
+  const [listening, setListening] = useState(false)
   const [showThankYou, setShowThankYou] = useState(false)
   const [displayedText, setDisplayedText] = useState('')
+  const recognitionRef = useRef(null)
+  const finalTranscriptRef = useRef('')
 
   const current = questions[currentIdx]
 
@@ -69,11 +70,58 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
     showThankAndAdvance(fullAnswer)
   }
 
-  const handleVoiceResult = (transcript) => {
-    // Append voice result to text input instead of submitting immediately
-    setTextInput(prev => prev ? `${prev} ${transcript}` : transcript)
-    setMode(null) // Close voice mode, show the text
-  }
+  const stopListening = useCallback(() => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop()
+      recognitionRef.current = null
+    }
+    setListening(false)
+  }, [])
+
+  const startListening = useCallback(async () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SpeechRecognition) return
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      stream.getTracks().forEach(t => t.stop())
+    } catch {
+      return
+    }
+
+    const recognition = new SpeechRecognition()
+    recognition.continuous = true
+    recognition.interimResults = true
+    recognition.lang = 'en-US'
+
+    recognition.onresult = (event) => {
+      let text = ''
+      for (let i = 0; i < event.results.length; i++) {
+        text += event.results[i][0].transcript
+      }
+      finalTranscriptRef.current = text
+      setTextInput(prev => {
+        // Replace with latest voice transcript
+        return text
+      })
+    }
+
+    recognition.onerror = () => setListening(false)
+    recognition.onend = () => setListening(false)
+
+    recognitionRef.current = recognition
+    finalTranscriptRef.current = ''
+    recognition.start()
+    setListening(true)
+  }, [])
+
+  const toggleVoice = useCallback(() => {
+    if (listening) {
+      stopListening()
+    } else {
+      startListening()
+    }
+  }, [listening, startListening, stopListening])
 
   const showThankAndAdvance = (answerText) => {
     setShowThankYou(true)
@@ -81,7 +129,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
       setShowThankYou(false)
       setTextInput('')
       setSelectedQuick(null)
-      setMode(null)
+      stopListening()
       if (currentIdx < questions.length - 1) {
         setCurrentIdx(currentIdx + 1)
       } else {
@@ -95,7 +143,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
       setCurrentIdx(currentIdx + 1)
       setTextInput('')
       setSelectedQuick(null)
-      setMode(null)
+      stopListening()
     } else {
       onDone()
     }
@@ -185,33 +233,35 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
             {/* Step 2: Optional details */}
             <p className="text-xs text-gray-400 font-medium mb-2 uppercase tracking-wide">Step 2: Add details (optional)</p>
 
-            {/* Text input always visible */}
-            <div className="flex gap-2 mb-3">
+            {/* Text input with inline voice button */}
+            <div className="relative mb-3">
               <input
                 type="text"
                 value={textInput}
                 onChange={e => setTextInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && hasAnswer && handleSubmit()}
-                placeholder="Add more details... (optional)"
-                className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/80 text-sm"
+                placeholder={listening ? 'Listening... tap mic to stop' : 'Type or tap mic to speak (optional)'}
+                className={`w-full pl-4 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/80 text-sm transition-colors ${
+                  listening ? 'border-red-300 bg-red-50/40' : 'border-gray-200'
+                }`}
+                readOnly={listening}
               />
               <button
-                onClick={() => setMode(mode === 'voice' ? null : 'voice')}
-                className={`px-4 py-3 rounded-xl border-2 transition-all cursor-pointer ${
-                  mode === 'voice' ? 'border-orange-400 bg-orange-50 text-orange-700' : 'border-gray-200 text-gray-400 hover:border-gray-300'
+                onClick={toggleVoice}
+                className={`absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                  listening
+                    ? 'bg-red-500 text-white shadow-md shadow-red-200/50 animate-pulse'
+                    : 'bg-gray-100 text-gray-500 hover:bg-orange-100 hover:text-orange-600'
                 }`}
-                title="Voice input"
+                title={listening ? 'Stop listening' : 'Voice input'}
               >
-                🎤
+                {listening ? (
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" /></svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-14 0m14 0a7 7 0 00-14 0m14 0v1a7 7 0 01-14 0v-1m7 8v4m-4 0h8" /></svg>
+                )}
               </button>
             </div>
-
-            {/* Voice input */}
-            {mode === 'voice' && (
-              <div className="animate-fade-in mb-4">
-                <VoiceInput onResult={handleVoiceResult} />
-              </div>
-            )}
 
             {/* Submit button */}
             <button

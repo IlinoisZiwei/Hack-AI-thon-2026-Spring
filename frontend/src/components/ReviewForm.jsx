@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function ReviewForm({ hotel, onSubmit, loading }) {
+export default function ReviewForm({ hotel, onSubmit, loading, isAdmin }) {
   const [text, setText] = useState('')
 
   const handleSubmit = (e) => {
@@ -12,9 +12,20 @@ export default function ReviewForm({ hotel, onSubmit, loading }) {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">Write Your Review</h2>
+        {!isAdmin && (
+          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-xs font-medium border border-blue-200/60 mb-4">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            Based on your recent stay
+          </div>
+        )}
+        <h2 className="text-3xl font-bold text-gray-900 mb-2 tracking-tight">
+          {isAdmin ? 'Write Your Review' : 'How Was Your Stay?'}
+        </h2>
         <p className="text-gray-500">
-          Share your experience at <span className="font-semibold text-orange-600">{hotel.name}</span>
+          {isAdmin
+            ? <>Share your experience at <span className="font-semibold text-orange-600">{hotel.name}</span></>
+            : <>Tell us about your experience at <span className="font-semibold text-orange-600">{hotel.name}</span> — it only takes a minute!</>
+          }
         </p>
       </div>
 

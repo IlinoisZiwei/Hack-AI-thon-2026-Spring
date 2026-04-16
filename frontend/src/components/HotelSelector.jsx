@@ -112,9 +112,14 @@ export default function HotelSelector({ onSelect }) {
             {/* Info */}
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-gray-900 truncate group-hover:text-orange-600 transition-colors text-sm sm:text-base">{hotel.name}</h3>
-              <p className="text-xs sm:text-sm text-gray-400 mt-0.5">
-                {hotel.review_count.toLocaleString()} reviews
-              </p>
+              <div className="flex items-center gap-2 mt-0.5">
+                <p className="text-xs sm:text-sm text-gray-400">
+                  {hotel.review_count.toLocaleString()} reviews
+                </p>
+                <code className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded font-mono truncate max-w-[120px] sm:max-w-[200px]">
+                  {hotel.property_id.slice(0, 12)}...
+                </code>
+              </div>
             </div>
 
             {/* Completeness ring + arrow — always horizontal */}

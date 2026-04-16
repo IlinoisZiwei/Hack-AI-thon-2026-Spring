@@ -36,6 +36,7 @@ export default function HotelDashboard({ profile, prevScore }) {
     <div>
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-1 tracking-tight">{profile.name}</h2>
+        <code className="inline-block text-[11px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded font-mono mb-1">{profile.property_id}</code>
         <p className="text-gray-500">Hotel Information Overview</p>
       </div>
 

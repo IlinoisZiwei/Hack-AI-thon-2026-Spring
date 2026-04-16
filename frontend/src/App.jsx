@@ -1,20 +1,32 @@
 import { useState } from 'react'
 import HotelSelector from './components/HotelSelector'
+import UserHotelPicker from './components/UserHotelPicker'
 import ReviewForm from './components/ReviewForm'
 import FollowUpCard from './components/FollowUpCard'
 import HotelDashboard from './components/HotelDashboard'
 import { analyzeReview, generateQuestions, submitAnswer, fetchHotelProfile } from './api'
 
-const STEPS = [
+const isAdmin = window.location.pathname.startsWith('/admin')
+
+const ADMIN_STEPS = [
   { key: 'select', label: 'Select Hotel', icon: '🏨' },
   { key: 'review', label: 'Write Review', icon: '✍️' },
   { key: 'followup', label: 'Questions', icon: '💬' },
   { key: 'dashboard', label: 'Results', icon: '📊' },
 ]
 
+const USER_STEPS = [
+  { key: 'pick', label: 'Your Hotel', icon: '📍' },
+  { key: 'review', label: 'Your Review', icon: '✍️' },
+  { key: 'followup', label: 'Quick Questions', icon: '💬' },
+  { key: 'thankyou', label: 'Done', icon: '✅' },
+]
+
 export default function App() {
+  const STEPS = isAdmin ? ADMIN_STEPS : USER_STEPS
+
   const [selectedHotel, setSelectedHotel] = useState(null)
-  const [step, setStep] = useState('select')
+  const [step, setStep] = useState(isAdmin ? 'select' : 'pick')
   const [reviewText, setReviewText] = useState('')
   const [questions, setQuestions] = useState([])
   const [loading, setLoading] = useState(false)
@@ -40,10 +52,14 @@ export default function App() {
         analysis.covered_dimensions
       )
       setQuestions(result.questions || [])
-      setStep(result.questions?.length > 0 ? 'followup' : 'dashboard')
+      if (result.questions?.length > 0) {
+        setStep('followup')
+      } else {
+        setStep(isAdmin ? 'dashboard' : 'thankyou')
+      }
     } catch (err) {
       console.error(err)
-      setStep('dashboard')
+      setStep(isAdmin ? 'dashboard' : 'thankyou')
     }
     setLoading(false)
   }
@@ -53,13 +69,17 @@ export default function App() {
   }
 
   const handleFollowUpDone = async () => {
-    const p = await fetchHotelProfile(selectedHotel.property_id)
-    setProfile(p)
-    setStep('dashboard')
+    if (isAdmin) {
+      const p = await fetchHotelProfile(selectedHotel.property_id)
+      setProfile(p)
+      setStep('dashboard')
+    } else {
+      setStep('thankyou')
+    }
   }
 
   const handleRestart = () => {
-    setStep('select')
+    setStep(isAdmin ? 'select' : 'pick')
     setSelectedHotel(null)
     setReviewText('')
     setQuestions([])
@@ -69,13 +89,16 @@ export default function App() {
 
   const currentIdx = STEPS.findIndex(s => s.key === step)
 
+  // Admin nav helpers
   const goBack = () => {
+    if (!isAdmin) return
     if (currentIdx === 1) handleRestart()
     else if (currentIdx === 2) setStep('review')
     else if (currentIdx === 3) setStep('followup')
   }
 
   const goForward = () => {
+    if (!isAdmin) return
     if (currentIdx === 2 && profile) setStep('dashboard')
     if (currentIdx === 3) handleRestart()
   }
@@ -91,11 +114,13 @@ export default function App() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-white m-0 tracking-tight">GuestVoice</h1>
-              <p className="text-[11px] text-orange-100 font-medium">Smart Hotel Review Assistant</p>
+              <p className="text-[11px] text-orange-100 font-medium">
+                {isAdmin ? 'Admin Dashboard' : 'Smart Hotel Review Assistant'}
+              </p>
             </div>
           </div>
-          {/* Back / Forward nav */}
-          {step !== 'select' && (
+          {/* Back / Forward nav — admin only */}
+          {isAdmin && step !== 'select' && (
             <div className="flex items-center gap-2">
               <button
                 onClick={goBack}
@@ -104,7 +129,7 @@ export default function App() {
               >
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
               </button>
-              {currentIdx < 3 && (
+              {currentIdx < STEPS.length - 1 && (
                 <button
                   onClick={goForward}
                   disabled={currentIdx === 1}
@@ -130,13 +155,7 @@ export default function App() {
                 <div
                   className={`flex-1 flex flex-col items-center gap-1.5 py-2 rounded-xl transition-all duration-300 ${
                     isActive ? 'bg-orange-50 shadow-sm' : ''
-                  } ${isDone ? 'cursor-pointer' : ''}`}
-                  onClick={() => {
-                    if (isDone && i === 0) handleRestart()
-                    else if (isDone && i === 1) setStep('review')
-                    else if (isDone && i === 2) setStep('followup')
-                    else if (i === 3 && profile && currentIdx >= 3) setStep('dashboard')
-                  }}
+                  }`}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-300 ${
                     isDone ? 'bg-green-500 text-white shadow-md' :
@@ -169,13 +188,16 @@ export default function App() {
       {/* Main content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 pb-16">
         <div className="animate-fade-in-up" key={step}>
-          {step === 'select' && <HotelSelector onSelect={handleHotelSelect} />}
+          {step === 'select' && isAdmin && <HotelSelector onSelect={handleHotelSelect} />}
+
+          {step === 'pick' && !isAdmin && <UserHotelPicker onSelect={handleHotelSelect} />}
 
           {step === 'review' && (
             <ReviewForm
               hotel={selectedHotel}
               onSubmit={handleReviewSubmit}
               loading={loading}
+              isAdmin={isAdmin}
             />
           )}
 
@@ -187,11 +209,34 @@ export default function App() {
             />
           )}
 
-          {step === 'dashboard' && profile && (
+          {step === 'dashboard' && isAdmin && profile && (
             <HotelDashboard
               profile={profile}
               prevScore={prevCompleteness}
             />
+          )}
+
+          {step === 'thankyou' && !isAdmin && (
+            <div className="max-w-2xl mx-auto text-center animate-fade-in-up">
+              <div className="glass-card rounded-2xl p-10 sm:p-14 shadow-lg border border-white/60">
+                <div className="text-6xl mb-6">🎉</div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight">Thank You!</h2>
+                <p className="text-gray-500 text-lg leading-relaxed mb-2">
+                  Your feedback means the world to us.
+                </p>
+                <p className="text-gray-400 text-sm leading-relaxed mb-8">
+                  You're helping us improve the experience for future guests
+                  {selectedHotel ? <> at <span className="font-semibold text-orange-600">{selectedHotel.name}</span></> : ''}.
+                  Every review makes a difference!
+                </p>
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 px-5 py-2.5 rounded-full text-sm font-semibold border border-green-200/60 shadow-sm">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Feedback submitted successfully
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </main>

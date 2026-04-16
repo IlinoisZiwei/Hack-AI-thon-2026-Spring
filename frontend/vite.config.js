@@ -8,5 +8,9 @@ export default defineConfig({
     proxy: {
       '/api': 'http://localhost:8000',
     },
+    // SPA fallback: serve index.html for /admin and other routes
+    historyApiFallback: true,
   },
+  // Ensure /admin path resolves to index.html in preview too
+  appType: 'spa',
 })
