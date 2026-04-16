@@ -40,7 +40,7 @@ export default function HotelSelector({ onSelect }) {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-20 gap-4">
-        <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin" />
         <p className="text-gray-400 text-sm">Loading hotels...</p>
       </div>
     )
@@ -73,7 +73,7 @@ export default function HotelSelector({ onSelect }) {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search hotels..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent text-sm"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white/80 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent text-sm"
           />
         </div>
         <div className="flex gap-1.5 overflow-x-auto pb-1">
@@ -83,7 +83,7 @@ export default function HotelSelector({ onSelect }) {
               onClick={() => setCategory(cat)}
               className={`px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
                 category === cat
-                  ? 'bg-orange-500 text-white shadow-sm'
+                  ? 'bg-teal-500 text-white shadow-sm'
                   : 'bg-white/70 text-gray-500 hover:bg-gray-100 border border-gray-200'
               }`}
             >
@@ -105,13 +105,13 @@ export default function HotelSelector({ onSelect }) {
             className="glass-card hover-lift rounded-2xl p-4 sm:p-5 flex flex-row items-center gap-3 sm:gap-4 border border-gray-200/60 transition-all cursor-pointer text-left group"
           >
             {/* Emoji avatar */}
-            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center text-xl sm:text-2xl shrink-0 group-hover:scale-110 transition-transform">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-teal-100 to-cyan-100 flex items-center justify-center text-xl sm:text-2xl shrink-0 group-hover:scale-110 transition-transform">
               {HOTEL_EMOJIS[idx % HOTEL_EMOJIS.length]}
             </div>
 
             {/* Info */}
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 truncate group-hover:text-orange-600 transition-colors text-sm sm:text-base">{hotel.name}</h3>
+              <h3 className="font-semibold text-gray-900 truncate group-hover:text-teal-600 transition-colors text-sm sm:text-base">{hotel.name}</h3>
               <div className="flex items-center gap-2 mt-0.5">
                 <p className="text-xs sm:text-sm text-gray-400">
                   {hotel.review_count.toLocaleString()} reviews
@@ -125,7 +125,7 @@ export default function HotelSelector({ onSelect }) {
             {/* Completeness ring + arrow — always horizontal */}
             <div className="shrink-0 flex flex-row items-center gap-2">
               <MiniRing score={hotel.completeness.score} />
-              <svg className="w-5 h-5 text-gray-300 group-hover:text-orange-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 text-gray-300 group-hover:text-teal-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>
@@ -135,7 +135,7 @@ export default function HotelSelector({ onSelect }) {
         {filtered.length === 0 && (
           <div className="text-center py-10 text-gray-400">
             <p className="text-lg">No hotels match your search</p>
-            <button onClick={() => { setSearch(''); setCategory('All') }} className="text-orange-500 text-sm mt-2 cursor-pointer hover:underline">
+            <button onClick={() => { setSearch(''); setCategory('All') }} className="text-teal-500 text-sm mt-2 cursor-pointer hover:underline">
               Clear filters
             </button>
           </div>

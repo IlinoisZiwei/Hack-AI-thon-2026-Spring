@@ -187,7 +187,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
                 <div className="flex gap-1">
                   {questions.map((_, i) => (
                     <div key={i} className={`w-2 h-2 rounded-full transition-colors ${
-                      i < currentIdx ? 'bg-green-400' : i === currentIdx ? 'bg-orange-500' : 'bg-gray-200'
+                      i < currentIdx ? 'bg-green-400' : i === currentIdx ? 'bg-teal-500' : 'bg-gray-200'
                     }`} />
                   ))}
                 </div>
@@ -205,10 +205,10 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
             <div className="mb-8">
               <p className="text-xl sm:text-2xl font-semibold text-gray-900 leading-relaxed">
                 "{displayedText}"
-                <span className="inline-block w-0.5 h-6 bg-orange-500 ml-0.5 animate-pulse" />
+                <span className="inline-block w-0.5 h-6 bg-teal-500 ml-0.5 animate-pulse" />
               </p>
               <p className="text-sm text-gray-400 mt-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-orange-400 inline-block" />
+                <span className="w-2 h-2 rounded-full bg-teal-400 inline-block" />
                 About: {current.gap_label}
               </p>
             </div>
@@ -245,7 +245,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
                 onChange={e => setTextInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && hasAnswer && handleSubmit()}
                 placeholder={listening ? 'Listening... tap mic to stop' : 'Type or tap mic to speak (optional)'}
-                className={`w-full pl-4 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/80 text-sm transition-colors ${
+                className={`w-full pl-4 pr-12 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white/80 text-sm transition-colors ${
                   listening ? 'border-red-300 bg-red-50/40' : 'border-gray-200'
                 }`}
                 readOnly={listening}
@@ -255,7 +255,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
                 className={`absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                   listening
                     ? 'bg-red-500 text-white shadow-md shadow-red-200/50 animate-pulse'
-                    : 'bg-gray-100 text-gray-500 hover:bg-orange-100 hover:text-orange-600'
+                    : 'bg-gray-100 text-gray-500 hover:bg-teal-100 hover:text-teal-600'
                 }`}
                 title={listening ? 'Stop listening' : 'Voice input'}
               >
@@ -271,7 +271,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
             <button
               onClick={handleSubmit}
               disabled={!hasAnswer}
-              className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-lg shadow-orange-200/50 transition-all flex items-center justify-center gap-2 mt-2"
+              className="w-full py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-cyan-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-lg shadow-teal-200/50 transition-all flex items-center justify-center gap-2 mt-2"
             >
               {hasAnswer ? (
                 <>

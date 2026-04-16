@@ -23,15 +23,15 @@ export default function ReviewForm({ hotel, onSubmit, loading, isAdmin }) {
         </h2>
         <p className="text-gray-500">
           {isAdmin
-            ? <>Share your experience at <span className="font-semibold text-orange-600">{hotel.name}</span></>
-            : <>Tell us about your experience at <span className="font-semibold text-orange-600">{hotel.name}</span> — it only takes a minute!</>
+            ? <>Share your experience at <span className="font-semibold text-teal-600">{hotel.name}</span></>
+            : <>Tell us about your experience at <span className="font-semibold text-teal-600">{hotel.name}</span> — it only takes a minute!</>
           }
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-6 sm:p-8 shadow-md border border-white/60">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center text-white text-sm font-bold shadow-md">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center text-white text-sm font-bold shadow-md">
             U
           </div>
           <span className="text-sm text-gray-500">Writing as a guest...</span>
@@ -41,13 +41,13 @@ export default function ReviewForm({ hotel, onSubmit, loading, isAdmin }) {
           value={text}
           onChange={e => setText(e.target.value)}
           placeholder="Tell us about your stay... How was the room? The service? Location? Any tips for future travelers?"
-          className="w-full h-36 p-4 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent text-gray-700 placeholder-gray-400 bg-white/80 transition-shadow"
+          className="w-full h-36 p-4 border border-gray-200 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent text-gray-700 placeholder-gray-400 bg-white/80 transition-shadow"
           disabled={loading}
         />
 
         {text.length > 3 && !loading && (
-          <div className="flex items-center gap-2 mt-3 text-xs text-orange-500 animate-fade-in">
-            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse" />
+          <div className="flex items-center gap-2 mt-3 text-xs text-teal-500 animate-fade-in">
+            <div className="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse" />
             AI will analyze your review to ask relevant follow-up questions
           </div>
         )}
@@ -57,7 +57,7 @@ export default function ReviewForm({ hotel, onSubmit, loading, isAdmin }) {
           <button
             type="submit"
             disabled={loading || text.trim().length < 1}
-            className="px-7 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer flex items-center gap-2 shadow-lg shadow-orange-200/50"
+            className="px-7 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-cyan-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer flex items-center gap-2 shadow-lg shadow-teal-200/50"
           >
             {loading ? (
               <>
@@ -74,10 +74,10 @@ export default function ReviewForm({ hotel, onSubmit, loading, isAdmin }) {
         </div>
       </form>
 
-      <div className="mt-4 glass-card rounded-xl p-4 border border-orange-200/40">
+      <div className="mt-4 glass-card rounded-xl p-4 border border-teal-200/40">
         <div className="flex items-start gap-2">
           <span className="text-lg">💡</span>
-          <p className="text-sm text-orange-700/80">
+          <p className="text-sm text-teal-700/80">
             After submitting, we may ask 1-2 quick follow-up questions to help future travelers.
             You can always skip them!
           </p>

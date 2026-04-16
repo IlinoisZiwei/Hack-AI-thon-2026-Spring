@@ -88,17 +88,17 @@ export default function App() {
   const currentIdx = STEPS.findIndex(s => s.key === step)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-cyan-50 font-sans">
       {/* Header */}
-      <header className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 shadow-lg">
+      <header className="bg-gradient-to-r from-teal-500 via-cyan-500 to-sky-500 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-white/25 backdrop-blur rounded-xl flex items-center justify-center text-2xl shadow-inner">
-              🎙️
+              🏨
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white m-0 tracking-tight">GuestVoice</h1>
-              <p className="text-[11px] text-orange-100 font-medium">
+              <h1 className="text-xl font-bold text-white m-0 tracking-tight">AskStay</h1>
+              <p className="text-[11px] text-teal-100 font-medium">
                 {isAdmin ? 'Admin Dashboard' : 'Smart Hotel Review Assistant'}
               </p>
             </div>
@@ -138,12 +138,12 @@ export default function App() {
               <div key={s.key} className="flex-1 flex items-center">
                 <div
                   className={`flex-1 flex flex-col items-center gap-1.5 py-2 rounded-xl transition-all duration-300 ${
-                    isActive ? 'bg-orange-50 shadow-sm' : ''
+                    isActive ? 'bg-teal-50 shadow-sm' : ''
                   }`}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-300 ${
                     isDone ? 'bg-green-500 text-white shadow-md' :
-                    isActive ? 'bg-orange-500 text-white shadow-lg shadow-orange-200' :
+                    isActive ? 'bg-teal-500 text-white shadow-lg shadow-teal-200' :
                     'bg-gray-200 text-gray-400'
                   }`}>
                     {isDone ? (
@@ -153,7 +153,7 @@ export default function App() {
                     )}
                   </div>
                   <span className={`text-[10px] sm:text-xs font-medium ${
-                    isActive ? 'text-orange-700' : isDone ? 'text-green-600' : 'text-gray-400'
+                    isActive ? 'text-teal-700' : isDone ? 'text-green-600' : 'text-gray-400'
                   }`}>
                     {s.label}
                   </span>
@@ -210,7 +210,7 @@ export default function App() {
                 </p>
                 <p className="text-gray-400 text-sm leading-relaxed mb-8">
                   You're helping us improve the experience for future guests
-                  {selectedHotel ? <> at <span className="font-semibold text-orange-600">{selectedHotel.name}</span></> : ''}.
+                  {selectedHotel ? <> at <span className="font-semibold text-teal-600">{selectedHotel.name}</span></> : ''}.
                   Every review makes a difference!
                 </p>
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-50 to-emerald-50 text-green-700 px-5 py-2.5 rounded-full text-sm font-semibold border border-green-200/60 shadow-sm mb-6">
@@ -222,7 +222,7 @@ export default function App() {
                 <div>
                   <button
                     onClick={handleRestart}
-                    className="px-6 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-600 cursor-pointer transition-all shadow-lg shadow-orange-200/50 flex items-center gap-2 mx-auto"
+                    className="px-6 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-cyan-600 cursor-pointer transition-all shadow-lg shadow-teal-200/50 flex items-center gap-2 mx-auto"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
                     Review Another Hotel

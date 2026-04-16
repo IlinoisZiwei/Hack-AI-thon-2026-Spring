@@ -42,7 +42,7 @@ def get_profile(property_id: str):
             "mention_count": dim_data.get("mention_count", 0),
             "last_mentioned": dim_data.get("last_mentioned"),
             "dominant_stance": dim_data.get("dominant_stance"),
-            "example_snippets": dim_data.get("example_snippets", [])[:3],
+            "example_snippets": dim_data.get("example_snippets", [])[:5],
             "has_official_info": dim_data.get("has_official_info", False),
         })
 
