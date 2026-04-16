@@ -1,10 +1,16 @@
 import { useState, useEffect } from 'react'
 import VoiceInput from './VoiceInput'
 
+const QUICK_OPTIONS = [
+  { label: 'Great!', emoji: '👍', sentiment: 'positive', colors: 'border-green-200 bg-green-50 text-green-700 hover:bg-green-100 hover:border-green-300', selectedBg: 'border-green-400 bg-green-100 text-green-800 ring-2 ring-green-300' },
+  { label: 'Okay', emoji: '👌', sentiment: 'neutral', colors: 'border-yellow-200 bg-yellow-50 text-yellow-700 hover:bg-yellow-100 hover:border-yellow-300', selectedBg: 'border-yellow-400 bg-yellow-100 text-yellow-800 ring-2 ring-yellow-300' },
+  { label: 'Not great', emoji: '👎', sentiment: 'negative', colors: 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100 hover:border-red-300', selectedBg: 'border-red-400 bg-red-100 text-red-800 ring-2 ring-red-300' },
+]
+
 export default function FollowUpCard({ questions, onAnswer, onDone }) {
   const [currentIdx, setCurrentIdx] = useState(0)
   const [textInput, setTextInput] = useState('')
-  const [answered, setAnswered] = useState([])
+  const [selectedQuick, setSelectedQuick] = useState(null) // {label, sentiment}
   const [mode, setMode] = useState(null)
   const [showThankYou, setShowThankYou] = useState(false)
   const [displayedText, setDisplayedText] = useState('')
@@ -30,30 +36,51 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
 
   if (!current) return null
 
-  const handleQuickAnswer = async (label, sentiment) => {
-    await onAnswer(current, label, sentiment)
-    showThankAndAdvance(label)
+  const handleQuickSelect = (label, sentiment) => {
+    // Toggle selection — clicking again deselects
+    if (selectedQuick?.label === label) {
+      setSelectedQuick(null)
+    } else {
+      setSelectedQuick({ label, sentiment })
+    }
   }
 
-  const handleTextSubmit = async () => {
-    if (!textInput.trim()) return
-    const sentiment = guessSentiment(textInput)
-    await onAnswer(current, textInput, sentiment)
-    showThankAndAdvance(textInput)
+  const handleSubmit = async () => {
+    // Combine quick selection + detail text
+    const parts = []
+    let sentiment = 'neutral'
+
+    if (selectedQuick) {
+      parts.push(selectedQuick.label)
+      sentiment = selectedQuick.sentiment
+    }
+    if (textInput.trim()) {
+      parts.push(textInput.trim())
+      // If there's text, let text sentiment override if no quick selected
+      if (!selectedQuick) {
+        sentiment = guessSentiment(textInput)
+      }
+    }
+
+    if (parts.length === 0) return
+
+    const fullAnswer = parts.join(' — ')
+    await onAnswer(current, fullAnswer, sentiment)
+    showThankAndAdvance(fullAnswer)
   }
 
-  const handleVoiceResult = async (transcript) => {
-    const sentiment = guessSentiment(transcript)
-    await onAnswer(current, transcript, sentiment)
-    showThankAndAdvance(transcript)
+  const handleVoiceResult = (transcript) => {
+    // Append voice result to text input instead of submitting immediately
+    setTextInput(prev => prev ? `${prev} ${transcript}` : transcript)
+    setMode(null) // Close voice mode, show the text
   }
 
   const showThankAndAdvance = (answerText) => {
-    setAnswered(prev => [...prev, { question: current.question, answer: answerText }])
     setShowThankYou(true)
     setTimeout(() => {
       setShowThankYou(false)
       setTextInput('')
+      setSelectedQuick(null)
       setMode(null)
       if (currentIdx < questions.length - 1) {
         setCurrentIdx(currentIdx + 1)
@@ -67,11 +94,14 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
     if (currentIdx < questions.length - 1) {
       setCurrentIdx(currentIdx + 1)
       setTextInput('')
+      setSelectedQuick(null)
       setMode(null)
     } else {
       onDone()
     }
   }
+
+  const hasAnswer = selectedQuick || textInput.trim()
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -131,81 +161,86 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
               </p>
             </div>
 
-            {/* Quick buttons */}
-            <div className="flex gap-3 mb-6">
-              {[
-                { label: 'Great!', emoji: '👍', sentiment: 'positive', colors: 'border-green-200 bg-green-50 text-green-700 hover:bg-green-100 hover:border-green-300' },
-                { label: 'Okay', emoji: '👌', sentiment: 'neutral', colors: 'border-yellow-200 bg-yellow-50 text-yellow-700 hover:bg-yellow-100 hover:border-yellow-300' },
-                { label: 'Not great', emoji: '👎', sentiment: 'negative', colors: 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100 hover:border-red-300' },
-              ].map(opt => (
-                <button
-                  key={opt.label}
-                  onClick={() => handleQuickAnswer(opt.label, opt.sentiment)}
-                  className={`flex-1 py-3 rounded-xl border-2 font-medium transition-all cursor-pointer hover:-translate-y-0.5 hover:shadow-md ${opt.colors}`}
-                >
-                  <span className="text-lg block">{opt.emoji}</span>
-                  <span className="text-sm">{opt.label}</span>
-                </button>
-              ))}
+            {/* Step 1: Quick rating (select, don't submit) */}
+            <p className="text-xs text-gray-400 font-medium mb-2 uppercase tracking-wide">Step 1: Quick rating</p>
+            <div className="flex gap-3 mb-5">
+              {QUICK_OPTIONS.map(opt => {
+                const isSelected = selectedQuick?.label === opt.label
+                return (
+                  <button
+                    key={opt.label}
+                    onClick={() => handleQuickSelect(opt.label, opt.sentiment)}
+                    className={`flex-1 py-3 rounded-xl border-2 font-medium transition-all cursor-pointer hover:-translate-y-0.5 hover:shadow-md ${
+                      isSelected ? opt.selectedBg : opt.colors
+                    }`}
+                  >
+                    <span className="text-lg block">{opt.emoji}</span>
+                    <span className="text-sm">{opt.label}</span>
+                    {isSelected && <span className="block text-[10px] mt-0.5">✓ selected</span>}
+                  </button>
+                )
+              })}
             </div>
 
-            {/* Divider */}
-            <div className="flex items-center gap-3 mb-5">
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-              <span className="text-xs text-gray-400">or share more details</span>
-              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-            </div>
+            {/* Step 2: Optional details */}
+            <p className="text-xs text-gray-400 font-medium mb-2 uppercase tracking-wide">Step 2: Add details (optional)</p>
 
-            {/* Input toggle */}
-            <div className="flex gap-3 mb-4">
+            {/* Text input always visible */}
+            <div className="flex gap-2 mb-3">
+              <input
+                type="text"
+                value={textInput}
+                onChange={e => setTextInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && hasAnswer && handleSubmit()}
+                placeholder="Add more details... (optional)"
+                className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80 text-sm"
+              />
               <button
-                onClick={() => setMode('text')}
-                className={`flex-1 py-3 rounded-xl border-2 font-medium transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                  mode === 'text' ? 'border-blue-400 bg-blue-50 text-blue-700 shadow-sm' : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                onClick={() => setMode(mode === 'voice' ? null : 'voice')}
+                className={`px-4 py-3 rounded-xl border-2 transition-all cursor-pointer ${
+                  mode === 'voice' ? 'border-blue-400 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-400 hover:border-gray-300'
                 }`}
+                title="Voice input"
               >
-                ✏️ Type Answer
-              </button>
-              <button
-                onClick={() => setMode('voice')}
-                className={`flex-1 py-3 rounded-xl border-2 font-medium transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                  mode === 'voice' ? 'border-blue-400 bg-blue-50 text-blue-700 shadow-sm' : 'border-gray-200 text-gray-500 hover:border-gray-300'
-                }`}
-              >
-                🎤 Voice Answer
+                🎤
               </button>
             </div>
 
-            {/* Text input */}
-            {mode === 'text' && (
-              <div className="flex gap-2 animate-fade-in">
-                <input
-                  type="text"
-                  value={textInput}
-                  onChange={e => setTextInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleTextSubmit()}
-                  placeholder="Type your answer..."
-                  className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80"
-                  autoFocus
-                />
-                <button
-                  onClick={handleTextSubmit}
-                  disabled={!textInput.trim()}
-                  className="px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-700 hover:to-indigo-700 disabled:opacity-40 cursor-pointer shadow-md"
-                >
-                  Send
-                </button>
-              </div>
-            )}
-
+            {/* Voice input */}
             {mode === 'voice' && (
-              <div className="animate-fade-in">
+              <div className="animate-fade-in mb-4">
                 <VoiceInput onResult={handleVoiceResult} />
               </div>
             )}
 
+            {/* Submit button */}
+            <button
+              onClick={handleSubmit}
+              disabled={!hasAnswer}
+              className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-lg shadow-blue-200/50 transition-all flex items-center justify-center gap-2 mt-2"
+            >
+              {hasAnswer ? (
+                <>
+                  Submit Answer
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                </>
+              ) : (
+                'Select a rating or type your answer'
+              )}
+            </button>
+
+            {/* What you're submitting */}
+            {hasAnswer && (
+              <div className="mt-3 bg-gray-50 rounded-xl p-3 text-xs text-gray-500 animate-fade-in">
+                <span className="font-medium">Your answer: </span>
+                {selectedQuick && <span className="text-gray-700">{selectedQuick.emoji} {selectedQuick.label}</span>}
+                {selectedQuick && textInput.trim() && <span> — </span>}
+                {textInput.trim() && <span className="text-gray-700">"{textInput.trim()}"</span>}
+              </div>
+            )}
+
             {/* Skip */}
-            <div className="text-center mt-6">
+            <div className="text-center mt-4">
               <button
                 onClick={handleSkip}
                 className="text-sm text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
