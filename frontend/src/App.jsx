@@ -69,28 +69,52 @@ export default function App() {
 
   const currentIdx = STEPS.findIndex(s => s.key === step)
 
+  const goBack = () => {
+    if (currentIdx === 1) handleRestart()
+    else if (currentIdx === 2) setStep('review')
+    else if (currentIdx === 3) setStep('followup')
+  }
+
+  const goForward = () => {
+    if (currentIdx === 2 && profile) setStep('dashboard')
+    if (currentIdx === 3) handleRestart()
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 font-sans">
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 shadow-lg">
+      <header className="bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-inner">
-              R
+            <div className="w-10 h-10 bg-white/25 backdrop-blur rounded-xl flex items-center justify-center text-2xl shadow-inner">
+              🎙️
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white m-0 tracking-tight">ReviewIQ</h1>
-              <p className="text-[11px] text-blue-200 font-medium">Smart Hotel Review Assistant</p>
+              <h1 className="text-xl font-bold text-white m-0 tracking-tight">GuestVoice</h1>
+              <p className="text-[11px] text-orange-100 font-medium">Smart Hotel Review Assistant</p>
             </div>
           </div>
+          {/* Back / Forward nav */}
           {step !== 'select' && (
-            <button
-              onClick={handleRestart}
-              className="text-sm text-blue-100 hover:text-white font-medium cursor-pointer transition-colors flex items-center gap-1"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-              Restart
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={goBack}
+                className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer transition-colors"
+                title="Back"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+              </button>
+              {currentIdx < 3 && (
+                <button
+                  onClick={goForward}
+                  disabled={currentIdx === 1}
+                  className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                  title="Forward"
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </button>
+              )}
+            </div>
           )}
         </div>
       </header>
@@ -101,21 +125,22 @@ export default function App() {
           {STEPS.map((s, i) => {
             const isDone = i < currentIdx
             const isActive = i === currentIdx
-            const isFuture = i > currentIdx
             return (
               <div key={s.key} className="flex-1 flex items-center">
                 <div
                   className={`flex-1 flex flex-col items-center gap-1.5 py-2 rounded-xl transition-all duration-300 ${
-                    isActive ? 'bg-blue-50 shadow-sm' : ''
+                    isActive ? 'bg-orange-50 shadow-sm' : ''
                   } ${isDone ? 'cursor-pointer' : ''}`}
                   onClick={() => {
-                    if (i === 0) handleRestart()
-                    else if (i === 3 && profile) setStep('dashboard')
+                    if (isDone && i === 0) handleRestart()
+                    else if (isDone && i === 1) setStep('review')
+                    else if (isDone && i === 2) setStep('followup')
+                    else if (i === 3 && profile && currentIdx >= 3) setStep('dashboard')
                   }}
                 >
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-300 ${
                     isDone ? 'bg-green-500 text-white shadow-md' :
-                    isActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' :
+                    isActive ? 'bg-orange-500 text-white shadow-lg shadow-orange-200' :
                     'bg-gray-200 text-gray-400'
                   }`}>
                     {isDone ? (
@@ -125,7 +150,7 @@ export default function App() {
                     )}
                   </div>
                   <span className={`text-[10px] sm:text-xs font-medium ${
-                    isActive ? 'text-blue-700' : isDone ? 'text-green-600' : 'text-gray-400'
+                    isActive ? 'text-orange-700' : isDone ? 'text-green-600' : 'text-gray-400'
                   }`}>
                     {s.label}
                   </span>

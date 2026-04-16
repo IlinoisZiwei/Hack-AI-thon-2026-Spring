@@ -17,9 +17,9 @@ HOTEL_NAMES = {
     "f2d8d9557208d58577e9df7ff34e42bf86fb5b10fdfae0c3040d14c374a2a2b9": "La Maison du Soleil",
     "110f01b8ae518a0ee41047bce5c22572988a435e10ead72dc1af793bba8ce0b0": "Park Plaza Convention Center",
     "3b984f3ba8df55b2609a1e33fd694cf8407842e1d833c9b4d993b07fc83a2820": "Seaside Cottage Inn",
-    "e52d67a758ce4ad0229aacc97e5dfe89984c384c51a70208f9e0cc65c9cd4676": "Property e52d67a7",
-    "a036cbe1d9fbf9cba088075d1b4d966ee871df55aa4a58ba0da23c116c499052": "Property a036cbe1",
-    "5f5a0cd8662f0ddf297f2d27358f680daab5d3ac22fd45a4e1c3c3ec2c101a12": "Property 5f5a0cd8",
+    "e52d67a758ce4ad0229aacc97e5dfe89984c384c51a70208f9e0cc65c9cd4676": "Alpine Lodge & Suites",
+    "a036cbe1d9fbf9cba088075d1b4d966ee871df55aa4a58ba0da23c116c499052": "The Riverside Inn",
+    "5f5a0cd8662f0ddf297f2d27358f680daab5d3ac22fd45a4e1c3c3ec2c101a12": "Sunrise Beach Hotel",
 }
 
 HOTEL_REVIEW_COUNTS = {

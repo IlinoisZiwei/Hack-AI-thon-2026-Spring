@@ -135,7 +135,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
                 <div className="flex gap-1">
                   {questions.map((_, i) => (
                     <div key={i} className={`w-2 h-2 rounded-full transition-colors ${
-                      i < currentIdx ? 'bg-green-400' : i === currentIdx ? 'bg-blue-500' : 'bg-gray-200'
+                      i < currentIdx ? 'bg-green-400' : i === currentIdx ? 'bg-orange-500' : 'bg-gray-200'
                     }`} />
                   ))}
                 </div>
@@ -153,10 +153,10 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
             <div className="mb-8">
               <p className="text-xl sm:text-2xl font-semibold text-gray-900 leading-relaxed">
                 "{displayedText}"
-                <span className="inline-block w-0.5 h-6 bg-blue-500 ml-0.5 animate-pulse" />
+                <span className="inline-block w-0.5 h-6 bg-orange-500 ml-0.5 animate-pulse" />
               </p>
               <p className="text-sm text-gray-400 mt-2 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                <span className="w-2 h-2 rounded-full bg-orange-400 inline-block" />
                 About: {current.gap_label}
               </p>
             </div>
@@ -193,12 +193,12 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
                 onChange={e => setTextInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && hasAnswer && handleSubmit()}
                 placeholder="Add more details... (optional)"
-                className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80 text-sm"
+                className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/80 text-sm"
               />
               <button
                 onClick={() => setMode(mode === 'voice' ? null : 'voice')}
                 className={`px-4 py-3 rounded-xl border-2 transition-all cursor-pointer ${
-                  mode === 'voice' ? 'border-blue-400 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-400 hover:border-gray-300'
+                  mode === 'voice' ? 'border-orange-400 bg-orange-50 text-orange-700' : 'border-gray-200 text-gray-400 hover:border-gray-300'
                 }`}
                 title="Voice input"
               >
@@ -217,7 +217,7 @@ export default function FollowUpCard({ questions, onAnswer, onDone }) {
             <button
               onClick={handleSubmit}
               disabled={!hasAnswer}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-lg shadow-blue-200/50 transition-all flex items-center justify-center gap-2 mt-2"
+              className="w-full py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-xl font-semibold hover:from-orange-600 hover:to-amber-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-lg shadow-orange-200/50 transition-all flex items-center justify-center gap-2 mt-2"
             >
               {hasAnswer ? (
                 <>
